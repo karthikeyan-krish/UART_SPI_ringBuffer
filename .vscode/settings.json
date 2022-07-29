@@ -1,0 +1,10 @@
+{
+    "makefile.extensionOutputFolder": "./.vscode",
+    "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+    "files.associations": {
+        "stm32l4xx_it.h": "c",
+        "ring_buffer.h": "c"
+    },
+    "cortex-debug.armToolchainPath": "C:\\TOOLS\\GCC-ARM-NONE-EABI-10.3-2021.10-WIN32\\GCC-ARM-NONE-EABI-10.3-2021.10\\BIN",
+    "cortex-debug.openocdPath": "C:\\TOOLS\\OPENOCD-20211118-0.11.0\\BIN\\OPENOCD.EXE"
+}

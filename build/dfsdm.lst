@@ -1,0 +1,549 @@
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"dfsdm.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.MX_DFSDM1_Init,"ax",%progbits
+  20              		.align	1
+  21              		.global	MX_DFSDM1_Init
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	MX_DFSDM1_Init:
+  27              	.LFB132:
+  28              		.file 1 "Core/Src/dfsdm.c"
+   1:Core/Src/dfsdm.c **** /* USER CODE BEGIN Header */
+   2:Core/Src/dfsdm.c **** /**
+   3:Core/Src/dfsdm.c ****   ******************************************************************************
+   4:Core/Src/dfsdm.c ****   * @file    dfsdm.c
+   5:Core/Src/dfsdm.c ****   * @brief   This file provides code for the configuration
+   6:Core/Src/dfsdm.c ****   *          of the DFSDM instances.
+   7:Core/Src/dfsdm.c ****   ******************************************************************************
+   8:Core/Src/dfsdm.c ****   * @attention
+   9:Core/Src/dfsdm.c ****   *
+  10:Core/Src/dfsdm.c ****   * Copyright (c) 2022 STMicroelectronics.
+  11:Core/Src/dfsdm.c ****   * All rights reserved.
+  12:Core/Src/dfsdm.c ****   *
+  13:Core/Src/dfsdm.c ****   * This software is licensed under terms that can be found in the LICENSE file
+  14:Core/Src/dfsdm.c ****   * in the root directory of this software component.
+  15:Core/Src/dfsdm.c ****   * If no LICENSE file comes with this software, it is provided AS-IS.
+  16:Core/Src/dfsdm.c ****   *
+  17:Core/Src/dfsdm.c ****   ******************************************************************************
+  18:Core/Src/dfsdm.c ****   */
+  19:Core/Src/dfsdm.c **** /* USER CODE END Header */
+  20:Core/Src/dfsdm.c **** /* Includes ------------------------------------------------------------------*/
+  21:Core/Src/dfsdm.c **** #include "dfsdm.h"
+  22:Core/Src/dfsdm.c **** 
+  23:Core/Src/dfsdm.c **** /* USER CODE BEGIN 0 */
+  24:Core/Src/dfsdm.c **** 
+  25:Core/Src/dfsdm.c **** /* USER CODE END 0 */
+  26:Core/Src/dfsdm.c **** 
+  27:Core/Src/dfsdm.c **** DFSDM_Channel_HandleTypeDef hdfsdm1_channel1;
+  28:Core/Src/dfsdm.c **** 
+  29:Core/Src/dfsdm.c **** /* DFSDM1 init function */
+  30:Core/Src/dfsdm.c **** void MX_DFSDM1_Init(void)
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s 			page 2
+
+
+  31:Core/Src/dfsdm.c **** {
+  29              		.loc 1 31 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+  32:Core/Src/dfsdm.c **** 
+  33:Core/Src/dfsdm.c ****   /* USER CODE BEGIN DFSDM1_Init 0 */
+  34:Core/Src/dfsdm.c **** 
+  35:Core/Src/dfsdm.c ****   /* USER CODE END DFSDM1_Init 0 */
+  36:Core/Src/dfsdm.c **** 
+  37:Core/Src/dfsdm.c ****   /* USER CODE BEGIN DFSDM1_Init 1 */
+  38:Core/Src/dfsdm.c **** 
+  39:Core/Src/dfsdm.c ****   /* USER CODE END DFSDM1_Init 1 */
+  40:Core/Src/dfsdm.c ****   hdfsdm1_channel1.Instance = DFSDM1_Channel1;
+  38              		.loc 1 40 3 view .LVU1
+  39              		.loc 1 40 29 is_stmt 0 view .LVU2
+  40 0002 0E48     		ldr	r0, .L5
+  41 0004 0E4B     		ldr	r3, .L5+4
+  42 0006 0360     		str	r3, [r0]
+  41:Core/Src/dfsdm.c ****   hdfsdm1_channel1.Init.OutputClock.Activation = ENABLE;
+  43              		.loc 1 41 3 is_stmt 1 view .LVU3
+  44              		.loc 1 41 48 is_stmt 0 view .LVU4
+  45 0008 0122     		movs	r2, #1
+  46 000a 0271     		strb	r2, [r0, #4]
+  42:Core/Src/dfsdm.c ****   hdfsdm1_channel1.Init.OutputClock.Selection = DFSDM_CHANNEL_OUTPUT_CLOCK_SYSTEM;
+  47              		.loc 1 42 3 is_stmt 1 view .LVU5
+  48              		.loc 1 42 47 is_stmt 0 view .LVU6
+  49 000c 0023     		movs	r3, #0
+  50 000e 8360     		str	r3, [r0, #8]
+  43:Core/Src/dfsdm.c ****   hdfsdm1_channel1.Init.OutputClock.Divider = 2;
+  51              		.loc 1 43 3 is_stmt 1 view .LVU7
+  52              		.loc 1 43 45 is_stmt 0 view .LVU8
+  53 0010 0221     		movs	r1, #2
+  54 0012 C160     		str	r1, [r0, #12]
+  44:Core/Src/dfsdm.c ****   hdfsdm1_channel1.Init.Input.Multiplexer = DFSDM_CHANNEL_EXTERNAL_INPUTS;
+  55              		.loc 1 44 3 is_stmt 1 view .LVU9
+  56              		.loc 1 44 43 is_stmt 0 view .LVU10
+  57 0014 0361     		str	r3, [r0, #16]
+  45:Core/Src/dfsdm.c ****   hdfsdm1_channel1.Init.Input.DataPacking = DFSDM_CHANNEL_STANDARD_MODE;
+  58              		.loc 1 45 3 is_stmt 1 view .LVU11
+  59              		.loc 1 45 43 is_stmt 0 view .LVU12
+  60 0016 4361     		str	r3, [r0, #20]
+  46:Core/Src/dfsdm.c ****   hdfsdm1_channel1.Init.Input.Pins = DFSDM_CHANNEL_FOLLOWING_CHANNEL_PINS;
+  61              		.loc 1 46 3 is_stmt 1 view .LVU13
+  62              		.loc 1 46 36 is_stmt 0 view .LVU14
+  63 0018 4FF48071 		mov	r1, #256
+  64 001c 8161     		str	r1, [r0, #24]
+  47:Core/Src/dfsdm.c ****   hdfsdm1_channel1.Init.SerialInterface.Type = DFSDM_CHANNEL_SPI_RISING;
+  65              		.loc 1 47 3 is_stmt 1 view .LVU15
+  66              		.loc 1 47 46 is_stmt 0 view .LVU16
+  67 001e C361     		str	r3, [r0, #28]
+  48:Core/Src/dfsdm.c ****   hdfsdm1_channel1.Init.SerialInterface.SpiClock = DFSDM_CHANNEL_SPI_CLOCK_INTERNAL;
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s 			page 3
+
+
+  68              		.loc 1 48 3 is_stmt 1 view .LVU17
+  69              		.loc 1 48 50 is_stmt 0 view .LVU18
+  70 0020 0421     		movs	r1, #4
+  71 0022 0162     		str	r1, [r0, #32]
+  49:Core/Src/dfsdm.c ****   hdfsdm1_channel1.Init.Awd.FilterOrder = DFSDM_CHANNEL_FASTSINC_ORDER;
+  72              		.loc 1 49 3 is_stmt 1 view .LVU19
+  73              		.loc 1 49 41 is_stmt 0 view .LVU20
+  74 0024 4362     		str	r3, [r0, #36]
+  50:Core/Src/dfsdm.c ****   hdfsdm1_channel1.Init.Awd.Oversampling = 1;
+  75              		.loc 1 50 3 is_stmt 1 view .LVU21
+  76              		.loc 1 50 42 is_stmt 0 view .LVU22
+  77 0026 8262     		str	r2, [r0, #40]
+  51:Core/Src/dfsdm.c ****   hdfsdm1_channel1.Init.Offset = 0;
+  78              		.loc 1 51 3 is_stmt 1 view .LVU23
+  79              		.loc 1 51 32 is_stmt 0 view .LVU24
+  80 0028 C362     		str	r3, [r0, #44]
+  52:Core/Src/dfsdm.c ****   hdfsdm1_channel1.Init.RightBitShift = 0x00;
+  81              		.loc 1 52 3 is_stmt 1 view .LVU25
+  82              		.loc 1 52 39 is_stmt 0 view .LVU26
+  83 002a 0363     		str	r3, [r0, #48]
+  53:Core/Src/dfsdm.c ****   if (HAL_DFSDM_ChannelInit(&hdfsdm1_channel1) != HAL_OK)
+  84              		.loc 1 53 3 is_stmt 1 view .LVU27
+  85              		.loc 1 53 7 is_stmt 0 view .LVU28
+  86 002c FFF7FEFF 		bl	HAL_DFSDM_ChannelInit
+  87              	.LVL0:
+  88              		.loc 1 53 6 view .LVU29
+  89 0030 00B9     		cbnz	r0, .L4
+  90              	.L1:
+  54:Core/Src/dfsdm.c ****   {
+  55:Core/Src/dfsdm.c ****     Error_Handler();
+  56:Core/Src/dfsdm.c ****   }
+  57:Core/Src/dfsdm.c ****   /* USER CODE BEGIN DFSDM1_Init 2 */
+  58:Core/Src/dfsdm.c **** 
+  59:Core/Src/dfsdm.c ****   /* USER CODE END DFSDM1_Init 2 */
+  60:Core/Src/dfsdm.c **** 
+  61:Core/Src/dfsdm.c **** }
+  91              		.loc 1 61 1 view .LVU30
+  92 0032 08BD     		pop	{r3, pc}
+  93              	.L4:
+  55:Core/Src/dfsdm.c ****   }
+  94              		.loc 1 55 5 is_stmt 1 view .LVU31
+  95 0034 FFF7FEFF 		bl	Error_Handler
+  96              	.LVL1:
+  97              		.loc 1 61 1 is_stmt 0 view .LVU32
+  98 0038 FBE7     		b	.L1
+  99              	.L6:
+ 100 003a 00BF     		.align	2
+ 101              	.L5:
+ 102 003c 00000000 		.word	.LANCHOR0
+ 103 0040 20600140 		.word	1073831968
+ 104              		.cfi_endproc
+ 105              	.LFE132:
+ 107              		.section	.text.HAL_DFSDM_ChannelMspInit,"ax",%progbits
+ 108              		.align	1
+ 109              		.global	HAL_DFSDM_ChannelMspInit
+ 110              		.syntax unified
+ 111              		.thumb
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s 			page 4
+
+
+ 112              		.thumb_func
+ 114              	HAL_DFSDM_ChannelMspInit:
+ 115              	.LVL2:
+ 116              	.LFB133:
+  62:Core/Src/dfsdm.c **** 
+  63:Core/Src/dfsdm.c **** static uint32_t DFSDM1_Init = 0;
+  64:Core/Src/dfsdm.c **** 
+  65:Core/Src/dfsdm.c **** void HAL_DFSDM_ChannelMspInit(DFSDM_Channel_HandleTypeDef* dfsdm_channelHandle)
+  66:Core/Src/dfsdm.c **** {
+ 117              		.loc 1 66 1 is_stmt 1 view -0
+ 118              		.cfi_startproc
+ 119              		@ args = 0, pretend = 0, frame = 168
+ 120              		@ frame_needed = 0, uses_anonymous_args = 0
+ 121              		.loc 1 66 1 is_stmt 0 view .LVU34
+ 122 0000 00B5     		push	{lr}
+ 123              	.LCFI1:
+ 124              		.cfi_def_cfa_offset 4
+ 125              		.cfi_offset 14, -4
+ 126 0002 ABB0     		sub	sp, sp, #172
+ 127              	.LCFI2:
+ 128              		.cfi_def_cfa_offset 176
+  67:Core/Src/dfsdm.c **** 
+  68:Core/Src/dfsdm.c ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
+ 129              		.loc 1 68 3 is_stmt 1 view .LVU35
+ 130              		.loc 1 68 20 is_stmt 0 view .LVU36
+ 131 0004 0021     		movs	r1, #0
+ 132 0006 2591     		str	r1, [sp, #148]
+ 133 0008 2691     		str	r1, [sp, #152]
+ 134 000a 2791     		str	r1, [sp, #156]
+ 135 000c 2891     		str	r1, [sp, #160]
+ 136 000e 2991     		str	r1, [sp, #164]
+  69:Core/Src/dfsdm.c ****   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+ 137              		.loc 1 69 3 is_stmt 1 view .LVU37
+ 138              		.loc 1 69 28 is_stmt 0 view .LVU38
+ 139 0010 8822     		movs	r2, #136
+ 140 0012 03A8     		add	r0, sp, #12
+ 141              	.LVL3:
+ 142              		.loc 1 69 28 view .LVU39
+ 143 0014 FFF7FEFF 		bl	memset
+ 144              	.LVL4:
+  70:Core/Src/dfsdm.c ****   if(DFSDM1_Init == 0)
+ 145              		.loc 1 70 3 is_stmt 1 view .LVU40
+ 146              		.loc 1 70 18 is_stmt 0 view .LVU41
+ 147 0018 1A4B     		ldr	r3, .L13
+ 148 001a 1B68     		ldr	r3, [r3]
+ 149              		.loc 1 70 5 view .LVU42
+ 150 001c 13B1     		cbz	r3, .L11
+ 151              	.L7:
+  71:Core/Src/dfsdm.c ****   {
+  72:Core/Src/dfsdm.c ****   /* USER CODE BEGIN DFSDM1_MspInit 0 */
+  73:Core/Src/dfsdm.c **** 
+  74:Core/Src/dfsdm.c ****   /* USER CODE END DFSDM1_MspInit 0 */
+  75:Core/Src/dfsdm.c **** 
+  76:Core/Src/dfsdm.c ****   /** Initializes the peripherals clock
+  77:Core/Src/dfsdm.c ****   */
+  78:Core/Src/dfsdm.c ****     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_DFSDM1;
+  79:Core/Src/dfsdm.c ****     PeriphClkInit.Dfsdm1ClockSelection = RCC_DFSDM1CLKSOURCE_PCLK;
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s 			page 5
+
+
+  80:Core/Src/dfsdm.c ****     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+  81:Core/Src/dfsdm.c ****     {
+  82:Core/Src/dfsdm.c ****       Error_Handler();
+  83:Core/Src/dfsdm.c ****     }
+  84:Core/Src/dfsdm.c **** 
+  85:Core/Src/dfsdm.c ****     /* DFSDM1 clock enable */
+  86:Core/Src/dfsdm.c ****     __HAL_RCC_DFSDM1_CLK_ENABLE();
+  87:Core/Src/dfsdm.c **** 
+  88:Core/Src/dfsdm.c ****     __HAL_RCC_GPIOE_CLK_ENABLE();
+  89:Core/Src/dfsdm.c ****     /**DFSDM1 GPIO Configuration
+  90:Core/Src/dfsdm.c ****     PE7     ------> DFSDM1_DATIN2
+  91:Core/Src/dfsdm.c ****     PE9     ------> DFSDM1_CKOUT
+  92:Core/Src/dfsdm.c ****     */
+  93:Core/Src/dfsdm.c ****     GPIO_InitStruct.Pin = DFSDM1_DATIN2_Pin|DFSDM1_CKOUT_Pin;
+  94:Core/Src/dfsdm.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  95:Core/Src/dfsdm.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+  96:Core/Src/dfsdm.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  97:Core/Src/dfsdm.c ****     GPIO_InitStruct.Alternate = GPIO_AF6_DFSDM1;
+  98:Core/Src/dfsdm.c ****     HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+  99:Core/Src/dfsdm.c **** 
+ 100:Core/Src/dfsdm.c ****   /* USER CODE BEGIN DFSDM1_MspInit 1 */
+ 101:Core/Src/dfsdm.c **** 
+ 102:Core/Src/dfsdm.c ****   /* USER CODE END DFSDM1_MspInit 1 */
+ 103:Core/Src/dfsdm.c ****   DFSDM1_Init++;
+ 104:Core/Src/dfsdm.c ****   }
+ 105:Core/Src/dfsdm.c **** }
+ 152              		.loc 1 105 1 view .LVU43
+ 153 001e 2BB0     		add	sp, sp, #172
+ 154              	.LCFI3:
+ 155              		.cfi_remember_state
+ 156              		.cfi_def_cfa_offset 4
+ 157              		@ sp needed
+ 158 0020 5DF804FB 		ldr	pc, [sp], #4
+ 159              	.L11:
+ 160              	.LCFI4:
+ 161              		.cfi_restore_state
+  78:Core/Src/dfsdm.c ****     PeriphClkInit.Dfsdm1ClockSelection = RCC_DFSDM1CLKSOURCE_PCLK;
+ 162              		.loc 1 78 5 is_stmt 1 view .LVU44
+  78:Core/Src/dfsdm.c ****     PeriphClkInit.Dfsdm1ClockSelection = RCC_DFSDM1CLKSOURCE_PCLK;
+ 163              		.loc 1 78 40 is_stmt 0 view .LVU45
+ 164 0024 4FF48033 		mov	r3, #65536
+ 165 0028 0393     		str	r3, [sp, #12]
+  79:Core/Src/dfsdm.c ****     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+ 166              		.loc 1 79 5 is_stmt 1 view .LVU46
+  80:Core/Src/dfsdm.c ****     {
+ 167              		.loc 1 80 5 view .LVU47
+  80:Core/Src/dfsdm.c ****     {
+ 168              		.loc 1 80 9 is_stmt 0 view .LVU48
+ 169 002a 03A8     		add	r0, sp, #12
+ 170 002c FFF7FEFF 		bl	HAL_RCCEx_PeriphCLKConfig
+ 171              	.LVL5:
+  80:Core/Src/dfsdm.c ****     {
+ 172              		.loc 1 80 8 view .LVU49
+ 173 0030 28BB     		cbnz	r0, .L12
+ 174              	.L9:
+  86:Core/Src/dfsdm.c **** 
+ 175              		.loc 1 86 5 is_stmt 1 view .LVU50
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s 			page 6
+
+
+ 176              	.LBB2:
+  86:Core/Src/dfsdm.c **** 
+ 177              		.loc 1 86 5 view .LVU51
+  86:Core/Src/dfsdm.c **** 
+ 178              		.loc 1 86 5 view .LVU52
+ 179 0032 154B     		ldr	r3, .L13+4
+ 180 0034 1A6E     		ldr	r2, [r3, #96]
+ 181 0036 42F08072 		orr	r2, r2, #16777216
+ 182 003a 1A66     		str	r2, [r3, #96]
+  86:Core/Src/dfsdm.c **** 
+ 183              		.loc 1 86 5 view .LVU53
+ 184 003c 1A6E     		ldr	r2, [r3, #96]
+ 185 003e 02F08072 		and	r2, r2, #16777216
+ 186 0042 0192     		str	r2, [sp, #4]
+  86:Core/Src/dfsdm.c **** 
+ 187              		.loc 1 86 5 view .LVU54
+ 188 0044 019A     		ldr	r2, [sp, #4]
+ 189              	.LBE2:
+  86:Core/Src/dfsdm.c **** 
+ 190              		.loc 1 86 5 view .LVU55
+  88:Core/Src/dfsdm.c ****     /**DFSDM1 GPIO Configuration
+ 191              		.loc 1 88 5 view .LVU56
+ 192              	.LBB3:
+  88:Core/Src/dfsdm.c ****     /**DFSDM1 GPIO Configuration
+ 193              		.loc 1 88 5 view .LVU57
+  88:Core/Src/dfsdm.c ****     /**DFSDM1 GPIO Configuration
+ 194              		.loc 1 88 5 view .LVU58
+ 195 0046 DA6C     		ldr	r2, [r3, #76]
+ 196 0048 42F01002 		orr	r2, r2, #16
+ 197 004c DA64     		str	r2, [r3, #76]
+  88:Core/Src/dfsdm.c ****     /**DFSDM1 GPIO Configuration
+ 198              		.loc 1 88 5 view .LVU59
+ 199 004e DB6C     		ldr	r3, [r3, #76]
+ 200 0050 03F01003 		and	r3, r3, #16
+ 201 0054 0293     		str	r3, [sp, #8]
+  88:Core/Src/dfsdm.c ****     /**DFSDM1 GPIO Configuration
+ 202              		.loc 1 88 5 view .LVU60
+ 203 0056 029B     		ldr	r3, [sp, #8]
+ 204              	.LBE3:
+  88:Core/Src/dfsdm.c ****     /**DFSDM1 GPIO Configuration
+ 205              		.loc 1 88 5 view .LVU61
+  93:Core/Src/dfsdm.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 206              		.loc 1 93 5 view .LVU62
+  93:Core/Src/dfsdm.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 207              		.loc 1 93 25 is_stmt 0 view .LVU63
+ 208 0058 4FF42073 		mov	r3, #640
+ 209 005c 2593     		str	r3, [sp, #148]
+  94:Core/Src/dfsdm.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 210              		.loc 1 94 5 is_stmt 1 view .LVU64
+  94:Core/Src/dfsdm.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 211              		.loc 1 94 26 is_stmt 0 view .LVU65
+ 212 005e 0223     		movs	r3, #2
+ 213 0060 2693     		str	r3, [sp, #152]
+  95:Core/Src/dfsdm.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 214              		.loc 1 95 5 is_stmt 1 view .LVU66
+  95:Core/Src/dfsdm.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 215              		.loc 1 95 26 is_stmt 0 view .LVU67
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s 			page 7
+
+
+ 216 0062 0023     		movs	r3, #0
+ 217 0064 2793     		str	r3, [sp, #156]
+  96:Core/Src/dfsdm.c ****     GPIO_InitStruct.Alternate = GPIO_AF6_DFSDM1;
+ 218              		.loc 1 96 5 is_stmt 1 view .LVU68
+  96:Core/Src/dfsdm.c ****     GPIO_InitStruct.Alternate = GPIO_AF6_DFSDM1;
+ 219              		.loc 1 96 27 is_stmt 0 view .LVU69
+ 220 0066 2893     		str	r3, [sp, #160]
+  97:Core/Src/dfsdm.c ****     HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+ 221              		.loc 1 97 5 is_stmt 1 view .LVU70
+  97:Core/Src/dfsdm.c ****     HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+ 222              		.loc 1 97 31 is_stmt 0 view .LVU71
+ 223 0068 0623     		movs	r3, #6
+ 224 006a 2993     		str	r3, [sp, #164]
+  98:Core/Src/dfsdm.c **** 
+ 225              		.loc 1 98 5 is_stmt 1 view .LVU72
+ 226 006c 25A9     		add	r1, sp, #148
+ 227 006e 0748     		ldr	r0, .L13+8
+ 228 0070 FFF7FEFF 		bl	HAL_GPIO_Init
+ 229              	.LVL6:
+ 103:Core/Src/dfsdm.c ****   }
+ 230              		.loc 1 103 3 view .LVU73
+ 103:Core/Src/dfsdm.c ****   }
+ 231              		.loc 1 103 14 is_stmt 0 view .LVU74
+ 232 0074 034A     		ldr	r2, .L13
+ 233 0076 1368     		ldr	r3, [r2]
+ 234 0078 0133     		adds	r3, r3, #1
+ 235 007a 1360     		str	r3, [r2]
+ 236              		.loc 1 105 1 view .LVU75
+ 237 007c CFE7     		b	.L7
+ 238              	.L12:
+  82:Core/Src/dfsdm.c ****     }
+ 239              		.loc 1 82 7 is_stmt 1 view .LVU76
+ 240 007e FFF7FEFF 		bl	Error_Handler
+ 241              	.LVL7:
+ 242 0082 D6E7     		b	.L9
+ 243              	.L14:
+ 244              		.align	2
+ 245              	.L13:
+ 246 0084 00000000 		.word	.LANCHOR1
+ 247 0088 00100240 		.word	1073876992
+ 248 008c 00100048 		.word	1207963648
+ 249              		.cfi_endproc
+ 250              	.LFE133:
+ 252              		.section	.text.HAL_DFSDM_ChannelMspDeInit,"ax",%progbits
+ 253              		.align	1
+ 254              		.global	HAL_DFSDM_ChannelMspDeInit
+ 255              		.syntax unified
+ 256              		.thumb
+ 257              		.thumb_func
+ 259              	HAL_DFSDM_ChannelMspDeInit:
+ 260              	.LVL8:
+ 261              	.LFB134:
+ 106:Core/Src/dfsdm.c **** 
+ 107:Core/Src/dfsdm.c **** void HAL_DFSDM_ChannelMspDeInit(DFSDM_Channel_HandleTypeDef* dfsdm_channelHandle)
+ 108:Core/Src/dfsdm.c **** {
+ 262              		.loc 1 108 1 view -0
+ 263              		.cfi_startproc
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s 			page 8
+
+
+ 264              		@ args = 0, pretend = 0, frame = 0
+ 265              		@ frame_needed = 0, uses_anonymous_args = 0
+ 266              		.loc 1 108 1 is_stmt 0 view .LVU78
+ 267 0000 08B5     		push	{r3, lr}
+ 268              	.LCFI5:
+ 269              		.cfi_def_cfa_offset 8
+ 270              		.cfi_offset 3, -8
+ 271              		.cfi_offset 14, -4
+ 109:Core/Src/dfsdm.c **** 
+ 110:Core/Src/dfsdm.c ****   DFSDM1_Init-- ;
+ 272              		.loc 1 110 3 is_stmt 1 view .LVU79
+ 273              		.loc 1 110 14 is_stmt 0 view .LVU80
+ 274 0002 084A     		ldr	r2, .L19
+ 275 0004 1368     		ldr	r3, [r2]
+ 276 0006 013B     		subs	r3, r3, #1
+ 277 0008 1360     		str	r3, [r2]
+ 111:Core/Src/dfsdm.c ****   if(DFSDM1_Init == 0)
+ 278              		.loc 1 111 3 is_stmt 1 view .LVU81
+ 279              		.loc 1 111 5 is_stmt 0 view .LVU82
+ 280 000a 03B1     		cbz	r3, .L18
+ 281              	.LVL9:
+ 282              	.L15:
+ 112:Core/Src/dfsdm.c ****     {
+ 113:Core/Src/dfsdm.c ****   /* USER CODE BEGIN DFSDM1_MspDeInit 0 */
+ 114:Core/Src/dfsdm.c **** 
+ 115:Core/Src/dfsdm.c ****   /* USER CODE END DFSDM1_MspDeInit 0 */
+ 116:Core/Src/dfsdm.c ****     /* Peripheral clock disable */
+ 117:Core/Src/dfsdm.c ****     __HAL_RCC_DFSDM1_CLK_DISABLE();
+ 118:Core/Src/dfsdm.c **** 
+ 119:Core/Src/dfsdm.c ****     /**DFSDM1 GPIO Configuration
+ 120:Core/Src/dfsdm.c ****     PE7     ------> DFSDM1_DATIN2
+ 121:Core/Src/dfsdm.c ****     PE9     ------> DFSDM1_CKOUT
+ 122:Core/Src/dfsdm.c ****     */
+ 123:Core/Src/dfsdm.c ****     HAL_GPIO_DeInit(GPIOE, DFSDM1_DATIN2_Pin|DFSDM1_CKOUT_Pin);
+ 124:Core/Src/dfsdm.c **** 
+ 125:Core/Src/dfsdm.c ****   /* USER CODE BEGIN DFSDM1_MspDeInit 1 */
+ 126:Core/Src/dfsdm.c **** 
+ 127:Core/Src/dfsdm.c ****   /* USER CODE END DFSDM1_MspDeInit 1 */
+ 128:Core/Src/dfsdm.c ****   }
+ 129:Core/Src/dfsdm.c **** }
+ 283              		.loc 1 129 1 view .LVU83
+ 284 000c 08BD     		pop	{r3, pc}
+ 285              	.LVL10:
+ 286              	.L18:
+ 117:Core/Src/dfsdm.c **** 
+ 287              		.loc 1 117 5 is_stmt 1 view .LVU84
+ 288 000e 064A     		ldr	r2, .L19+4
+ 289 0010 136E     		ldr	r3, [r2, #96]
+ 290 0012 23F08073 		bic	r3, r3, #16777216
+ 291 0016 1366     		str	r3, [r2, #96]
+ 123:Core/Src/dfsdm.c **** 
+ 292              		.loc 1 123 5 view .LVU85
+ 293 0018 4FF42071 		mov	r1, #640
+ 294 001c 0348     		ldr	r0, .L19+8
+ 295              	.LVL11:
+ 123:Core/Src/dfsdm.c **** 
+ 296              		.loc 1 123 5 is_stmt 0 view .LVU86
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s 			page 9
+
+
+ 297 001e FFF7FEFF 		bl	HAL_GPIO_DeInit
+ 298              	.LVL12:
+ 299              		.loc 1 129 1 view .LVU87
+ 300 0022 F3E7     		b	.L15
+ 301              	.L20:
+ 302              		.align	2
+ 303              	.L19:
+ 304 0024 00000000 		.word	.LANCHOR1
+ 305 0028 00100240 		.word	1073876992
+ 306 002c 00100048 		.word	1207963648
+ 307              		.cfi_endproc
+ 308              	.LFE134:
+ 310              		.global	hdfsdm1_channel1
+ 311              		.section	.bss.DFSDM1_Init,"aw",%nobits
+ 312              		.align	2
+ 313              		.set	.LANCHOR1,. + 0
+ 316              	DFSDM1_Init:
+ 317 0000 00000000 		.space	4
+ 318              		.section	.bss.hdfsdm1_channel1,"aw",%nobits
+ 319              		.align	2
+ 320              		.set	.LANCHOR0,. + 0
+ 323              	hdfsdm1_channel1:
+ 324 0000 00000000 		.space	56
+ 324      00000000 
+ 324      00000000 
+ 324      00000000 
+ 324      00000000 
+ 325              		.text
+ 326              	.Letext0:
+ 327              		.file 2 "c:\\tools\\gcc-arm-none-eabi-10.3-2021.10-win32\\gcc-arm-none-eabi-10.3-2021.10\\arm-none
+ 328              		.file 3 "c:\\tools\\gcc-arm-none-eabi-10.3-2021.10-win32\\gcc-arm-none-eabi-10.3-2021.10\\arm-none
+ 329              		.file 4 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l475xx.h"
+ 330              		.file 5 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h"
+ 331              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 332              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h"
+ 333              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 334              		.file 9 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dfsdm.h"
+ 335              		.file 10 "Core/Inc/main.h"
+ 336              		.file 11 "Core/Inc/dfsdm.h"
+ 337              		.file 12 "<built-in>"
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 dfsdm.c
+C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s:20     .text.MX_DFSDM1_Init:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s:26     .text.MX_DFSDM1_Init:00000000 MX_DFSDM1_Init
+C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s:102    .text.MX_DFSDM1_Init:0000003c $d
+C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s:108    .text.HAL_DFSDM_ChannelMspInit:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s:114    .text.HAL_DFSDM_ChannelMspInit:00000000 HAL_DFSDM_ChannelMspInit
+C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s:246    .text.HAL_DFSDM_ChannelMspInit:00000084 $d
+C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s:253    .text.HAL_DFSDM_ChannelMspDeInit:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s:259    .text.HAL_DFSDM_ChannelMspDeInit:00000000 HAL_DFSDM_ChannelMspDeInit
+C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s:304    .text.HAL_DFSDM_ChannelMspDeInit:00000024 $d
+C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s:323    .bss.hdfsdm1_channel1:00000000 hdfsdm1_channel1
+C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s:312    .bss.DFSDM1_Init:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s:316    .bss.DFSDM1_Init:00000000 DFSDM1_Init
+C:\Users\imkar\AppData\Local\Temp\cc58sg8k.s:319    .bss.hdfsdm1_channel1:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_DFSDM_ChannelInit
+Error_Handler
+memset
+HAL_RCCEx_PeriphCLKConfig
+HAL_GPIO_Init
+HAL_GPIO_DeInit

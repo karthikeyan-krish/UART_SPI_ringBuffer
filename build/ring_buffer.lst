@@ -1,0 +1,3962 @@
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"ring_buffer.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.my_spi_isr,"ax",%progbits
+  20              		.align	1
+  21              		.global	my_spi_isr
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	my_spi_isr:
+  27              	.LVL0:
+  28              	.LFB150:
+  29              		.file 1 "library/Src/ring_buffer.c"
+   1:library/Src/ring_buffer.c **** /*
+   2:library/Src/ring_buffer.c ****  * UartRingbuffer.c
+   3:library/Src/ring_buffer.c ****  *
+   4:library/Src/ring_buffer.c ****  *  Created on: 10-Jul-2019
+   5:library/Src/ring_buffer.c ****  *      Author: Controllerstech
+   6:library/Src/ring_buffer.c ****  */
+   7:library/Src/ring_buffer.c **** 
+   8:library/Src/ring_buffer.c **** #include "ring_buffer.h"
+   9:library/Src/ring_buffer.c **** #include <string.h>
+  10:library/Src/ring_buffer.c **** 
+  11:library/Src/ring_buffer.c **** 
+  12:library/Src/ring_buffer.c **** /*  Define the device uart and pc uart below according to your setup  */
+  13:library/Src/ring_buffer.c **** 
+  14:library/Src/ring_buffer.c **** extern UART_HandleTypeDef huart1;
+  15:library/Src/ring_buffer.c **** extern UART_HandleTypeDef huart3;
+  16:library/Src/ring_buffer.c **** extern SPI_HandleTypeDef hspi1;
+  17:library/Src/ring_buffer.c **** 
+  18:library/Src/ring_buffer.c **** #define TIMEOUT_DEF 500 
+  19:library/Src/ring_buffer.c **** uint16_t timeout;
+  20:library/Src/ring_buffer.c **** 
+  21:library/Src/ring_buffer.c **** #define device_uart &huart3
+  22:library/Src/ring_buffer.c **** #define pc_uart &huart1
+  23:library/Src/ring_buffer.c **** #define wifi_spi &hspi1
+  24:library/Src/ring_buffer.c **** 
+  25:library/Src/ring_buffer.c **** /* put the following in the ISR 
+  26:library/Src/ring_buffer.c **** 
+  27:library/Src/ring_buffer.c **** extern void Uart_isr (UART_HandleTypeDef *huart);
+  28:library/Src/ring_buffer.c **** 
+  29:library/Src/ring_buffer.c **** */
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 2
+
+
+  30:library/Src/ring_buffer.c **** 
+  31:library/Src/ring_buffer.c **** /**************** =====================================>>>>>>>>>>>> NO chnages after this *********
+  32:library/Src/ring_buffer.c **** 
+  33:library/Src/ring_buffer.c **** 
+  34:library/Src/ring_buffer.c **** 
+  35:library/Src/ring_buffer.c **** 
+  36:library/Src/ring_buffer.c **** void store_char (unsigned char c, ring_buffer *buffer);
+  37:library/Src/ring_buffer.c **** 
+  38:library/Src/ring_buffer.c **** 
+  39:library/Src/ring_buffer.c **** void Ringbuf_init(void)
+  40:library/Src/ring_buffer.c **** {
+  41:library/Src/ring_buffer.c ****   _rx_buffer1 = &rx_buffer1;
+  42:library/Src/ring_buffer.c ****   _tx_buffer1 = &tx_buffer1;
+  43:library/Src/ring_buffer.c ****   _rx_buffer2 = &rx_buffer2;
+  44:library/Src/ring_buffer.c ****   _tx_buffer2 = &tx_buffer2;
+  45:library/Src/ring_buffer.c **** 
+  46:library/Src/ring_buffer.c ****   /* Enable the UART & SPI Error Interrupt: (Frame error, noise error, overrun error) */
+  47:library/Src/ring_buffer.c ****   __HAL_UART_ENABLE_IT(device_uart, UART_IT_ERR);
+  48:library/Src/ring_buffer.c ****   __HAL_UART_ENABLE_IT(pc_uart, UART_IT_ERR);
+  49:library/Src/ring_buffer.c ****   __HAL_SPI_ENABLE_IT(wifi_spi, SPI_IT_ERR);
+  50:library/Src/ring_buffer.c **** 
+  51:library/Src/ring_buffer.c ****   /* Enable the UART & SPI Data Register not empty Interrupt */
+  52:library/Src/ring_buffer.c ****   __HAL_UART_ENABLE_IT(device_uart, UART_IT_RXNE);
+  53:library/Src/ring_buffer.c ****   __HAL_UART_ENABLE_IT(pc_uart, UART_IT_RXNE);
+  54:library/Src/ring_buffer.c ****   __HAL_SPI_ENABLE_IT(wifi_spi, SPI_IT_RXNE);
+  55:library/Src/ring_buffer.c **** }
+  56:library/Src/ring_buffer.c **** 
+  57:library/Src/ring_buffer.c **** void store_char(unsigned char c, ring_buffer *buffer)
+  58:library/Src/ring_buffer.c **** {
+  59:library/Src/ring_buffer.c ****   int i = (unsigned int)(buffer->head + 1) % UART_BUFFER_SIZE;
+  60:library/Src/ring_buffer.c **** 
+  61:library/Src/ring_buffer.c ****   // if we should be storing the received character into the location
+  62:library/Src/ring_buffer.c ****   // just before the tail (meaning that the head would advance to the
+  63:library/Src/ring_buffer.c ****   // current location of the tail), we're about to overflow the buffer
+  64:library/Src/ring_buffer.c ****   // and so we don't write the character or advance the head.
+  65:library/Src/ring_buffer.c ****   if(i != buffer->tail) {
+  66:library/Src/ring_buffer.c ****     buffer->buffer[buffer->head] = c;
+  67:library/Src/ring_buffer.c ****     buffer->head = i;
+  68:library/Src/ring_buffer.c ****   }
+  69:library/Src/ring_buffer.c **** }
+  70:library/Src/ring_buffer.c **** 
+  71:library/Src/ring_buffer.c **** 
+  72:library/Src/ring_buffer.c **** int Look_for (char *str, char *buffertolookinto)
+  73:library/Src/ring_buffer.c **** {
+  74:library/Src/ring_buffer.c **** 	int stringlength = strlen (str);
+  75:library/Src/ring_buffer.c **** 	int bufferlength = strlen (buffertolookinto);
+  76:library/Src/ring_buffer.c **** 	int so_far = 0;
+  77:library/Src/ring_buffer.c **** 	int indx = 0;
+  78:library/Src/ring_buffer.c **** repeat:
+  79:library/Src/ring_buffer.c **** 	while (str[so_far] != buffertolookinto[indx]) indx++;
+  80:library/Src/ring_buffer.c **** 	if (str[so_far] == buffertolookinto[indx]){
+  81:library/Src/ring_buffer.c **** 	while (str[so_far] == buffertolookinto[indx])
+  82:library/Src/ring_buffer.c **** 	{
+  83:library/Src/ring_buffer.c **** 		so_far++;
+  84:library/Src/ring_buffer.c **** 		indx++;
+  85:library/Src/ring_buffer.c **** 	}
+  86:library/Src/ring_buffer.c **** 	}
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 3
+
+
+  87:library/Src/ring_buffer.c **** 
+  88:library/Src/ring_buffer.c **** 	else
+  89:library/Src/ring_buffer.c **** 		{
+  90:library/Src/ring_buffer.c **** 			so_far =0;
+  91:library/Src/ring_buffer.c **** 			if (indx >= bufferlength) return -1;
+  92:library/Src/ring_buffer.c **** 			goto repeat;
+  93:library/Src/ring_buffer.c **** 		}
+  94:library/Src/ring_buffer.c **** 
+  95:library/Src/ring_buffer.c **** 	if (so_far == stringlength) return 1;
+  96:library/Src/ring_buffer.c **** 	else return -1;
+  97:library/Src/ring_buffer.c **** }
+  98:library/Src/ring_buffer.c **** 
+  99:library/Src/ring_buffer.c **** void GetDataFromBuffer (char *startString, char *endString, char *buffertocopyfrom, char *buffertoc
+ 100:library/Src/ring_buffer.c **** {
+ 101:library/Src/ring_buffer.c **** 	int startStringLength = strlen (startString);
+ 102:library/Src/ring_buffer.c **** 	int endStringLength   = strlen (endString);
+ 103:library/Src/ring_buffer.c **** 	int so_far = 0;
+ 104:library/Src/ring_buffer.c **** 	int indx = 0;
+ 105:library/Src/ring_buffer.c **** 	int startposition = 0;
+ 106:library/Src/ring_buffer.c **** 	int endposition = 0;
+ 107:library/Src/ring_buffer.c **** 
+ 108:library/Src/ring_buffer.c **** repeat1:
+ 109:library/Src/ring_buffer.c **** 	while (startString[so_far] != buffertocopyfrom[indx]) indx++;
+ 110:library/Src/ring_buffer.c **** 	if (startString[so_far] == buffertocopyfrom[indx])
+ 111:library/Src/ring_buffer.c **** 	{
+ 112:library/Src/ring_buffer.c **** 		while (startString[so_far] == buffertocopyfrom[indx])
+ 113:library/Src/ring_buffer.c **** 		{
+ 114:library/Src/ring_buffer.c **** 			so_far++;
+ 115:library/Src/ring_buffer.c **** 			indx++;
+ 116:library/Src/ring_buffer.c **** 		}
+ 117:library/Src/ring_buffer.c **** 	}
+ 118:library/Src/ring_buffer.c **** 
+ 119:library/Src/ring_buffer.c **** 	if (so_far == startStringLength) startposition = indx;
+ 120:library/Src/ring_buffer.c **** 	else
+ 121:library/Src/ring_buffer.c **** 	{
+ 122:library/Src/ring_buffer.c **** 		so_far =0;
+ 123:library/Src/ring_buffer.c **** 		goto repeat1;
+ 124:library/Src/ring_buffer.c **** 	}
+ 125:library/Src/ring_buffer.c **** 
+ 126:library/Src/ring_buffer.c **** 	so_far = 0;
+ 127:library/Src/ring_buffer.c **** 
+ 128:library/Src/ring_buffer.c **** repeat2:
+ 129:library/Src/ring_buffer.c **** 	while (endString[so_far] != buffertocopyfrom[indx]) indx++;
+ 130:library/Src/ring_buffer.c **** 	if (endString[so_far] == buffertocopyfrom[indx])
+ 131:library/Src/ring_buffer.c **** 	{
+ 132:library/Src/ring_buffer.c **** 		while (endString[so_far] == buffertocopyfrom[indx])
+ 133:library/Src/ring_buffer.c **** 		{
+ 134:library/Src/ring_buffer.c **** 			so_far++;
+ 135:library/Src/ring_buffer.c **** 			indx++;
+ 136:library/Src/ring_buffer.c **** 		}
+ 137:library/Src/ring_buffer.c **** 	}
+ 138:library/Src/ring_buffer.c **** 
+ 139:library/Src/ring_buffer.c **** 	if (so_far == endStringLength) endposition = indx-endStringLength;
+ 140:library/Src/ring_buffer.c **** 	else
+ 141:library/Src/ring_buffer.c **** 	{
+ 142:library/Src/ring_buffer.c **** 		so_far =0;
+ 143:library/Src/ring_buffer.c **** 		goto repeat2;
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 4
+
+
+ 144:library/Src/ring_buffer.c **** 	}
+ 145:library/Src/ring_buffer.c **** 
+ 146:library/Src/ring_buffer.c **** 	so_far = 0;
+ 147:library/Src/ring_buffer.c **** 	indx=0;
+ 148:library/Src/ring_buffer.c **** 
+ 149:library/Src/ring_buffer.c **** 	for (int i=startposition; i<endposition; i++)
+ 150:library/Src/ring_buffer.c **** 	{
+ 151:library/Src/ring_buffer.c **** 		buffertocopyinto[indx] = buffertocopyfrom[i];
+ 152:library/Src/ring_buffer.c **** 		indx++;
+ 153:library/Src/ring_buffer.c **** 	}
+ 154:library/Src/ring_buffer.c **** }
+ 155:library/Src/ring_buffer.c **** 
+ 156:library/Src/ring_buffer.c **** 
+ 157:library/Src/ring_buffer.c **** void Uart_flush (UART_HandleTypeDef *uart)
+ 158:library/Src/ring_buffer.c **** {
+ 159:library/Src/ring_buffer.c **** 	if (uart == device_uart)
+ 160:library/Src/ring_buffer.c **** 	{
+ 161:library/Src/ring_buffer.c **** 		memset(_rx_buffer1->buffer,'\0', UART_BUFFER_SIZE);
+ 162:library/Src/ring_buffer.c **** 		_rx_buffer1->head = 0;
+ 163:library/Src/ring_buffer.c **** 	}
+ 164:library/Src/ring_buffer.c **** 	if (uart == pc_uart)
+ 165:library/Src/ring_buffer.c **** 	{
+ 166:library/Src/ring_buffer.c **** 		memset(_rx_buffer2->buffer,'\0', UART_BUFFER_SIZE);
+ 167:library/Src/ring_buffer.c **** 		_rx_buffer2->head = 0;
+ 168:library/Src/ring_buffer.c **** 	}
+ 169:library/Src/ring_buffer.c **** }
+ 170:library/Src/ring_buffer.c **** 
+ 171:library/Src/ring_buffer.c **** 
+ 172:library/Src/ring_buffer.c **** int Uart_peek(UART_HandleTypeDef *uart)
+ 173:library/Src/ring_buffer.c **** {
+ 174:library/Src/ring_buffer.c **** 	if (uart == device_uart)
+ 175:library/Src/ring_buffer.c **** 	{
+ 176:library/Src/ring_buffer.c **** 		  if(_rx_buffer1->head == _rx_buffer1->tail)
+ 177:library/Src/ring_buffer.c **** 		  {
+ 178:library/Src/ring_buffer.c **** 		    return -1;
+ 179:library/Src/ring_buffer.c **** 		  }
+ 180:library/Src/ring_buffer.c **** 		  else
+ 181:library/Src/ring_buffer.c **** 		  {
+ 182:library/Src/ring_buffer.c **** 		    return _rx_buffer1->buffer[_rx_buffer1->tail];
+ 183:library/Src/ring_buffer.c **** 		  }
+ 184:library/Src/ring_buffer.c **** 	}
+ 185:library/Src/ring_buffer.c **** 
+ 186:library/Src/ring_buffer.c **** 	else if (uart == pc_uart)
+ 187:library/Src/ring_buffer.c **** 	{
+ 188:library/Src/ring_buffer.c **** 		  if(_rx_buffer2->head == _rx_buffer2->tail)
+ 189:library/Src/ring_buffer.c **** 		  {
+ 190:library/Src/ring_buffer.c **** 		    return -1;
+ 191:library/Src/ring_buffer.c **** 		  }
+ 192:library/Src/ring_buffer.c **** 		  else
+ 193:library/Src/ring_buffer.c **** 		  {
+ 194:library/Src/ring_buffer.c **** 		    return _rx_buffer2->buffer[_rx_buffer2->tail];
+ 195:library/Src/ring_buffer.c **** 		  }
+ 196:library/Src/ring_buffer.c **** 	}
+ 197:library/Src/ring_buffer.c **** 
+ 198:library/Src/ring_buffer.c **** 	return -1;
+ 199:library/Src/ring_buffer.c **** }
+ 200:library/Src/ring_buffer.c **** 
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 5
+
+
+ 201:library/Src/ring_buffer.c **** int Uart_read(UART_HandleTypeDef *uart)
+ 202:library/Src/ring_buffer.c **** {
+ 203:library/Src/ring_buffer.c **** 	/*if (uart == device_uart)
+ 204:library/Src/ring_buffer.c **** 	{
+ 205:library/Src/ring_buffer.c **** 		  // if the head isn't ahead of the tail, we don't have any characters
+ 206:library/Src/ring_buffer.c **** 		  if(_rx_buffer1->head == _rx_buffer1->tail)
+ 207:library/Src/ring_buffer.c **** 		  {
+ 208:library/Src/ring_buffer.c **** 		    return -1;
+ 209:library/Src/ring_buffer.c **** 		  }
+ 210:library/Src/ring_buffer.c **** 		  else
+ 211:library/Src/ring_buffer.c **** 		  {
+ 212:library/Src/ring_buffer.c **** 		    unsigned char c = _rx_buffer1->buffer[_rx_buffer1->tail];
+ 213:library/Src/ring_buffer.c **** 		    _rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE;
+ 214:library/Src/ring_buffer.c **** 		    return c;
+ 215:library/Src/ring_buffer.c **** 		  }
+ 216:library/Src/ring_buffer.c **** 	}*/
+ 217:library/Src/ring_buffer.c **** 
+ 218:library/Src/ring_buffer.c **** 	if (uart == pc_uart)
+ 219:library/Src/ring_buffer.c **** 	{
+ 220:library/Src/ring_buffer.c **** 		  // if the head isn't ahead of the tail, we don't have any characters
+ 221:library/Src/ring_buffer.c **** 		  if(_rx_buffer2->head == _rx_buffer2->tail)
+ 222:library/Src/ring_buffer.c **** 		  {
+ 223:library/Src/ring_buffer.c **** 		    return -1;
+ 224:library/Src/ring_buffer.c **** 		  }
+ 225:library/Src/ring_buffer.c **** 		  else
+ 226:library/Src/ring_buffer.c **** 		  {
+ 227:library/Src/ring_buffer.c **** 		    unsigned char c = _rx_buffer2->buffer[_rx_buffer2->tail];
+ 228:library/Src/ring_buffer.c **** 		    _rx_buffer2->tail = (unsigned int)(_rx_buffer2->tail + 1) % UART_BUFFER_SIZE;
+ 229:library/Src/ring_buffer.c **** 		    return c;
+ 230:library/Src/ring_buffer.c **** 		  }
+ 231:library/Src/ring_buffer.c **** 	}
+ 232:library/Src/ring_buffer.c **** 
+ 233:library/Src/ring_buffer.c **** 	else return -1;
+ 234:library/Src/ring_buffer.c **** }
+ 235:library/Src/ring_buffer.c **** 
+ 236:library/Src/ring_buffer.c **** int spi_read(SPI_HandleTypeDef *spi)
+ 237:library/Src/ring_buffer.c **** {
+ 238:library/Src/ring_buffer.c **** 	if (spi == wifi_spi)
+ 239:library/Src/ring_buffer.c **** 	{
+ 240:library/Src/ring_buffer.c **** 		  // if the head isn't ahead of the tail, we don't have any characters
+ 241:library/Src/ring_buffer.c **** 		  if(_rx_buffer1->head == _rx_buffer1->tail)
+ 242:library/Src/ring_buffer.c **** 		  {
+ 243:library/Src/ring_buffer.c **** 		    return -1;
+ 244:library/Src/ring_buffer.c **** 		  }
+ 245:library/Src/ring_buffer.c **** 		  else
+ 246:library/Src/ring_buffer.c **** 		  {
+ 247:library/Src/ring_buffer.c **** 		    unsigned char c = _rx_buffer1->buffer[_rx_buffer1->tail];
+ 248:library/Src/ring_buffer.c **** 		    _rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE;
+ 249:library/Src/ring_buffer.c **** 		    return c;
+ 250:library/Src/ring_buffer.c **** 		  }
+ 251:library/Src/ring_buffer.c **** 	}
+ 252:library/Src/ring_buffer.c **** 
+ 253:library/Src/ring_buffer.c **** 	else return -1;
+ 254:library/Src/ring_buffer.c **** }
+ 255:library/Src/ring_buffer.c **** 
+ 256:library/Src/ring_buffer.c **** void Uart_write(int c, UART_HandleTypeDef *uart)
+ 257:library/Src/ring_buffer.c **** {
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 6
+
+
+ 258:library/Src/ring_buffer.c **** 	if (c>=0)
+ 259:library/Src/ring_buffer.c **** 	{
+ 260:library/Src/ring_buffer.c **** 		/*if (uart == device_uart){
+ 261:library/Src/ring_buffer.c **** 		int i = (_tx_buffer1->head + 1) % UART_BUFFER_SIZE;
+ 262:library/Src/ring_buffer.c **** 
+ 263:library/Src/ring_buffer.c **** 		// If the output buffer is full, there's nothing for it other than to
+ 264:library/Src/ring_buffer.c **** 		// wait for the interrupt handler to empty it a bit
+ 265:library/Src/ring_buffer.c **** 		// ???: return 0 here instead?
+ 266:library/Src/ring_buffer.c **** 		while (i == _tx_buffer1->tail);
+ 267:library/Src/ring_buffer.c **** 
+ 268:library/Src/ring_buffer.c **** 		_tx_buffer1->buffer[_tx_buffer1->head] = (uint8_t)c;
+ 269:library/Src/ring_buffer.c **** 		_tx_buffer1->head = i;
+ 270:library/Src/ring_buffer.c **** 
+ 271:library/Src/ring_buffer.c **** 		__HAL_UART_ENABLE_IT(device_uart, UART_IT_TXE); // Enable UART transmission interrupt
+ 272:library/Src/ring_buffer.c **** 		}*/
+ 273:library/Src/ring_buffer.c **** 
+ 274:library/Src/ring_buffer.c **** 		if (uart == pc_uart){
+ 275:library/Src/ring_buffer.c **** 			int i = (_tx_buffer2->head + 1) % UART_BUFFER_SIZE;
+ 276:library/Src/ring_buffer.c **** 
+ 277:library/Src/ring_buffer.c **** 			// If the output buffer is full, there's nothing for it other than to
+ 278:library/Src/ring_buffer.c **** 			// wait for the interrupt handler to empty it a bit
+ 279:library/Src/ring_buffer.c **** 			// ???: return 0 here instead?
+ 280:library/Src/ring_buffer.c **** 			while (i == _tx_buffer2->tail);
+ 281:library/Src/ring_buffer.c **** 
+ 282:library/Src/ring_buffer.c **** 			_tx_buffer2->buffer[_tx_buffer2->head] = (uint8_t)c;
+ 283:library/Src/ring_buffer.c **** 			_tx_buffer2->head = i;
+ 284:library/Src/ring_buffer.c **** 
+ 285:library/Src/ring_buffer.c **** 			__HAL_UART_ENABLE_IT(pc_uart, UART_IT_TXE); // Enable UART transmission interrupt
+ 286:library/Src/ring_buffer.c **** 			}
+ 287:library/Src/ring_buffer.c **** 	}
+ 288:library/Src/ring_buffer.c **** }
+ 289:library/Src/ring_buffer.c **** 
+ 290:library/Src/ring_buffer.c **** void spi_write(int c, SPI_HandleTypeDef *spi)
+ 291:library/Src/ring_buffer.c **** {
+ 292:library/Src/ring_buffer.c **** 	if (c>=0)
+ 293:library/Src/ring_buffer.c **** 	{
+ 294:library/Src/ring_buffer.c **** 		if (spi == wifi_spi){
+ 295:library/Src/ring_buffer.c **** 		int i = (_tx_buffer1->head + 1) % UART_BUFFER_SIZE;
+ 296:library/Src/ring_buffer.c **** 
+ 297:library/Src/ring_buffer.c **** 		// If the output buffer is full, there's nothing for it other than to
+ 298:library/Src/ring_buffer.c **** 		// wait for the interrupt handler to empty it a bit
+ 299:library/Src/ring_buffer.c **** 		// ???: return 0 here instead?
+ 300:library/Src/ring_buffer.c **** 		while (i == _tx_buffer1->tail);
+ 301:library/Src/ring_buffer.c **** 
+ 302:library/Src/ring_buffer.c **** 		_tx_buffer1->buffer[_tx_buffer1->head] = (uint8_t)c;
+ 303:library/Src/ring_buffer.c **** 		_tx_buffer1->head = i;
+ 304:library/Src/ring_buffer.c **** 
+ 305:library/Src/ring_buffer.c **** 		__HAL_SPI_ENABLE_IT(wifi_spi, SPI_IT_TXE); // Enable UART transmission interrupt
+ 306:library/Src/ring_buffer.c **** 		}
+ 307:library/Src/ring_buffer.c **** 	}
+ 308:library/Src/ring_buffer.c **** }
+ 309:library/Src/ring_buffer.c **** 
+ 310:library/Src/ring_buffer.c **** int IsUartDataAvailable(UART_HandleTypeDef *uart)
+ 311:library/Src/ring_buffer.c **** {
+ 312:library/Src/ring_buffer.c **** 	if (uart == device_uart) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer1->head - _rx_buffer1->tai
+ 313:library/Src/ring_buffer.c **** 	else if (uart == pc_uart) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer2->head - _rx_buffer2->ta
+ 314:library/Src/ring_buffer.c **** 	return -1;
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 7
+
+
+ 315:library/Src/ring_buffer.c **** }
+ 316:library/Src/ring_buffer.c **** 
+ 317:library/Src/ring_buffer.c **** int IsSpiDataAvailable(SPI_HandleTypeDef *spi)
+ 318:library/Src/ring_buffer.c **** {
+ 319:library/Src/ring_buffer.c **** 	if (spi == wifi_spi) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer1->head - _rx_buffer1->tail) %
+ 320:library/Src/ring_buffer.c **** 	return -1;
+ 321:library/Src/ring_buffer.c **** }
+ 322:library/Src/ring_buffer.c **** 
+ 323:library/Src/ring_buffer.c **** 
+ 324:library/Src/ring_buffer.c **** 
+ 325:library/Src/ring_buffer.c **** int Get_after (char *string, uint8_t numberofchars, char *buffertosave, UART_HandleTypeDef *uart)
+ 326:library/Src/ring_buffer.c **** {
+ 327:library/Src/ring_buffer.c **** 
+ 328:library/Src/ring_buffer.c **** 	while (Wait_for(string, uart) != 1);
+ 329:library/Src/ring_buffer.c **** 	for (int indx=0; indx<numberofchars; indx++)
+ 330:library/Src/ring_buffer.c **** 	{
+ 331:library/Src/ring_buffer.c **** 		while (!(IsUartDataAvailable(uart)));
+ 332:library/Src/ring_buffer.c **** 		buffertosave[indx] = Uart_read(uart);
+ 333:library/Src/ring_buffer.c **** 	}
+ 334:library/Src/ring_buffer.c **** 	return 1;
+ 335:library/Src/ring_buffer.c **** }
+ 336:library/Src/ring_buffer.c **** 
+ 337:library/Src/ring_buffer.c **** void Uart_sendstring (const char *s, UART_HandleTypeDef *uart)
+ 338:library/Src/ring_buffer.c **** {
+ 339:library/Src/ring_buffer.c **** 	while(*s!='\0') Uart_write(*s++, uart);
+ 340:library/Src/ring_buffer.c **** }
+ 341:library/Src/ring_buffer.c **** 
+ 342:library/Src/ring_buffer.c **** void Uart_printbase (long n, uint8_t base, UART_HandleTypeDef *uart)
+ 343:library/Src/ring_buffer.c **** {
+ 344:library/Src/ring_buffer.c ****   char buf[8 * sizeof(long) + 1]; // Assumes 8-bit chars plus zero byte.
+ 345:library/Src/ring_buffer.c ****   char *s = &buf[sizeof(buf) - 1];
+ 346:library/Src/ring_buffer.c **** 
+ 347:library/Src/ring_buffer.c ****   *s = '\0';
+ 348:library/Src/ring_buffer.c **** 
+ 349:library/Src/ring_buffer.c ****   // prevent crash if called with base == 1
+ 350:library/Src/ring_buffer.c ****   if (base < 2) base = 10;
+ 351:library/Src/ring_buffer.c **** 
+ 352:library/Src/ring_buffer.c ****   do {
+ 353:library/Src/ring_buffer.c ****     unsigned long m = n;
+ 354:library/Src/ring_buffer.c ****     n /= base;
+ 355:library/Src/ring_buffer.c ****     char c = m - base * n;
+ 356:library/Src/ring_buffer.c ****     *--s = c < 10 ? c + '0' : c + 'A' - 10;
+ 357:library/Src/ring_buffer.c ****   } while(n);
+ 358:library/Src/ring_buffer.c **** 
+ 359:library/Src/ring_buffer.c ****   while(*s) Uart_write(*s++, uart);
+ 360:library/Src/ring_buffer.c **** }
+ 361:library/Src/ring_buffer.c **** 
+ 362:library/Src/ring_buffer.c **** 
+ 363:library/Src/ring_buffer.c **** int Copy_upto (char *string, char *buffertocopyinto, UART_HandleTypeDef *uart)
+ 364:library/Src/ring_buffer.c **** {
+ 365:library/Src/ring_buffer.c **** 	int so_far =0;
+ 366:library/Src/ring_buffer.c **** 	int len = strlen (string);
+ 367:library/Src/ring_buffer.c **** 	int indx = 0;
+ 368:library/Src/ring_buffer.c **** 
+ 369:library/Src/ring_buffer.c **** again:
+ 370:library/Src/ring_buffer.c **** 	while (!IsUartDataAvailable(uart));
+ 371:library/Src/ring_buffer.c **** 	while (Uart_peek(uart) != string[so_far])
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 8
+
+
+ 372:library/Src/ring_buffer.c **** 		{
+ 373:library/Src/ring_buffer.c **** 			buffertocopyinto[indx] = _rx_buffer1->buffer[_rx_buffer1->tail];
+ 374:library/Src/ring_buffer.c **** 			_rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE;
+ 375:library/Src/ring_buffer.c **** 			indx++;
+ 376:library/Src/ring_buffer.c **** 			while (!IsUartDataAvailable(uart));
+ 377:library/Src/ring_buffer.c **** 
+ 378:library/Src/ring_buffer.c **** 		}
+ 379:library/Src/ring_buffer.c **** 	while (Uart_peek(uart) == string [so_far])
+ 380:library/Src/ring_buffer.c **** 	{
+ 381:library/Src/ring_buffer.c **** 		so_far++;
+ 382:library/Src/ring_buffer.c **** 		buffertocopyinto[indx++] = Uart_read(uart);
+ 383:library/Src/ring_buffer.c **** 		if (so_far == len) return 1;
+ 384:library/Src/ring_buffer.c **** 		while (!IsUartDataAvailable(uart));
+ 385:library/Src/ring_buffer.c **** 	}
+ 386:library/Src/ring_buffer.c **** 
+ 387:library/Src/ring_buffer.c **** 	if (so_far != len)
+ 388:library/Src/ring_buffer.c **** 	{
+ 389:library/Src/ring_buffer.c **** 		so_far = 0;
+ 390:library/Src/ring_buffer.c **** 		goto again;
+ 391:library/Src/ring_buffer.c **** 	}
+ 392:library/Src/ring_buffer.c **** 
+ 393:library/Src/ring_buffer.c **** 	if (so_far == len) return 1;
+ 394:library/Src/ring_buffer.c **** 	else return -1;
+ 395:library/Src/ring_buffer.c **** 
+ 396:library/Src/ring_buffer.c **** }
+ 397:library/Src/ring_buffer.c **** 
+ 398:library/Src/ring_buffer.c **** 
+ 399:library/Src/ring_buffer.c **** int Wait_for (char *string, UART_HandleTypeDef *uart)
+ 400:library/Src/ring_buffer.c **** {
+ 401:library/Src/ring_buffer.c **** 	int so_far =0;
+ 402:library/Src/ring_buffer.c **** 	int len = strlen (string);
+ 403:library/Src/ring_buffer.c **** 
+ 404:library/Src/ring_buffer.c **** again_device:
+ 405:library/Src/ring_buffer.c **** 	timeout = TIMEOUT_DEF;
+ 406:library/Src/ring_buffer.c **** 	while ((!IsUartDataAvailable(uart))&&timeout); 
+ 407:library/Src/ring_buffer.c **** 	if (timeout == 0) return 0;
+ 408:library/Src/ring_buffer.c **** 	while (Uart_peek(uart) != string[so_far]) 
+ 409:library/Src/ring_buffer.c **** 	{
+ 410:library/Src/ring_buffer.c **** 		 _rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE ;
+ 411:library/Src/ring_buffer.c **** 		goto again_device;
+ 412:library/Src/ring_buffer.c **** 
+ 413:library/Src/ring_buffer.c **** 	}
+ 414:library/Src/ring_buffer.c **** 	while (Uart_peek(uart) == string [so_far])
+ 415:library/Src/ring_buffer.c **** 	{
+ 416:library/Src/ring_buffer.c **** 		so_far++;
+ 417:library/Src/ring_buffer.c **** 		_rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE; 
+ 418:library/Src/ring_buffer.c **** 		if (so_far == len) return 1;
+ 419:library/Src/ring_buffer.c **** 		timeout = TIMEOUT_DEF;
+ 420:library/Src/ring_buffer.c **** 		while ((!IsUartDataAvailable(uart))&&timeout);
+ 421:library/Src/ring_buffer.c **** 		if (timeout == 0) return -1;
+ 422:library/Src/ring_buffer.c **** 	}
+ 423:library/Src/ring_buffer.c **** 
+ 424:library/Src/ring_buffer.c **** 	if (so_far != len)
+ 425:library/Src/ring_buffer.c **** 	{
+ 426:library/Src/ring_buffer.c **** 		so_far = 0;
+ 427:library/Src/ring_buffer.c **** 		goto again_device;
+ 428:library/Src/ring_buffer.c **** 	}
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 9
+
+
+ 429:library/Src/ring_buffer.c **** 
+ 430:library/Src/ring_buffer.c **** 	if (so_far == len) return 1;
+ 431:library/Src/ring_buffer.c **** 	else return -1;
+ 432:library/Src/ring_buffer.c **** }
+ 433:library/Src/ring_buffer.c **** 
+ 434:library/Src/ring_buffer.c **** void my_Uart_isr (UART_HandleTypeDef *huart)
+ 435:library/Src/ring_buffer.c **** {
+ 436:library/Src/ring_buffer.c **** 	  uint32_t isrflags   = READ_REG(huart->Instance->ISR);
+ 437:library/Src/ring_buffer.c **** 	  uint32_t cr1its     = READ_REG(huart->Instance->CR1);
+ 438:library/Src/ring_buffer.c **** 
+ 439:library/Src/ring_buffer.c ****     /* if DR is not empty and the Rx Int is enabled */
+ 440:library/Src/ring_buffer.c ****     if (((isrflags & USART_ISR_RXNE) != RESET) && ((cr1its & USART_CR1_RXNEIE) != RESET))
+ 441:library/Src/ring_buffer.c ****     {
+ 442:library/Src/ring_buffer.c ****     	 /******************
+ 443:library/Src/ring_buffer.c ****     	    	      *  @note   PE (Parity error), FE (Framing error), NE (Noise error), ORE (Overrun
+ 444:library/Src/ring_buffer.c ****     	    	      *          error) and IDLE (Idle line detected) flags are cleared by software
+ 445:library/Src/ring_buffer.c ****     	    	      *          sequence: a read operation to USART_SR register followed by a read
+ 446:library/Src/ring_buffer.c ****     	    	      *          operation to USART_DR register.
+ 447:library/Src/ring_buffer.c ****     	    	      * @note   RXNE flag can be also cleared by a read to the USART_DR register.
+ 448:library/Src/ring_buffer.c ****     	    	      * @note   TC flag can be also cleared by software sequence: a read operation to
+ 449:library/Src/ring_buffer.c ****     	    	      *          USART_SR register followed by a write operation to USART_DR register.
+ 450:library/Src/ring_buffer.c ****     	    	      * @note   TXE flag is cleared only by a write to the USART_DR register.
+ 451:library/Src/ring_buffer.c **** 
+ 452:library/Src/ring_buffer.c ****     	 *********************/
+ 453:library/Src/ring_buffer.c **** 		huart->Instance->ISR;                       /* Read status register */
+ 454:library/Src/ring_buffer.c ****         unsigned char c = huart->Instance->RDR;     /* Read data register */
+ 455:library/Src/ring_buffer.c ****         if (huart == device_uart)
+ 456:library/Src/ring_buffer.c ****         {
+ 457:library/Src/ring_buffer.c ****         	store_char (c, _rx_buffer1);  // store data in buffer
+ 458:library/Src/ring_buffer.c ****         }
+ 459:library/Src/ring_buffer.c **** 
+ 460:library/Src/ring_buffer.c ****         else if (huart == pc_uart)
+ 461:library/Src/ring_buffer.c ****         {
+ 462:library/Src/ring_buffer.c ****            	store_char (c, _rx_buffer2);  // store data in buffer
+ 463:library/Src/ring_buffer.c ****         }
+ 464:library/Src/ring_buffer.c **** 
+ 465:library/Src/ring_buffer.c ****         return;
+ 466:library/Src/ring_buffer.c ****     }
+ 467:library/Src/ring_buffer.c **** 
+ 468:library/Src/ring_buffer.c ****     /*If interrupt is caused due to Transmit Data Register Empty */
+ 469:library/Src/ring_buffer.c ****     if (((isrflags & USART_ISR_TXE) != RESET) && ((cr1its & USART_CR1_TXEIE) != RESET))
+ 470:library/Src/ring_buffer.c ****     {
+ 471:library/Src/ring_buffer.c ****     	if (huart == device_uart){
+ 472:library/Src/ring_buffer.c ****     	if(tx_buffer1.head == tx_buffer1.tail)
+ 473:library/Src/ring_buffer.c ****     	    {
+ 474:library/Src/ring_buffer.c ****     	      // Buffer empty, so disable interrupts
+ 475:library/Src/ring_buffer.c ****     	      __HAL_UART_DISABLE_IT(huart, UART_IT_TXE);
+ 476:library/Src/ring_buffer.c **** 
+ 477:library/Src/ring_buffer.c ****     	    }
+ 478:library/Src/ring_buffer.c **** 
+ 479:library/Src/ring_buffer.c ****     	 else
+ 480:library/Src/ring_buffer.c ****     	    {
+ 481:library/Src/ring_buffer.c ****     	      // There is more data in the output buffer. Send the next byte
+ 482:library/Src/ring_buffer.c ****     	      unsigned char c = tx_buffer1.buffer[tx_buffer1.tail];
+ 483:library/Src/ring_buffer.c ****     	      tx_buffer1.tail = (tx_buffer1.tail + 1) % UART_BUFFER_SIZE;
+ 484:library/Src/ring_buffer.c **** 
+ 485:library/Src/ring_buffer.c ****     	      /******************
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 10
+
+
+ 486:library/Src/ring_buffer.c ****     	      *  @note   PE (Parity error), FE (Framing error), NE (Noise error), ORE (Overrun
+ 487:library/Src/ring_buffer.c ****     	      *          error) and IDLE (Idle line detected) flags are cleared by software
+ 488:library/Src/ring_buffer.c ****     	      *          sequence: a read operation to USART_SR register followed by a read
+ 489:library/Src/ring_buffer.c ****     	      *          operation to USART_DR register.
+ 490:library/Src/ring_buffer.c ****     	      * @note   RXNE flag can be also cleared by a read to the USART_DR register.
+ 491:library/Src/ring_buffer.c ****     	      * @note   TC flag can be also cleared by software sequence: a read operation to
+ 492:library/Src/ring_buffer.c ****     	      *          USART_SR register followed by a write operation to USART_DR register.
+ 493:library/Src/ring_buffer.c ****     	      * @note   TXE flag is cleared only by a write to the USART_DR register.
+ 494:library/Src/ring_buffer.c **** 
+ 495:library/Src/ring_buffer.c ****     	      *********************/
+ 496:library/Src/ring_buffer.c **** 
+ 497:library/Src/ring_buffer.c ****     	      huart->Instance->ISR;
+ 498:library/Src/ring_buffer.c ****     	      huart->Instance->TDR = c;
+ 499:library/Src/ring_buffer.c **** 
+ 500:library/Src/ring_buffer.c ****     	    }
+ 501:library/Src/ring_buffer.c ****     	}
+ 502:library/Src/ring_buffer.c **** 
+ 503:library/Src/ring_buffer.c ****     	else if (huart == pc_uart){
+ 504:library/Src/ring_buffer.c ****         	if(tx_buffer2.head == tx_buffer2.tail)
+ 505:library/Src/ring_buffer.c ****         	    {
+ 506:library/Src/ring_buffer.c ****         	      // Buffer empty, so disable interrupts
+ 507:library/Src/ring_buffer.c **** 
+ 508:library/Src/ring_buffer.c ****         	      __HAL_UART_DISABLE_IT(huart, UART_IT_TXE);
+ 509:library/Src/ring_buffer.c **** 
+ 510:library/Src/ring_buffer.c ****         	    }
+ 511:library/Src/ring_buffer.c **** 
+ 512:library/Src/ring_buffer.c ****         	 else
+ 513:library/Src/ring_buffer.c ****         	    {
+ 514:library/Src/ring_buffer.c ****         	      // There is more data in the output buffer. Send the next byte
+ 515:library/Src/ring_buffer.c ****         	      unsigned char c = tx_buffer2.buffer[tx_buffer2.tail];
+ 516:library/Src/ring_buffer.c ****         	      tx_buffer2.tail = (tx_buffer2.tail + 1) % UART_BUFFER_SIZE;
+ 517:library/Src/ring_buffer.c **** 
+ 518:library/Src/ring_buffer.c ****         	      /******************
+ 519:library/Src/ring_buffer.c ****         	      *  @note   PE (Parity error), FE (Framing error), NE (Noise error), ORE (Overrun
+ 520:library/Src/ring_buffer.c ****         	      *          error) and IDLE (Idle line detected) flags are cleared by software
+ 521:library/Src/ring_buffer.c ****         	      *          sequence: a read operation to USART_SR register followed by a read
+ 522:library/Src/ring_buffer.c ****         	      *          operation to USART_DR register.
+ 523:library/Src/ring_buffer.c ****         	      * @note   RXNE flag can be also cleared by a read to the USART_DR register.
+ 524:library/Src/ring_buffer.c ****         	      * @note   TC flag can be also cleared by software sequence: a read operation to
+ 525:library/Src/ring_buffer.c ****         	      *          USART_SR register followed by a write operation to USART_DR register.
+ 526:library/Src/ring_buffer.c ****         	      * @note   TXE flag is cleared only by a write to the USART_DR register.
+ 527:library/Src/ring_buffer.c **** 
+ 528:library/Src/ring_buffer.c ****         	      *********************/
+ 529:library/Src/ring_buffer.c **** 
+ 530:library/Src/ring_buffer.c ****         	      huart->Instance->ISR;
+ 531:library/Src/ring_buffer.c ****         	      huart->Instance->TDR = c;
+ 532:library/Src/ring_buffer.c **** 
+ 533:library/Src/ring_buffer.c ****         	    }
+ 534:library/Src/ring_buffer.c ****         	}
+ 535:library/Src/ring_buffer.c ****     	return;
+ 536:library/Src/ring_buffer.c ****     }
+ 537:library/Src/ring_buffer.c **** }
+ 538:library/Src/ring_buffer.c **** 
+ 539:library/Src/ring_buffer.c **** 
+ 540:library/Src/ring_buffer.c **** void my_spi_isr (SPI_HandleTypeDef *hspi) 
+ 541:library/Src/ring_buffer.c **** {
+  30              		.loc 1 541 1 view -0
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 11
+
+
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 32
+  33              		@ frame_needed = 1, uses_anonymous_args = 0
+  34              		.loc 1 541 1 is_stmt 0 view .LVU1
+  35 0000 80B5     		push	{r7, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40 0002 88B0     		sub	sp, sp, #32
+  41              	.LCFI1:
+  42              		.cfi_def_cfa_offset 40
+  43 0004 00AF     		add	r7, sp, #0
+  44              	.LCFI2:
+  45              		.cfi_def_cfa_register 7
+  46 0006 7860     		str	r0, [r7, #4]
+ 542:library/Src/ring_buffer.c **** 	  uint32_t isrflags   = READ_REG(hspi->Instance->SR);
+  47              		.loc 1 542 4 is_stmt 1 view .LVU2
+  48              		.loc 1 542 26 is_stmt 0 view .LVU3
+  49 0008 7B68     		ldr	r3, [r7, #4]
+  50 000a 1B68     		ldr	r3, [r3]
+  51              		.loc 1 542 13 view .LVU4
+  52 000c 9B68     		ldr	r3, [r3, #8]
+  53 000e FB61     		str	r3, [r7, #28]
+  54              	.LVL1:
+ 543:library/Src/ring_buffer.c **** 	  uint32_t cr1its     = READ_REG(hspi->Instance->CR2);
+  55              		.loc 1 543 4 is_stmt 1 view .LVU5
+  56              		.loc 1 543 26 is_stmt 0 view .LVU6
+  57 0010 7B68     		ldr	r3, [r7, #4]
+  58              	.LVL2:
+  59              		.loc 1 543 26 view .LVU7
+  60 0012 1B68     		ldr	r3, [r3]
+  61              		.loc 1 543 13 view .LVU8
+  62 0014 5B68     		ldr	r3, [r3, #4]
+  63 0016 BB61     		str	r3, [r7, #24]
+  64              	.LVL3:
+ 544:library/Src/ring_buffer.c **** 
+ 545:library/Src/ring_buffer.c ****     /* if DR is not empty and the Rx Int is enabled */
+ 546:library/Src/ring_buffer.c ****     if (((isrflags & SPI_SR_RXNE) != RESET) && ((cr1its & SPI_CR2_RXNEIE) != RESET))
+  65              		.loc 1 546 5 is_stmt 1 view .LVU9
+  66              		.loc 1 546 20 is_stmt 0 view .LVU10
+  67 0018 FB69     		ldr	r3, [r7, #28]
+  68              	.LVL4:
+  69              		.loc 1 546 20 view .LVU11
+  70 001a 03F00103 		and	r3, r3, #1
+  71              		.loc 1 546 8 view .LVU12
+  72 001e 002B     		cmp	r3, #0
+  73 0020 18D0     		beq	.L2
+  74              		.loc 1 546 57 discriminator 1 view .LVU13
+  75 0022 BB69     		ldr	r3, [r7, #24]
+  76 0024 03F04003 		and	r3, r3, #64
+  77              		.loc 1 546 45 discriminator 1 view .LVU14
+  78 0028 002B     		cmp	r3, #0
+  79 002a 13D0     		beq	.L2
+  80              	.LBB2:
+ 547:library/Src/ring_buffer.c ****     {
+ 548:library/Src/ring_buffer.c ****     	 /******************
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 12
+
+
+ 549:library/Src/ring_buffer.c ****     	    	      *  @note   PE (Parity error), FE (Framing error), NE (Noise error), ORE (Overrun
+ 550:library/Src/ring_buffer.c ****     	    	      *          error) and IDLE (Idle line detected) flags are cleared by software
+ 551:library/Src/ring_buffer.c ****     	    	      *          sequence: a read operation to USART_SR register followed by a read
+ 552:library/Src/ring_buffer.c ****     	    	      *          operation to USART_DR register.
+ 553:library/Src/ring_buffer.c ****     	    	      * @note   RXNE flag can be also cleared by a read to the USART_DR register.
+ 554:library/Src/ring_buffer.c ****     	    	      * @note   TC flag can be also cleared by software sequence: a read operation to
+ 555:library/Src/ring_buffer.c ****     	    	      *          USART_SR register followed by a write operation to USART_DR register.
+ 556:library/Src/ring_buffer.c ****     	    	      * @note   TXE flag is cleared only by a write to the USART_DR register.
+ 557:library/Src/ring_buffer.c **** 
+ 558:library/Src/ring_buffer.c ****     	 *********************/
+ 559:library/Src/ring_buffer.c **** 		hspi->Instance->SR;                       /* Read status register */
+  81              		.loc 1 559 3 is_stmt 1 view .LVU15
+  82              		.loc 1 559 7 is_stmt 0 view .LVU16
+  83 002c 7B68     		ldr	r3, [r7, #4]
+  84 002e 1B68     		ldr	r3, [r3]
+  85              		.loc 1 559 17 view .LVU17
+  86 0030 9B68     		ldr	r3, [r3, #8]
+ 560:library/Src/ring_buffer.c ****         unsigned char c = hspi->Instance->DR;     /* Read data register */
+  87              		.loc 1 560 9 is_stmt 1 view .LVU18
+  88              		.loc 1 560 31 is_stmt 0 view .LVU19
+  89 0032 7B68     		ldr	r3, [r7, #4]
+  90 0034 1B68     		ldr	r3, [r3]
+  91              		.loc 1 560 41 view .LVU20
+  92 0036 DB68     		ldr	r3, [r3, #12]
+  93              		.loc 1 560 23 view .LVU21
+  94 0038 FB75     		strb	r3, [r7, #23]
+  95              	.LVL5:
+ 561:library/Src/ring_buffer.c ****         if (hspi == wifi_spi)
+  96              		.loc 1 561 9 is_stmt 1 view .LVU22
+  97              		.loc 1 561 12 is_stmt 0 view .LVU23
+  98 003a 7B68     		ldr	r3, [r7, #4]
+  99              	.LVL6:
+ 100              		.loc 1 561 12 view .LVU24
+ 101 003c 514A     		ldr	r2, .L16
+ 102 003e 9342     		cmp	r3, r2
+ 103 0040 40F09980 		bne	.L13
+ 562:library/Src/ring_buffer.c ****         {
+ 563:library/Src/ring_buffer.c ****         	store_char (c, _rx_buffer1);  // store data in buffer
+ 104              		.loc 1 563 10 is_stmt 1 view .LVU25
+ 105 0044 504B     		ldr	r3, .L16+4
+ 106 0046 1A68     		ldr	r2, [r3]
+ 107 0048 FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 108 004a 1146     		mov	r1, r2
+ 109 004c 1846     		mov	r0, r3
+ 110              	.LVL7:
+ 111              		.loc 1 563 10 is_stmt 0 view .LVU26
+ 112 004e FFF7FEFF 		bl	store_char
+ 113              	.LVL8:
+ 564:library/Src/ring_buffer.c ****         }
+ 565:library/Src/ring_buffer.c ****         return;
+ 114              		.loc 1 565 9 is_stmt 1 view .LVU27
+ 115 0052 90E0     		b	.L13
+ 116              	.LVL9:
+ 117              	.L2:
+ 118              		.loc 1 565 9 is_stmt 0 view .LVU28
+ 119              	.LBE2:
+ 566:library/Src/ring_buffer.c ****     }
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 13
+
+
+ 567:library/Src/ring_buffer.c **** 
+ 568:library/Src/ring_buffer.c ****     /*If interrupt is caused due to Transmit Data Register Empty */
+ 569:library/Src/ring_buffer.c ****     if (((isrflags & SPI_SR_TXE) != RESET) && ((cr1its & SPI_CR2_TXEIE) != RESET))
+ 120              		.loc 1 569 5 is_stmt 1 view .LVU29
+ 121              		.loc 1 569 20 is_stmt 0 view .LVU30
+ 122 0054 FB69     		ldr	r3, [r7, #28]
+ 123 0056 03F00203 		and	r3, r3, #2
+ 124              		.loc 1 569 8 view .LVU31
+ 125 005a 002B     		cmp	r3, #0
+ 126 005c 00F08E80 		beq	.L1
+ 127              		.loc 1 569 56 discriminator 1 view .LVU32
+ 128 0060 BB69     		ldr	r3, [r7, #24]
+ 129 0062 03F08003 		and	r3, r3, #128
+ 130              		.loc 1 569 44 discriminator 1 view .LVU33
+ 131 0066 002B     		cmp	r3, #0
+ 132 0068 00F08880 		beq	.L1
+ 570:library/Src/ring_buffer.c ****     {
+ 571:library/Src/ring_buffer.c ****     	if (hspi == wifi_spi){
+ 133              		.loc 1 571 6 is_stmt 1 view .LVU34
+ 134              		.loc 1 571 9 is_stmt 0 view .LVU35
+ 135 006c 7B68     		ldr	r3, [r7, #4]
+ 136 006e 454A     		ldr	r2, .L16
+ 137 0070 9342     		cmp	r3, r2
+ 138 0072 40F08280 		bne	.L14
+ 572:library/Src/ring_buffer.c ****     	if(tx_buffer1.head == tx_buffer1.tail)
+ 139              		.loc 1 572 6 is_stmt 1 view .LVU36
+ 140              		.loc 1 572 19 is_stmt 0 view .LVU37
+ 141 0076 454B     		ldr	r3, .L16+8
+ 142 0078 5A6E     		ldr	r2, [r3, #100]
+ 143              		.loc 1 572 38 view .LVU38
+ 144 007a 444B     		ldr	r3, .L16+8
+ 145 007c 9B6E     		ldr	r3, [r3, #104]
+ 146              		.loc 1 572 8 view .LVU39
+ 147 007e 9A42     		cmp	r2, r3
+ 148 0080 08D1     		bne	.L6
+ 573:library/Src/ring_buffer.c ****     	    {
+ 574:library/Src/ring_buffer.c ****     	      // Buffer empty, so disable interrupts
+ 575:library/Src/ring_buffer.c ****     	      __HAL_SPI_DISABLE_IT(hspi, SPI_IT_TXE);
+ 149              		.loc 1 575 12 is_stmt 1 view .LVU40
+ 150 0082 7B68     		ldr	r3, [r7, #4]
+ 151 0084 1B68     		ldr	r3, [r3]
+ 152 0086 5A68     		ldr	r2, [r3, #4]
+ 153 0088 7B68     		ldr	r3, [r7, #4]
+ 154 008a 1B68     		ldr	r3, [r3]
+ 155 008c 22F08002 		bic	r2, r2, #128
+ 156 0090 5A60     		str	r2, [r3, #4]
+ 576:library/Src/ring_buffer.c **** 
+ 577:library/Src/ring_buffer.c ****     	    }
+ 578:library/Src/ring_buffer.c **** 
+ 579:library/Src/ring_buffer.c ****     	 else
+ 580:library/Src/ring_buffer.c ****     	    {
+ 581:library/Src/ring_buffer.c ****     	      
+ 582:library/Src/ring_buffer.c **** 			  hspi->Instance->CR1 |= (1<<6); //SPI Enable
+ 583:library/Src/ring_buffer.c **** 			  unsigned char *c;
+ 584:library/Src/ring_buffer.c **** 			  volatile uint16_t view;
+ 585:library/Src/ring_buffer.c **** 
+ 586:library/Src/ring_buffer.c **** 			  // There is more data in the output buffer. Send the next byte
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 14
+
+
+ 587:library/Src/ring_buffer.c ****     	      if((tx_buffer1.head - tx_buffer1.tail) > 1U)
+ 588:library/Src/ring_buffer.c **** 			  {
+ 589:library/Src/ring_buffer.c **** 			  c = &tx_buffer1.buffer[tx_buffer1.tail];
+ 590:library/Src/ring_buffer.c ****     	      tx_buffer1.tail = (tx_buffer1.tail + 2U) % UART_BUFFER_SIZE;
+ 591:library/Src/ring_buffer.c **** 			  hspi->Instance->DR = *((uint16_t *)c);
+ 592:library/Src/ring_buffer.c **** 			  //view = *((uint16_t *)c);
+ 593:library/Src/ring_buffer.c **** 			  }
+ 594:library/Src/ring_buffer.c **** 
+ 595:library/Src/ring_buffer.c **** 			  if((tx_buffer1.head - tx_buffer1.tail) == 1U)
+ 596:library/Src/ring_buffer.c **** 			  {
+ 597:library/Src/ring_buffer.c **** 				c = &tx_buffer1.buffer[tx_buffer1.tail];
+ 598:library/Src/ring_buffer.c ****     	        tx_buffer1.tail = (tx_buffer1.tail + 1U) % UART_BUFFER_SIZE;
+ 599:library/Src/ring_buffer.c **** 				*((__IO uint8_t *)&hspi->Instance->DR) = (*c);
+ 600:library/Src/ring_buffer.c **** 				view = *((uint16_t *)c);
+ 601:library/Src/ring_buffer.c **** 			  }
+ 602:library/Src/ring_buffer.c ****     	      /******************
+ 603:library/Src/ring_buffer.c ****     	      *  @note   PE (Parity error), FE (Framing error), NE (Noise error), ORE (Overrun
+ 604:library/Src/ring_buffer.c ****     	      *          error) and IDLE (Idle line detected) flags are cleared by software
+ 605:library/Src/ring_buffer.c ****     	      *          sequence: a read operation to USART_SR register followed by a read
+ 606:library/Src/ring_buffer.c ****     	      *          operation to USART_DR register.
+ 607:library/Src/ring_buffer.c ****     	      * @note   RXNE flag can be also cleared by a read to the USART_DR register.
+ 608:library/Src/ring_buffer.c ****     	      * @note   TC flag can be also cleared by software sequence: a read operation to
+ 609:library/Src/ring_buffer.c ****     	      *          USART_SR register followed by a write operation to USART_DR register.
+ 610:library/Src/ring_buffer.c ****     	      * @note   TXE flag is cleared only by a write to the USART_DR register.
+ 611:library/Src/ring_buffer.c **** 
+ 612:library/Src/ring_buffer.c ****     	      *********************/
+ 613:library/Src/ring_buffer.c **** 
+ 614:library/Src/ring_buffer.c ****     	      	while (!((hspi->Instance->SR)&(1<<1))) {};  // wait for TXE bit to set -> This will ind
+ 615:library/Src/ring_buffer.c **** 				while (((hspi->Instance->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate t
+ 616:library/Src/ring_buffer.c **** 
+ 617:library/Src/ring_buffer.c ****   				while (((hspi->Instance->SR)&(1<<0))) 
+ 618:library/Src/ring_buffer.c **** 				{
+ 619:library/Src/ring_buffer.c **** 					uint8_t temp = hspi->Instance->DR;
+ 620:library/Src/ring_buffer.c **** 				}; 
+ 621:library/Src/ring_buffer.c **** 				
+ 622:library/Src/ring_buffer.c **** 				uint8_t	temp1 = hspi->Instance->SR;
+ 623:library/Src/ring_buffer.c **** 				hspi->Instance->CR1 &= ~(1<<6);
+ 624:library/Src/ring_buffer.c ****     	    }
+ 625:library/Src/ring_buffer.c ****     	}
+ 626:library/Src/ring_buffer.c ****     	return;
+ 157              		.loc 1 626 6 is_stmt 0 view .LVU41
+ 158 0092 72E0     		b	.L14
+ 159              	.L6:
+ 160              	.LBB3:
+ 582:library/Src/ring_buffer.c **** 			  unsigned char *c;
+ 161              		.loc 1 582 6 is_stmt 1 view .LVU42
+ 582:library/Src/ring_buffer.c **** 			  unsigned char *c;
+ 162              		.loc 1 582 10 is_stmt 0 view .LVU43
+ 163 0094 7B68     		ldr	r3, [r7, #4]
+ 164 0096 1B68     		ldr	r3, [r3]
+ 582:library/Src/ring_buffer.c **** 			  unsigned char *c;
+ 165              		.loc 1 582 26 view .LVU44
+ 166 0098 1A68     		ldr	r2, [r3]
+ 582:library/Src/ring_buffer.c **** 			  unsigned char *c;
+ 167              		.loc 1 582 10 view .LVU45
+ 168 009a 7B68     		ldr	r3, [r7, #4]
+ 169 009c 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 15
+
+
+ 582:library/Src/ring_buffer.c **** 			  unsigned char *c;
+ 170              		.loc 1 582 26 view .LVU46
+ 171 009e 42F04002 		orr	r2, r2, #64
+ 172 00a2 1A60     		str	r2, [r3]
+ 583:library/Src/ring_buffer.c **** 			  volatile uint16_t view;
+ 173              		.loc 1 583 6 is_stmt 1 view .LVU47
+ 584:library/Src/ring_buffer.c **** 
+ 174              		.loc 1 584 6 view .LVU48
+ 587:library/Src/ring_buffer.c **** 			  {
+ 175              		.loc 1 587 12 view .LVU49
+ 587:library/Src/ring_buffer.c **** 			  {
+ 176              		.loc 1 587 26 is_stmt 0 view .LVU50
+ 177 00a4 394B     		ldr	r3, .L16+8
+ 178 00a6 5A6E     		ldr	r2, [r3, #100]
+ 587:library/Src/ring_buffer.c **** 			  {
+ 179              		.loc 1 587 44 view .LVU51
+ 180 00a8 384B     		ldr	r3, .L16+8
+ 181 00aa 9B6E     		ldr	r3, [r3, #104]
+ 587:library/Src/ring_buffer.c **** 			  {
+ 182              		.loc 1 587 32 view .LVU52
+ 183 00ac D31A     		subs	r3, r2, r3
+ 587:library/Src/ring_buffer.c **** 			  {
+ 184              		.loc 1 587 14 view .LVU53
+ 185 00ae 012B     		cmp	r3, #1
+ 186 00b0 16D9     		bls	.L7
+ 589:library/Src/ring_buffer.c ****     	      tx_buffer1.tail = (tx_buffer1.tail + 2U) % UART_BUFFER_SIZE;
+ 187              		.loc 1 589 6 is_stmt 1 view .LVU54
+ 589:library/Src/ring_buffer.c ****     	      tx_buffer1.tail = (tx_buffer1.tail + 2U) % UART_BUFFER_SIZE;
+ 188              		.loc 1 589 39 is_stmt 0 view .LVU55
+ 189 00b2 364B     		ldr	r3, .L16+8
+ 190 00b4 9B6E     		ldr	r3, [r3, #104]
+ 589:library/Src/ring_buffer.c ****     	      tx_buffer1.tail = (tx_buffer1.tail + 2U) % UART_BUFFER_SIZE;
+ 191              		.loc 1 589 8 view .LVU56
+ 192 00b6 354A     		ldr	r2, .L16+8
+ 193 00b8 1344     		add	r3, r3, r2
+ 194 00ba 3B61     		str	r3, [r7, #16]
+ 195              	.LVL10:
+ 590:library/Src/ring_buffer.c **** 			  hspi->Instance->DR = *((uint16_t *)c);
+ 196              		.loc 1 590 12 is_stmt 1 view .LVU57
+ 590:library/Src/ring_buffer.c **** 			  hspi->Instance->DR = *((uint16_t *)c);
+ 197              		.loc 1 590 41 is_stmt 0 view .LVU58
+ 198 00bc 334B     		ldr	r3, .L16+8
+ 199              	.LVL11:
+ 590:library/Src/ring_buffer.c **** 			  hspi->Instance->DR = *((uint16_t *)c);
+ 200              		.loc 1 590 41 view .LVU59
+ 201 00be 9B6E     		ldr	r3, [r3, #104]
+ 590:library/Src/ring_buffer.c **** 			  hspi->Instance->DR = *((uint16_t *)c);
+ 202              		.loc 1 590 47 view .LVU60
+ 203 00c0 9A1C     		adds	r2, r3, #2
+ 590:library/Src/ring_buffer.c **** 			  hspi->Instance->DR = *((uint16_t *)c);
+ 204              		.loc 1 590 53 view .LVU61
+ 205 00c2 334B     		ldr	r3, .L16+12
+ 206 00c4 A3FB0213 		umull	r1, r3, r3, r2
+ 207 00c8 5B09     		lsrs	r3, r3, #5
+ 208 00ca 6421     		movs	r1, #100
+ 209 00cc 01FB03F3 		mul	r3, r1, r3
+ 210 00d0 D31A     		subs	r3, r2, r3
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 16
+
+
+ 590:library/Src/ring_buffer.c **** 			  hspi->Instance->DR = *((uint16_t *)c);
+ 211              		.loc 1 590 28 view .LVU62
+ 212 00d2 2E4A     		ldr	r2, .L16+8
+ 213 00d4 9366     		str	r3, [r2, #104]
+ 591:library/Src/ring_buffer.c **** 			  //view = *((uint16_t *)c);
+ 214              		.loc 1 591 6 is_stmt 1 view .LVU63
+ 591:library/Src/ring_buffer.c **** 			  //view = *((uint16_t *)c);
+ 215              		.loc 1 591 27 is_stmt 0 view .LVU64
+ 216 00d6 3B69     		ldr	r3, [r7, #16]
+ 217 00d8 1A88     		ldrh	r2, [r3]
+ 591:library/Src/ring_buffer.c **** 			  //view = *((uint16_t *)c);
+ 218              		.loc 1 591 10 view .LVU65
+ 219 00da 7B68     		ldr	r3, [r7, #4]
+ 220 00dc 1B68     		ldr	r3, [r3]
+ 591:library/Src/ring_buffer.c **** 			  //view = *((uint16_t *)c);
+ 221              		.loc 1 591 25 view .LVU66
+ 222 00de DA60     		str	r2, [r3, #12]
+ 223              	.LVL12:
+ 224              	.L7:
+ 595:library/Src/ring_buffer.c **** 			  {
+ 225              		.loc 1 595 6 is_stmt 1 view .LVU67
+ 595:library/Src/ring_buffer.c **** 			  {
+ 226              		.loc 1 595 20 is_stmt 0 view .LVU68
+ 227 00e0 2A4B     		ldr	r3, .L16+8
+ 228 00e2 5A6E     		ldr	r2, [r3, #100]
+ 595:library/Src/ring_buffer.c **** 			  {
+ 229              		.loc 1 595 38 view .LVU69
+ 230 00e4 294B     		ldr	r3, .L16+8
+ 231 00e6 9B6E     		ldr	r3, [r3, #104]
+ 595:library/Src/ring_buffer.c **** 			  {
+ 232              		.loc 1 595 26 view .LVU70
+ 233 00e8 D31A     		subs	r3, r2, r3
+ 595:library/Src/ring_buffer.c **** 			  {
+ 234              		.loc 1 595 8 view .LVU71
+ 235 00ea 012B     		cmp	r3, #1
+ 236 00ec 1AD1     		bne	.L15
+ 597:library/Src/ring_buffer.c ****     	        tx_buffer1.tail = (tx_buffer1.tail + 1U) % UART_BUFFER_SIZE;
+ 237              		.loc 1 597 5 is_stmt 1 view .LVU72
+ 597:library/Src/ring_buffer.c ****     	        tx_buffer1.tail = (tx_buffer1.tail + 1U) % UART_BUFFER_SIZE;
+ 238              		.loc 1 597 38 is_stmt 0 view .LVU73
+ 239 00ee 274B     		ldr	r3, .L16+8
+ 240 00f0 9B6E     		ldr	r3, [r3, #104]
+ 597:library/Src/ring_buffer.c ****     	        tx_buffer1.tail = (tx_buffer1.tail + 1U) % UART_BUFFER_SIZE;
+ 241              		.loc 1 597 7 view .LVU74
+ 242 00f2 264A     		ldr	r2, .L16+8
+ 243 00f4 1344     		add	r3, r3, r2
+ 244 00f6 3B61     		str	r3, [r7, #16]
+ 245              	.LVL13:
+ 598:library/Src/ring_buffer.c **** 				*((__IO uint8_t *)&hspi->Instance->DR) = (*c);
+ 246              		.loc 1 598 14 is_stmt 1 view .LVU75
+ 598:library/Src/ring_buffer.c **** 				*((__IO uint8_t *)&hspi->Instance->DR) = (*c);
+ 247              		.loc 1 598 43 is_stmt 0 view .LVU76
+ 248 00f8 244B     		ldr	r3, .L16+8
+ 249              	.LVL14:
+ 598:library/Src/ring_buffer.c **** 				*((__IO uint8_t *)&hspi->Instance->DR) = (*c);
+ 250              		.loc 1 598 43 view .LVU77
+ 251 00fa 9B6E     		ldr	r3, [r3, #104]
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 17
+
+
+ 598:library/Src/ring_buffer.c **** 				*((__IO uint8_t *)&hspi->Instance->DR) = (*c);
+ 252              		.loc 1 598 49 view .LVU78
+ 253 00fc 5A1C     		adds	r2, r3, #1
+ 598:library/Src/ring_buffer.c **** 				*((__IO uint8_t *)&hspi->Instance->DR) = (*c);
+ 254              		.loc 1 598 55 view .LVU79
+ 255 00fe 244B     		ldr	r3, .L16+12
+ 256 0100 A3FB0213 		umull	r1, r3, r3, r2
+ 257 0104 5B09     		lsrs	r3, r3, #5
+ 258 0106 6421     		movs	r1, #100
+ 259 0108 01FB03F3 		mul	r3, r1, r3
+ 260 010c D31A     		subs	r3, r2, r3
+ 598:library/Src/ring_buffer.c **** 				*((__IO uint8_t *)&hspi->Instance->DR) = (*c);
+ 261              		.loc 1 598 30 view .LVU80
+ 262 010e 1F4A     		ldr	r2, .L16+8
+ 263 0110 9366     		str	r3, [r2, #104]
+ 599:library/Src/ring_buffer.c **** 				view = *((uint16_t *)c);
+ 264              		.loc 1 599 5 is_stmt 1 view .LVU81
+ 599:library/Src/ring_buffer.c **** 				view = *((uint16_t *)c);
+ 265              		.loc 1 599 28 is_stmt 0 view .LVU82
+ 266 0112 7B68     		ldr	r3, [r7, #4]
+ 267 0114 1B68     		ldr	r3, [r3]
+ 599:library/Src/ring_buffer.c **** 				view = *((uint16_t *)c);
+ 268              		.loc 1 599 23 view .LVU83
+ 269 0116 0C33     		adds	r3, r3, #12
+ 599:library/Src/ring_buffer.c **** 				view = *((uint16_t *)c);
+ 270              		.loc 1 599 47 view .LVU84
+ 271 0118 3A69     		ldr	r2, [r7, #16]
+ 272 011a 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 599:library/Src/ring_buffer.c **** 				view = *((uint16_t *)c);
+ 273              		.loc 1 599 44 view .LVU85
+ 274 011c 1A70     		strb	r2, [r3]
+ 600:library/Src/ring_buffer.c **** 			  }
+ 275              		.loc 1 600 5 is_stmt 1 view .LVU86
+ 600:library/Src/ring_buffer.c **** 			  }
+ 276              		.loc 1 600 12 is_stmt 0 view .LVU87
+ 277 011e 3B69     		ldr	r3, [r7, #16]
+ 278 0120 1B88     		ldrh	r3, [r3]
+ 600:library/Src/ring_buffer.c **** 			  }
+ 279              		.loc 1 600 10 view .LVU88
+ 280 0122 BB81     		strh	r3, [r7, #12]	@ movhi
+ 614:library/Src/ring_buffer.c **** 				while (((hspi->Instance->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate t
+ 281              		.loc 1 614 13 is_stmt 1 view .LVU89
+ 282              	.LVL15:
+ 283              	.L15:
+ 614:library/Src/ring_buffer.c **** 				while (((hspi->Instance->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate t
+ 284              		.loc 1 614 19 is_stmt 0 view .LVU90
+ 285 0124 00BF     		nop
+ 286              	.L9:
+ 614:library/Src/ring_buffer.c **** 				while (((hspi->Instance->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate t
+ 287              		.loc 1 614 53 is_stmt 1 discriminator 1 view .LVU91
+ 614:library/Src/ring_buffer.c **** 				while (((hspi->Instance->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate t
+ 288              		.loc 1 614 19 discriminator 1 view .LVU92
+ 614:library/Src/ring_buffer.c **** 				while (((hspi->Instance->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate t
+ 289              		.loc 1 614 27 is_stmt 0 discriminator 1 view .LVU93
+ 290 0126 7B68     		ldr	r3, [r7, #4]
+ 291 0128 1B68     		ldr	r3, [r3]
+ 614:library/Src/ring_buffer.c **** 				while (((hspi->Instance->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate t
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 18
+
+
+ 292              		.loc 1 614 37 discriminator 1 view .LVU94
+ 293 012a 9B68     		ldr	r3, [r3, #8]
+ 614:library/Src/ring_buffer.c **** 				while (((hspi->Instance->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate t
+ 294              		.loc 1 614 42 discriminator 1 view .LVU95
+ 295 012c 03F00203 		and	r3, r3, #2
+ 614:library/Src/ring_buffer.c **** 				while (((hspi->Instance->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate t
+ 296              		.loc 1 614 19 discriminator 1 view .LVU96
+ 297 0130 002B     		cmp	r3, #0
+ 298 0132 F8D0     		beq	.L9
+ 615:library/Src/ring_buffer.c **** 
+ 299              		.loc 1 615 11 view .LVU97
+ 300 0134 00BF     		nop
+ 301              	.L10:
+ 615:library/Src/ring_buffer.c **** 
+ 302              		.loc 1 615 44 is_stmt 1 discriminator 1 view .LVU98
+ 615:library/Src/ring_buffer.c **** 
+ 303              		.loc 1 615 11 discriminator 1 view .LVU99
+ 615:library/Src/ring_buffer.c **** 
+ 304              		.loc 1 615 18 is_stmt 0 discriminator 1 view .LVU100
+ 305 0136 7B68     		ldr	r3, [r7, #4]
+ 306 0138 1B68     		ldr	r3, [r3]
+ 615:library/Src/ring_buffer.c **** 
+ 307              		.loc 1 615 28 discriminator 1 view .LVU101
+ 308 013a 9B68     		ldr	r3, [r3, #8]
+ 615:library/Src/ring_buffer.c **** 
+ 309              		.loc 1 615 33 discriminator 1 view .LVU102
+ 310 013c 03F08003 		and	r3, r3, #128
+ 615:library/Src/ring_buffer.c **** 
+ 311              		.loc 1 615 11 discriminator 1 view .LVU103
+ 312 0140 002B     		cmp	r3, #0
+ 313 0142 F8D1     		bne	.L10
+ 615:library/Src/ring_buffer.c **** 
+ 314              		.loc 1 615 45 is_stmt 1 discriminator 2 view .LVU104
+ 617:library/Src/ring_buffer.c **** 				{
+ 315              		.loc 1 617 7 discriminator 2 view .LVU105
+ 617:library/Src/ring_buffer.c **** 				{
+ 316              		.loc 1 617 13 is_stmt 0 discriminator 2 view .LVU106
+ 317 0144 03E0     		b	.L11
+ 318              	.L12:
+ 319              	.LBB4:
+ 619:library/Src/ring_buffer.c **** 				}; 
+ 320              		.loc 1 619 6 is_stmt 1 view .LVU107
+ 619:library/Src/ring_buffer.c **** 				}; 
+ 321              		.loc 1 619 25 is_stmt 0 view .LVU108
+ 322 0146 7B68     		ldr	r3, [r7, #4]
+ 323 0148 1B68     		ldr	r3, [r3]
+ 619:library/Src/ring_buffer.c **** 				}; 
+ 324              		.loc 1 619 35 view .LVU109
+ 325 014a DB68     		ldr	r3, [r3, #12]
+ 619:library/Src/ring_buffer.c **** 				}; 
+ 326              		.loc 1 619 14 view .LVU110
+ 327 014c BB73     		strb	r3, [r7, #14]
+ 328              	.LVL16:
+ 329              	.L11:
+ 619:library/Src/ring_buffer.c **** 				}; 
+ 330              		.loc 1 619 14 view .LVU111
+ 331              	.LBE4:
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 19
+
+
+ 617:library/Src/ring_buffer.c **** 				{
+ 332              		.loc 1 617 13 is_stmt 1 view .LVU112
+ 617:library/Src/ring_buffer.c **** 				{
+ 333              		.loc 1 617 20 is_stmt 0 view .LVU113
+ 334 014e 7B68     		ldr	r3, [r7, #4]
+ 335 0150 1B68     		ldr	r3, [r3]
+ 617:library/Src/ring_buffer.c **** 				{
+ 336              		.loc 1 617 30 view .LVU114
+ 337 0152 9B68     		ldr	r3, [r3, #8]
+ 617:library/Src/ring_buffer.c **** 				{
+ 338              		.loc 1 617 35 view .LVU115
+ 339 0154 03F00103 		and	r3, r3, #1
+ 617:library/Src/ring_buffer.c **** 				{
+ 340              		.loc 1 617 13 view .LVU116
+ 341 0158 002B     		cmp	r3, #0
+ 342 015a F4D1     		bne	.L12
+ 620:library/Src/ring_buffer.c **** 				
+ 343              		.loc 1 620 6 is_stmt 1 view .LVU117
+ 622:library/Src/ring_buffer.c **** 				hspi->Instance->CR1 &= ~(1<<6);
+ 344              		.loc 1 622 5 view .LVU118
+ 622:library/Src/ring_buffer.c **** 				hspi->Instance->CR1 &= ~(1<<6);
+ 345              		.loc 1 622 25 is_stmt 0 view .LVU119
+ 346 015c 7B68     		ldr	r3, [r7, #4]
+ 347 015e 1B68     		ldr	r3, [r3]
+ 622:library/Src/ring_buffer.c **** 				hspi->Instance->CR1 &= ~(1<<6);
+ 348              		.loc 1 622 35 view .LVU120
+ 349 0160 9B68     		ldr	r3, [r3, #8]
+ 622:library/Src/ring_buffer.c **** 				hspi->Instance->CR1 &= ~(1<<6);
+ 350              		.loc 1 622 13 view .LVU121
+ 351 0162 FB73     		strb	r3, [r7, #15]
+ 352              	.LVL17:
+ 623:library/Src/ring_buffer.c ****     	    }
+ 353              		.loc 1 623 5 is_stmt 1 view .LVU122
+ 623:library/Src/ring_buffer.c ****     	    }
+ 354              		.loc 1 623 9 is_stmt 0 view .LVU123
+ 355 0164 7B68     		ldr	r3, [r7, #4]
+ 356              	.LVL18:
+ 623:library/Src/ring_buffer.c ****     	    }
+ 357              		.loc 1 623 9 view .LVU124
+ 358 0166 1B68     		ldr	r3, [r3]
+ 623:library/Src/ring_buffer.c ****     	    }
+ 359              		.loc 1 623 25 view .LVU125
+ 360 0168 1A68     		ldr	r2, [r3]
+ 623:library/Src/ring_buffer.c ****     	    }
+ 361              		.loc 1 623 9 view .LVU126
+ 362 016a 7B68     		ldr	r3, [r7, #4]
+ 363 016c 1B68     		ldr	r3, [r3]
+ 623:library/Src/ring_buffer.c ****     	    }
+ 364              		.loc 1 623 25 view .LVU127
+ 365 016e 22F04002 		bic	r2, r2, #64
+ 366 0172 1A60     		str	r2, [r3]
+ 367              	.LBE3:
+ 368              		.loc 1 626 6 is_stmt 1 view .LVU128
+ 369 0174 01E0     		b	.L14
+ 370              	.LVL19:
+ 371              	.L13:
+ 372              	.LBB5:
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 20
+
+
+ 565:library/Src/ring_buffer.c ****     }
+ 373              		.loc 1 565 9 is_stmt 0 view .LVU129
+ 374 0176 00BF     		nop
+ 375 0178 00E0     		b	.L1
+ 376              	.LVL20:
+ 377              	.L14:
+ 565:library/Src/ring_buffer.c ****     }
+ 378              		.loc 1 565 9 view .LVU130
+ 379              	.LBE5:
+ 380              		.loc 1 626 6 view .LVU131
+ 381 017a 00BF     		nop
+ 382              	.LVL21:
+ 383              	.L1:
+ 627:library/Src/ring_buffer.c ****     }
+ 628:library/Src/ring_buffer.c **** }
+ 384              		.loc 1 628 1 view .LVU132
+ 385 017c 2037     		adds	r7, r7, #32
+ 386              	.LCFI3:
+ 387              		.cfi_def_cfa_offset 8
+ 388 017e BD46     		mov	sp, r7
+ 389              	.LCFI4:
+ 390              		.cfi_def_cfa_register 13
+ 391              		@ sp needed
+ 392 0180 80BD     		pop	{r7, pc}
+ 393              	.L17:
+ 394 0182 00BF     		.align	2
+ 395              	.L16:
+ 396 0184 00000000 		.word	hspi1
+ 397 0188 00000000 		.word	_rx_buffer1
+ 398 018c 00000000 		.word	tx_buffer1
+ 399 0190 1F85EB51 		.word	1374389535
+ 400              		.cfi_endproc
+ 401              	.LFE150:
+ 403              		.section	.text.Ringbuf_init,"ax",%progbits
+ 404              		.align	1
+ 405              		.global	Ringbuf_init
+ 406              		.syntax unified
+ 407              		.thumb
+ 408              		.thumb_func
+ 410              	Ringbuf_init:
+ 411              	.LFB132:
+  40:library/Src/ring_buffer.c ****   _rx_buffer1 = &rx_buffer1;
+ 412              		.loc 1 40 1 is_stmt 1 view -0
+ 413              		.cfi_startproc
+ 414              		@ args = 0, pretend = 0, frame = 0
+ 415              		@ frame_needed = 0, uses_anonymous_args = 0
+ 416              		@ link register save eliminated.
+ 417 0000 10B4     		push	{r4}
+ 418              	.LCFI5:
+ 419              		.cfi_def_cfa_offset 4
+ 420              		.cfi_offset 4, -4
+  41:library/Src/ring_buffer.c ****   _tx_buffer1 = &tx_buffer1;
+ 421              		.loc 1 41 3 view .LVU134
+  41:library/Src/ring_buffer.c ****   _tx_buffer1 = &tx_buffer1;
+ 422              		.loc 1 41 15 is_stmt 0 view .LVU135
+ 423 0002 174B     		ldr	r3, .L20
+ 424 0004 174A     		ldr	r2, .L20+4
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 21
+
+
+ 425 0006 1A60     		str	r2, [r3]
+  42:library/Src/ring_buffer.c ****   _rx_buffer2 = &rx_buffer2;
+ 426              		.loc 1 42 3 is_stmt 1 view .LVU136
+  42:library/Src/ring_buffer.c ****   _rx_buffer2 = &rx_buffer2;
+ 427              		.loc 1 42 15 is_stmt 0 view .LVU137
+ 428 0008 174B     		ldr	r3, .L20+8
+ 429 000a 184A     		ldr	r2, .L20+12
+ 430 000c 1A60     		str	r2, [r3]
+  43:library/Src/ring_buffer.c ****   _tx_buffer2 = &tx_buffer2;
+ 431              		.loc 1 43 3 is_stmt 1 view .LVU138
+  43:library/Src/ring_buffer.c ****   _tx_buffer2 = &tx_buffer2;
+ 432              		.loc 1 43 15 is_stmt 0 view .LVU139
+ 433 000e 184B     		ldr	r3, .L20+16
+ 434 0010 184A     		ldr	r2, .L20+20
+ 435 0012 1A60     		str	r2, [r3]
+  44:library/Src/ring_buffer.c **** 
+ 436              		.loc 1 44 3 is_stmt 1 view .LVU140
+  44:library/Src/ring_buffer.c **** 
+ 437              		.loc 1 44 15 is_stmt 0 view .LVU141
+ 438 0014 184B     		ldr	r3, .L20+24
+ 439 0016 194A     		ldr	r2, .L20+28
+ 440 0018 1A60     		str	r2, [r3]
+  47:library/Src/ring_buffer.c ****   __HAL_UART_ENABLE_IT(pc_uart, UART_IT_ERR);
+ 441              		.loc 1 47 3 is_stmt 1 view .LVU142
+ 442 001a 194B     		ldr	r3, .L20+32
+ 443 001c 1B68     		ldr	r3, [r3]
+ 444 001e 9A68     		ldr	r2, [r3, #8]
+ 445 0020 42F00102 		orr	r2, r2, #1
+ 446 0024 9A60     		str	r2, [r3, #8]
+  48:library/Src/ring_buffer.c ****   __HAL_SPI_ENABLE_IT(wifi_spi, SPI_IT_ERR);
+ 447              		.loc 1 48 3 view .LVU143
+ 448 0026 1748     		ldr	r0, .L20+36
+ 449 0028 0168     		ldr	r1, [r0]
+ 450 002a 8A68     		ldr	r2, [r1, #8]
+ 451 002c 42F00102 		orr	r2, r2, #1
+ 452 0030 8A60     		str	r2, [r1, #8]
+  49:library/Src/ring_buffer.c **** 
+ 453              		.loc 1 49 3 view .LVU144
+ 454 0032 1549     		ldr	r1, .L20+40
+ 455 0034 0C68     		ldr	r4, [r1]
+ 456 0036 6268     		ldr	r2, [r4, #4]
+ 457 0038 42F02002 		orr	r2, r2, #32
+ 458 003c 6260     		str	r2, [r4, #4]
+  52:library/Src/ring_buffer.c ****   __HAL_UART_ENABLE_IT(pc_uart, UART_IT_RXNE);
+ 459              		.loc 1 52 3 view .LVU145
+ 460 003e 1A68     		ldr	r2, [r3]
+ 461 0040 42F02002 		orr	r2, r2, #32
+ 462 0044 1A60     		str	r2, [r3]
+  53:library/Src/ring_buffer.c ****   __HAL_SPI_ENABLE_IT(wifi_spi, SPI_IT_RXNE);
+ 463              		.loc 1 53 3 view .LVU146
+ 464 0046 0268     		ldr	r2, [r0]
+ 465 0048 1368     		ldr	r3, [r2]
+ 466 004a 43F02003 		orr	r3, r3, #32
+ 467 004e 1360     		str	r3, [r2]
+  54:library/Src/ring_buffer.c **** }
+ 468              		.loc 1 54 3 view .LVU147
+ 469 0050 0A68     		ldr	r2, [r1]
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 22
+
+
+ 470 0052 5368     		ldr	r3, [r2, #4]
+ 471 0054 43F04003 		orr	r3, r3, #64
+ 472 0058 5360     		str	r3, [r2, #4]
+  55:library/Src/ring_buffer.c **** 
+ 473              		.loc 1 55 1 is_stmt 0 view .LVU148
+ 474 005a 5DF8044B 		ldr	r4, [sp], #4
+ 475              	.LCFI6:
+ 476              		.cfi_restore 4
+ 477              		.cfi_def_cfa_offset 0
+ 478 005e 7047     		bx	lr
+ 479              	.L21:
+ 480              		.align	2
+ 481              	.L20:
+ 482 0060 00000000 		.word	_rx_buffer1
+ 483 0064 00000000 		.word	.LANCHOR0
+ 484 0068 00000000 		.word	.LANCHOR1
+ 485 006c 00000000 		.word	tx_buffer1
+ 486 0070 00000000 		.word	.LANCHOR2
+ 487 0074 00000000 		.word	.LANCHOR3
+ 488 0078 00000000 		.word	.LANCHOR4
+ 489 007c 00000000 		.word	.LANCHOR5
+ 490 0080 00000000 		.word	huart3
+ 491 0084 00000000 		.word	huart1
+ 492 0088 00000000 		.word	hspi1
+ 493              		.cfi_endproc
+ 494              	.LFE132:
+ 496              		.section	.text.store_char,"ax",%progbits
+ 497              		.align	1
+ 498              		.global	store_char
+ 499              		.syntax unified
+ 500              		.thumb
+ 501              		.thumb_func
+ 503              	store_char:
+ 504              	.LVL22:
+ 505              	.LFB133:
+  58:library/Src/ring_buffer.c ****   int i = (unsigned int)(buffer->head + 1) % UART_BUFFER_SIZE;
+ 506              		.loc 1 58 1 is_stmt 1 view -0
+ 507              		.cfi_startproc
+ 508              		@ args = 0, pretend = 0, frame = 0
+ 509              		@ frame_needed = 0, uses_anonymous_args = 0
+ 510              		@ link register save eliminated.
+  59:library/Src/ring_buffer.c **** 
+ 511              		.loc 1 59 3 view .LVU150
+  59:library/Src/ring_buffer.c **** 
+ 512              		.loc 1 59 32 is_stmt 0 view .LVU151
+ 513 0000 4A6E     		ldr	r2, [r1, #100]
+  59:library/Src/ring_buffer.c **** 
+ 514              		.loc 1 59 11 view .LVU152
+ 515 0002 0132     		adds	r2, r2, #1
+  59:library/Src/ring_buffer.c **** 
+ 516              		.loc 1 59 44 view .LVU153
+ 517 0004 074B     		ldr	r3, .L24
+ 518 0006 A3FB02C3 		umull	ip, r3, r3, r2
+ 519 000a 5B09     		lsrs	r3, r3, #5
+ 520 000c 4FF0640C 		mov	ip, #100
+ 521 0010 0CFB1323 		mls	r3, ip, r3, r2
+ 522              	.LVL23:
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 23
+
+
+  65:library/Src/ring_buffer.c ****     buffer->buffer[buffer->head] = c;
+ 523              		.loc 1 65 3 is_stmt 1 view .LVU154
+  65:library/Src/ring_buffer.c ****     buffer->buffer[buffer->head] = c;
+ 524              		.loc 1 65 17 is_stmt 0 view .LVU155
+ 525 0014 8A6E     		ldr	r2, [r1, #104]
+  65:library/Src/ring_buffer.c ****     buffer->buffer[buffer->head] = c;
+ 526              		.loc 1 65 5 view .LVU156
+ 527 0016 9342     		cmp	r3, r2
+ 528 0018 02D0     		beq	.L22
+  66:library/Src/ring_buffer.c ****     buffer->head = i;
+ 529              		.loc 1 66 5 is_stmt 1 view .LVU157
+  66:library/Src/ring_buffer.c ****     buffer->head = i;
+ 530              		.loc 1 66 26 is_stmt 0 view .LVU158
+ 531 001a 4A6E     		ldr	r2, [r1, #100]
+  66:library/Src/ring_buffer.c ****     buffer->head = i;
+ 532              		.loc 1 66 34 view .LVU159
+ 533 001c 8854     		strb	r0, [r1, r2]
+  67:library/Src/ring_buffer.c ****   }
+ 534              		.loc 1 67 5 is_stmt 1 view .LVU160
+  67:library/Src/ring_buffer.c ****   }
+ 535              		.loc 1 67 18 is_stmt 0 view .LVU161
+ 536 001e 4B66     		str	r3, [r1, #100]
+ 537              	.L22:
+  69:library/Src/ring_buffer.c **** 
+ 538              		.loc 1 69 1 view .LVU162
+ 539 0020 7047     		bx	lr
+ 540              	.L25:
+ 541 0022 00BF     		.align	2
+ 542              	.L24:
+ 543 0024 1F85EB51 		.word	1374389535
+ 544              		.cfi_endproc
+ 545              	.LFE133:
+ 547              		.section	.text.Look_for,"ax",%progbits
+ 548              		.align	1
+ 549              		.global	Look_for
+ 550              		.syntax unified
+ 551              		.thumb
+ 552              		.thumb_func
+ 554              	Look_for:
+ 555              	.LVL24:
+ 556              	.LFB134:
+  73:library/Src/ring_buffer.c **** 	int stringlength = strlen (str);
+ 557              		.loc 1 73 1 is_stmt 1 view -0
+ 558              		.cfi_startproc
+ 559              		@ args = 0, pretend = 0, frame = 0
+ 560              		@ frame_needed = 0, uses_anonymous_args = 0
+  73:library/Src/ring_buffer.c **** 	int stringlength = strlen (str);
+ 561              		.loc 1 73 1 is_stmt 0 view .LVU164
+ 562 0000 38B5     		push	{r3, r4, r5, lr}
+ 563              	.LCFI7:
+ 564              		.cfi_def_cfa_offset 16
+ 565              		.cfi_offset 3, -16
+ 566              		.cfi_offset 4, -12
+ 567              		.cfi_offset 5, -8
+ 568              		.cfi_offset 14, -4
+ 569 0002 0446     		mov	r4, r0
+ 570 0004 0D46     		mov	r5, r1
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 24
+
+
+  74:library/Src/ring_buffer.c **** 	int bufferlength = strlen (buffertolookinto);
+ 571              		.loc 1 74 2 is_stmt 1 view .LVU165
+  74:library/Src/ring_buffer.c **** 	int bufferlength = strlen (buffertolookinto);
+ 572              		.loc 1 74 21 is_stmt 0 view .LVU166
+ 573 0006 FFF7FEFF 		bl	strlen
+ 574              	.LVL25:
+  75:library/Src/ring_buffer.c **** 	int so_far = 0;
+ 575              		.loc 1 75 2 is_stmt 1 view .LVU167
+  76:library/Src/ring_buffer.c **** 	int indx = 0;
+ 576              		.loc 1 76 2 view .LVU168
+  77:library/Src/ring_buffer.c **** repeat:
+ 577              		.loc 1 77 2 view .LVU169
+  77:library/Src/ring_buffer.c **** repeat:
+ 578              		.loc 1 77 6 is_stmt 0 view .LVU170
+ 579 000a 0023     		movs	r3, #0
+ 580 000c 00E0     		b	.L27
+ 581              	.LVL26:
+ 582              	.L28:
+  79:library/Src/ring_buffer.c **** 	if (str[so_far] == buffertolookinto[indx]){
+ 583              		.loc 1 79 48 is_stmt 1 discriminator 2 view .LVU171
+  79:library/Src/ring_buffer.c **** 	if (str[so_far] == buffertolookinto[indx]){
+ 584              		.loc 1 79 52 is_stmt 0 discriminator 2 view .LVU172
+ 585 000e 0133     		adds	r3, r3, #1
+ 586              	.LVL27:
+ 587              	.L27:
+  79:library/Src/ring_buffer.c **** 	if (str[so_far] == buffertolookinto[indx]){
+ 588              		.loc 1 79 8 is_stmt 1 discriminator 1 view .LVU173
+  79:library/Src/ring_buffer.c **** 	if (str[so_far] == buffertolookinto[indx]){
+ 589              		.loc 1 79 12 is_stmt 0 discriminator 1 view .LVU174
+ 590 0010 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+  79:library/Src/ring_buffer.c **** 	if (str[so_far] == buffertolookinto[indx]){
+ 591              		.loc 1 79 40 discriminator 1 view .LVU175
+ 592 0012 EA5C     		ldrb	r2, [r5, r3]	@ zero_extendqisi2
+  79:library/Src/ring_buffer.c **** 	if (str[so_far] == buffertolookinto[indx]){
+ 593              		.loc 1 79 8 discriminator 1 view .LVU176
+ 594 0014 9142     		cmp	r1, r2
+ 595 0016 FAD1     		bne	.L28
+ 596 0018 0022     		movs	r2, #0
+ 597 001a 01E0     		b	.L29
+ 598              	.LVL28:
+ 599              	.L30:
+  83:library/Src/ring_buffer.c **** 		indx++;
+ 600              		.loc 1 83 3 is_stmt 1 view .LVU177
+  83:library/Src/ring_buffer.c **** 		indx++;
+ 601              		.loc 1 83 9 is_stmt 0 view .LVU178
+ 602 001c 0132     		adds	r2, r2, #1
+ 603              	.LVL29:
+  84:library/Src/ring_buffer.c **** 	}
+ 604              		.loc 1 84 3 is_stmt 1 view .LVU179
+  84:library/Src/ring_buffer.c **** 	}
+ 605              		.loc 1 84 7 is_stmt 0 view .LVU180
+ 606 001e 0133     		adds	r3, r3, #1
+ 607              	.LVL30:
+ 608              	.L29:
+  81:library/Src/ring_buffer.c **** 	{
+ 609              		.loc 1 81 8 is_stmt 1 view .LVU181
+  81:library/Src/ring_buffer.c **** 	{
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 25
+
+
+ 610              		.loc 1 81 12 is_stmt 0 view .LVU182
+ 611 0020 14F802C0 		ldrb	ip, [r4, r2]	@ zero_extendqisi2
+  81:library/Src/ring_buffer.c **** 	{
+ 612              		.loc 1 81 40 view .LVU183
+ 613 0024 E95C     		ldrb	r1, [r5, r3]	@ zero_extendqisi2
+  81:library/Src/ring_buffer.c **** 	{
+ 614              		.loc 1 81 8 view .LVU184
+ 615 0026 8C45     		cmp	ip, r1
+ 616 0028 F8D0     		beq	.L30
+  95:library/Src/ring_buffer.c **** 	else return -1;
+ 617              		.loc 1 95 2 is_stmt 1 view .LVU185
+  95:library/Src/ring_buffer.c **** 	else return -1;
+ 618              		.loc 1 95 5 is_stmt 0 view .LVU186
+ 619 002a 8242     		cmp	r2, r0
+ 620 002c 02D0     		beq	.L34
+  96:library/Src/ring_buffer.c **** }
+ 621              		.loc 1 96 14 view .LVU187
+ 622 002e 4FF0FF30 		mov	r0, #-1
+ 623              	.LVL31:
+ 624              	.L26:
+  97:library/Src/ring_buffer.c **** 
+ 625              		.loc 1 97 1 view .LVU188
+ 626 0032 38BD     		pop	{r3, r4, r5, pc}
+ 627              	.LVL32:
+ 628              	.L34:
+  95:library/Src/ring_buffer.c **** 	else return -1;
+ 629              		.loc 1 95 37 view .LVU189
+ 630 0034 0120     		movs	r0, #1
+ 631              	.LVL33:
+  95:library/Src/ring_buffer.c **** 	else return -1;
+ 632              		.loc 1 95 37 view .LVU190
+ 633 0036 FCE7     		b	.L26
+ 634              		.cfi_endproc
+ 635              	.LFE134:
+ 637              		.section	.text.GetDataFromBuffer,"ax",%progbits
+ 638              		.align	1
+ 639              		.global	GetDataFromBuffer
+ 640              		.syntax unified
+ 641              		.thumb
+ 642              		.thumb_func
+ 644              	GetDataFromBuffer:
+ 645              	.LVL34:
+ 646              	.LFB135:
+ 100:library/Src/ring_buffer.c **** 	int startStringLength = strlen (startString);
+ 647              		.loc 1 100 1 is_stmt 1 view -0
+ 648              		.cfi_startproc
+ 649              		@ args = 0, pretend = 0, frame = 0
+ 650              		@ frame_needed = 0, uses_anonymous_args = 0
+ 100:library/Src/ring_buffer.c **** 	int startStringLength = strlen (startString);
+ 651              		.loc 1 100 1 is_stmt 0 view .LVU192
+ 652 0000 2DE97043 		push	{r4, r5, r6, r8, r9, lr}
+ 653              	.LCFI8:
+ 654              		.cfi_def_cfa_offset 24
+ 655              		.cfi_offset 4, -24
+ 656              		.cfi_offset 5, -20
+ 657              		.cfi_offset 6, -16
+ 658              		.cfi_offset 8, -12
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 26
+
+
+ 659              		.cfi_offset 9, -8
+ 660              		.cfi_offset 14, -4
+ 661 0004 8046     		mov	r8, r0
+ 662 0006 0E46     		mov	r6, r1
+ 663 0008 1446     		mov	r4, r2
+ 664 000a 1D46     		mov	r5, r3
+ 101:library/Src/ring_buffer.c **** 	int endStringLength   = strlen (endString);
+ 665              		.loc 1 101 2 is_stmt 1 view .LVU193
+ 101:library/Src/ring_buffer.c **** 	int endStringLength   = strlen (endString);
+ 666              		.loc 1 101 26 is_stmt 0 view .LVU194
+ 667 000c FFF7FEFF 		bl	strlen
+ 668              	.LVL35:
+ 101:library/Src/ring_buffer.c **** 	int endStringLength   = strlen (endString);
+ 669              		.loc 1 101 26 view .LVU195
+ 670 0010 8146     		mov	r9, r0
+ 671              	.LVL36:
+ 102:library/Src/ring_buffer.c **** 	int so_far = 0;
+ 672              		.loc 1 102 2 is_stmt 1 view .LVU196
+ 102:library/Src/ring_buffer.c **** 	int so_far = 0;
+ 673              		.loc 1 102 26 is_stmt 0 view .LVU197
+ 674 0012 3046     		mov	r0, r6
+ 675              	.LVL37:
+ 102:library/Src/ring_buffer.c **** 	int so_far = 0;
+ 676              		.loc 1 102 26 view .LVU198
+ 677 0014 FFF7FEFF 		bl	strlen
+ 678              	.LVL38:
+ 103:library/Src/ring_buffer.c **** 	int indx = 0;
+ 679              		.loc 1 103 2 is_stmt 1 view .LVU199
+ 104:library/Src/ring_buffer.c **** 	int startposition = 0;
+ 680              		.loc 1 104 2 view .LVU200
+ 105:library/Src/ring_buffer.c **** 	int endposition = 0;
+ 681              		.loc 1 105 2 view .LVU201
+ 106:library/Src/ring_buffer.c **** 
+ 682              		.loc 1 106 2 view .LVU202
+ 104:library/Src/ring_buffer.c **** 	int startposition = 0;
+ 683              		.loc 1 104 6 is_stmt 0 view .LVU203
+ 684 0018 4FF0000C 		mov	ip, #0
+ 685 001c 0EE0     		b	.L36
+ 686              	.LVL39:
+ 687              	.L51:
+ 104:library/Src/ring_buffer.c **** 	int startposition = 0;
+ 688              		.loc 1 104 6 view .LVU204
+ 689 001e 4FF0000E 		mov	lr, #0
+ 690 0022 03E0     		b	.L39
+ 691              	.LVL40:
+ 692              	.L40:
+ 114:library/Src/ring_buffer.c **** 			indx++;
+ 693              		.loc 1 114 4 is_stmt 1 view .LVU205
+ 114:library/Src/ring_buffer.c **** 			indx++;
+ 694              		.loc 1 114 10 is_stmt 0 view .LVU206
+ 695 0024 0EF1010E 		add	lr, lr, #1
+ 696              	.LVL41:
+ 115:library/Src/ring_buffer.c **** 		}
+ 697              		.loc 1 115 4 is_stmt 1 view .LVU207
+ 115:library/Src/ring_buffer.c **** 		}
+ 698              		.loc 1 115 8 is_stmt 0 view .LVU208
+ 699 0028 0CF1010C 		add	ip, ip, #1
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 27
+
+
+ 700              	.LVL42:
+ 701              	.L39:
+ 112:library/Src/ring_buffer.c **** 		{
+ 702              		.loc 1 112 9 is_stmt 1 view .LVU209
+ 112:library/Src/ring_buffer.c **** 		{
+ 703              		.loc 1 112 21 is_stmt 0 view .LVU210
+ 704 002c 18F80E20 		ldrb	r2, [r8, lr]	@ zero_extendqisi2
+ 112:library/Src/ring_buffer.c **** 		{
+ 705              		.loc 1 112 49 view .LVU211
+ 706 0030 14F80C30 		ldrb	r3, [r4, ip]	@ zero_extendqisi2
+ 112:library/Src/ring_buffer.c **** 		{
+ 707              		.loc 1 112 9 view .LVU212
+ 708 0034 9A42     		cmp	r2, r3
+ 709 0036 F5D0     		beq	.L40
+ 119:library/Src/ring_buffer.c **** 	else
+ 710              		.loc 1 119 2 is_stmt 1 view .LVU213
+ 119:library/Src/ring_buffer.c **** 	else
+ 711              		.loc 1 119 5 is_stmt 0 view .LVU214
+ 712 0038 CE45     		cmp	lr, r9
+ 713 003a 11D0     		beq	.L50
+ 714              	.L37:
+ 715              	.LVL43:
+ 716              	.L36:
+ 109:library/Src/ring_buffer.c **** 	if (startString[so_far] == buffertocopyfrom[indx])
+ 717              		.loc 1 109 8 is_stmt 1 discriminator 1 view .LVU215
+ 109:library/Src/ring_buffer.c **** 	if (startString[so_far] == buffertocopyfrom[indx])
+ 718              		.loc 1 109 20 is_stmt 0 discriminator 1 view .LVU216
+ 719 003c 98F80020 		ldrb	r2, [r8]	@ zero_extendqisi2
+ 109:library/Src/ring_buffer.c **** 	if (startString[so_far] == buffertocopyfrom[indx])
+ 720              		.loc 1 109 48 discriminator 1 view .LVU217
+ 721 0040 14F80C30 		ldrb	r3, [r4, ip]	@ zero_extendqisi2
+ 109:library/Src/ring_buffer.c **** 	if (startString[so_far] == buffertocopyfrom[indx])
+ 722              		.loc 1 109 8 discriminator 1 view .LVU218
+ 723 0044 9A42     		cmp	r2, r3
+ 724 0046 EAD0     		beq	.L51
+ 109:library/Src/ring_buffer.c **** 	if (startString[so_far] == buffertocopyfrom[indx])
+ 725              		.loc 1 109 56 is_stmt 1 discriminator 2 view .LVU219
+ 109:library/Src/ring_buffer.c **** 	if (startString[so_far] == buffertocopyfrom[indx])
+ 726              		.loc 1 109 60 is_stmt 0 discriminator 2 view .LVU220
+ 727 0048 0CF1010C 		add	ip, ip, #1
+ 728              	.LVL44:
+ 109:library/Src/ring_buffer.c **** 	if (startString[so_far] == buffertocopyfrom[indx])
+ 729              		.loc 1 109 60 discriminator 2 view .LVU221
+ 730 004c F6E7     		b	.L36
+ 731              	.LVL45:
+ 732              	.L43:
+ 129:library/Src/ring_buffer.c **** 	if (endString[so_far] == buffertocopyfrom[indx])
+ 733              		.loc 1 129 54 is_stmt 1 discriminator 2 view .LVU222
+ 129:library/Src/ring_buffer.c **** 	if (endString[so_far] == buffertocopyfrom[indx])
+ 734              		.loc 1 129 58 is_stmt 0 discriminator 2 view .LVU223
+ 735 004e 0EF1010E 		add	lr, lr, #1
+ 736              	.LVL46:
+ 737              	.L41:
+ 129:library/Src/ring_buffer.c **** 	if (endString[so_far] == buffertocopyfrom[indx])
+ 738              		.loc 1 129 8 is_stmt 1 discriminator 1 view .LVU224
+ 129:library/Src/ring_buffer.c **** 	if (endString[so_far] == buffertocopyfrom[indx])
+ 739              		.loc 1 129 18 is_stmt 0 discriminator 1 view .LVU225
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 28
+
+
+ 740 0052 3278     		ldrb	r2, [r6]	@ zero_extendqisi2
+ 129:library/Src/ring_buffer.c **** 	if (endString[so_far] == buffertocopyfrom[indx])
+ 741              		.loc 1 129 46 discriminator 1 view .LVU226
+ 742 0054 14F80E30 		ldrb	r3, [r4, lr]	@ zero_extendqisi2
+ 129:library/Src/ring_buffer.c **** 	if (endString[so_far] == buffertocopyfrom[indx])
+ 743              		.loc 1 129 8 discriminator 1 view .LVU227
+ 744 0058 9A42     		cmp	r2, r3
+ 745 005a F8D1     		bne	.L43
+ 129:library/Src/ring_buffer.c **** 	if (endString[so_far] == buffertocopyfrom[indx])
+ 746              		.loc 1 129 8 discriminator 1 view .LVU228
+ 747 005c 0023     		movs	r3, #0
+ 748 005e 04E0     		b	.L44
+ 749              	.L42:
+ 750              	.LVL47:
+ 751              	.L50:
+ 129:library/Src/ring_buffer.c **** 	if (endString[so_far] == buffertocopyfrom[indx])
+ 752              		.loc 1 129 8 discriminator 1 view .LVU229
+ 753 0060 E646     		mov	lr, ip
+ 754              	.LVL48:
+ 129:library/Src/ring_buffer.c **** 	if (endString[so_far] == buffertocopyfrom[indx])
+ 755              		.loc 1 129 8 discriminator 1 view .LVU230
+ 756 0062 F6E7     		b	.L41
+ 757              	.LVL49:
+ 758              	.L45:
+ 134:library/Src/ring_buffer.c **** 			indx++;
+ 759              		.loc 1 134 4 is_stmt 1 view .LVU231
+ 134:library/Src/ring_buffer.c **** 			indx++;
+ 760              		.loc 1 134 10 is_stmt 0 view .LVU232
+ 761 0064 0133     		adds	r3, r3, #1
+ 762              	.LVL50:
+ 135:library/Src/ring_buffer.c **** 		}
+ 763              		.loc 1 135 4 is_stmt 1 view .LVU233
+ 135:library/Src/ring_buffer.c **** 		}
+ 764              		.loc 1 135 8 is_stmt 0 view .LVU234
+ 765 0066 0EF1010E 		add	lr, lr, #1
+ 766              	.LVL51:
+ 767              	.L44:
+ 132:library/Src/ring_buffer.c **** 		{
+ 768              		.loc 1 132 9 is_stmt 1 view .LVU235
+ 132:library/Src/ring_buffer.c **** 		{
+ 769              		.loc 1 132 19 is_stmt 0 view .LVU236
+ 770 006a F15C     		ldrb	r1, [r6, r3]	@ zero_extendqisi2
+ 132:library/Src/ring_buffer.c **** 		{
+ 771              		.loc 1 132 47 view .LVU237
+ 772 006c 14F80E20 		ldrb	r2, [r4, lr]	@ zero_extendqisi2
+ 132:library/Src/ring_buffer.c **** 		{
+ 773              		.loc 1 132 9 view .LVU238
+ 774 0070 9142     		cmp	r1, r2
+ 775 0072 F7D0     		beq	.L45
+ 139:library/Src/ring_buffer.c **** 	else
+ 776              		.loc 1 139 2 is_stmt 1 view .LVU239
+ 139:library/Src/ring_buffer.c **** 	else
+ 777              		.loc 1 139 5 is_stmt 0 view .LVU240
+ 778 0074 8342     		cmp	r3, r0
+ 779 0076 ECD1     		bne	.L41
+ 139:library/Src/ring_buffer.c **** 	else
+ 780              		.loc 1 139 33 is_stmt 1 discriminator 1 view .LVU241
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 29
+
+
+ 139:library/Src/ring_buffer.c **** 	else
+ 781              		.loc 1 139 45 is_stmt 0 discriminator 1 view .LVU242
+ 782 0078 AEEB000E 		sub	lr, lr, r0
+ 783              	.LVL52:
+ 146:library/Src/ring_buffer.c **** 	indx=0;
+ 784              		.loc 1 146 2 is_stmt 1 discriminator 1 view .LVU243
+ 147:library/Src/ring_buffer.c **** 
+ 785              		.loc 1 147 2 discriminator 1 view .LVU244
+ 149:library/Src/ring_buffer.c **** 	{
+ 786              		.loc 1 149 2 discriminator 1 view .LVU245
+ 787              	.LBB6:
+ 149:library/Src/ring_buffer.c **** 	{
+ 788              		.loc 1 149 7 discriminator 1 view .LVU246
+ 149:library/Src/ring_buffer.c **** 	{
+ 789              		.loc 1 149 7 is_stmt 0 discriminator 1 view .LVU247
+ 790              	.LBE6:
+ 147:library/Src/ring_buffer.c **** 
+ 791              		.loc 1 147 6 discriminator 1 view .LVU248
+ 792 007c 0023     		movs	r3, #0
+ 793              	.LBB7:
+ 149:library/Src/ring_buffer.c **** 	{
+ 794              		.loc 1 149 2 discriminator 1 view .LVU249
+ 795 007e 05E0     		b	.L46
+ 796              	.LVL53:
+ 797              	.L47:
+ 151:library/Src/ring_buffer.c **** 		indx++;
+ 798              		.loc 1 151 3 is_stmt 1 discriminator 3 view .LVU250
+ 151:library/Src/ring_buffer.c **** 		indx++;
+ 799              		.loc 1 151 44 is_stmt 0 discriminator 3 view .LVU251
+ 800 0080 14F80C20 		ldrb	r2, [r4, ip]	@ zero_extendqisi2
+ 151:library/Src/ring_buffer.c **** 		indx++;
+ 801              		.loc 1 151 26 discriminator 3 view .LVU252
+ 802 0084 EA54     		strb	r2, [r5, r3]
+ 152:library/Src/ring_buffer.c **** 	}
+ 803              		.loc 1 152 3 is_stmt 1 discriminator 3 view .LVU253
+ 152:library/Src/ring_buffer.c **** 	}
+ 804              		.loc 1 152 7 is_stmt 0 discriminator 3 view .LVU254
+ 805 0086 0133     		adds	r3, r3, #1
+ 806              	.LVL54:
+ 149:library/Src/ring_buffer.c **** 	{
+ 807              		.loc 1 149 43 is_stmt 1 discriminator 3 view .LVU255
+ 149:library/Src/ring_buffer.c **** 	{
+ 808              		.loc 1 149 44 is_stmt 0 discriminator 3 view .LVU256
+ 809 0088 0CF1010C 		add	ip, ip, #1
+ 810              	.LVL55:
+ 811              	.L46:
+ 149:library/Src/ring_buffer.c **** 	{
+ 812              		.loc 1 149 28 is_stmt 1 discriminator 1 view .LVU257
+ 149:library/Src/ring_buffer.c **** 	{
+ 813              		.loc 1 149 2 is_stmt 0 discriminator 1 view .LVU258
+ 814 008c F445     		cmp	ip, lr
+ 815 008e F7DB     		blt	.L47
+ 149:library/Src/ring_buffer.c **** 	{
+ 816              		.loc 1 149 2 discriminator 1 view .LVU259
+ 817              	.LBE7:
+ 154:library/Src/ring_buffer.c **** 
+ 818              		.loc 1 154 1 view .LVU260
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 30
+
+
+ 819 0090 BDE87083 		pop	{r4, r5, r6, r8, r9, pc}
+ 154:library/Src/ring_buffer.c **** 
+ 820              		.loc 1 154 1 view .LVU261
+ 821              		.cfi_endproc
+ 822              	.LFE135:
+ 824              		.section	.text.Uart_flush,"ax",%progbits
+ 825              		.align	1
+ 826              		.global	Uart_flush
+ 827              		.syntax unified
+ 828              		.thumb
+ 829              		.thumb_func
+ 831              	Uart_flush:
+ 832              	.LVL56:
+ 833              	.LFB136:
+ 158:library/Src/ring_buffer.c **** 	if (uart == device_uart)
+ 834              		.loc 1 158 1 is_stmt 1 view -0
+ 835              		.cfi_startproc
+ 836              		@ args = 0, pretend = 0, frame = 0
+ 837              		@ frame_needed = 0, uses_anonymous_args = 0
+ 158:library/Src/ring_buffer.c **** 	if (uart == device_uart)
+ 838              		.loc 1 158 1 is_stmt 0 view .LVU263
+ 839 0000 38B5     		push	{r3, r4, r5, lr}
+ 840              	.LCFI9:
+ 841              		.cfi_def_cfa_offset 16
+ 842              		.cfi_offset 3, -16
+ 843              		.cfi_offset 4, -12
+ 844              		.cfi_offset 5, -8
+ 845              		.cfi_offset 14, -4
+ 846 0002 0446     		mov	r4, r0
+ 159:library/Src/ring_buffer.c **** 	{
+ 847              		.loc 1 159 2 is_stmt 1 view .LVU264
+ 159:library/Src/ring_buffer.c **** 	{
+ 848              		.loc 1 159 5 is_stmt 0 view .LVU265
+ 849 0004 0D4B     		ldr	r3, .L58
+ 850 0006 9842     		cmp	r0, r3
+ 851 0008 03D0     		beq	.L56
+ 852              	.LVL57:
+ 853              	.L53:
+ 164:library/Src/ring_buffer.c **** 	{
+ 854              		.loc 1 164 2 is_stmt 1 view .LVU266
+ 164:library/Src/ring_buffer.c **** 	{
+ 855              		.loc 1 164 5 is_stmt 0 view .LVU267
+ 856 000a 0D4B     		ldr	r3, .L58+4
+ 857 000c 9C42     		cmp	r4, r3
+ 858 000e 0AD0     		beq	.L57
+ 859              	.LVL58:
+ 860              	.L52:
+ 169:library/Src/ring_buffer.c **** 
+ 861              		.loc 1 169 1 view .LVU268
+ 862 0010 38BD     		pop	{r3, r4, r5, pc}
+ 863              	.LVL59:
+ 864              	.L56:
+ 161:library/Src/ring_buffer.c **** 		_rx_buffer1->head = 0;
+ 865              		.loc 1 161 3 is_stmt 1 view .LVU269
+ 161:library/Src/ring_buffer.c **** 		_rx_buffer1->head = 0;
+ 866              		.loc 1 161 21 is_stmt 0 view .LVU270
+ 867 0012 0C4D     		ldr	r5, .L58+8
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 31
+
+
+ 161:library/Src/ring_buffer.c **** 		_rx_buffer1->head = 0;
+ 868              		.loc 1 161 3 view .LVU271
+ 869 0014 6422     		movs	r2, #100
+ 870 0016 0021     		movs	r1, #0
+ 871 0018 2868     		ldr	r0, [r5]
+ 872              	.LVL60:
+ 161:library/Src/ring_buffer.c **** 		_rx_buffer1->head = 0;
+ 873              		.loc 1 161 3 view .LVU272
+ 874 001a FFF7FEFF 		bl	memset
+ 875              	.LVL61:
+ 162:library/Src/ring_buffer.c **** 	}
+ 876              		.loc 1 162 3 is_stmt 1 view .LVU273
+ 162:library/Src/ring_buffer.c **** 	}
+ 877              		.loc 1 162 14 is_stmt 0 view .LVU274
+ 878 001e 2B68     		ldr	r3, [r5]
+ 162:library/Src/ring_buffer.c **** 	}
+ 879              		.loc 1 162 21 view .LVU275
+ 880 0020 0022     		movs	r2, #0
+ 881 0022 5A66     		str	r2, [r3, #100]
+ 882 0024 F1E7     		b	.L53
+ 883              	.L57:
+ 166:library/Src/ring_buffer.c **** 		_rx_buffer2->head = 0;
+ 884              		.loc 1 166 3 is_stmt 1 view .LVU276
+ 166:library/Src/ring_buffer.c **** 		_rx_buffer2->head = 0;
+ 885              		.loc 1 166 21 is_stmt 0 view .LVU277
+ 886 0026 084C     		ldr	r4, .L58+12
+ 887              	.LVL62:
+ 166:library/Src/ring_buffer.c **** 		_rx_buffer2->head = 0;
+ 888              		.loc 1 166 3 view .LVU278
+ 889 0028 6422     		movs	r2, #100
+ 890 002a 0021     		movs	r1, #0
+ 891 002c 2068     		ldr	r0, [r4]
+ 892 002e FFF7FEFF 		bl	memset
+ 893              	.LVL63:
+ 167:library/Src/ring_buffer.c **** 	}
+ 894              		.loc 1 167 3 is_stmt 1 view .LVU279
+ 167:library/Src/ring_buffer.c **** 	}
+ 895              		.loc 1 167 14 is_stmt 0 view .LVU280
+ 896 0032 2368     		ldr	r3, [r4]
+ 167:library/Src/ring_buffer.c **** 	}
+ 897              		.loc 1 167 21 view .LVU281
+ 898 0034 0022     		movs	r2, #0
+ 899 0036 5A66     		str	r2, [r3, #100]
+ 169:library/Src/ring_buffer.c **** 
+ 900              		.loc 1 169 1 view .LVU282
+ 901 0038 EAE7     		b	.L52
+ 902              	.L59:
+ 903 003a 00BF     		.align	2
+ 904              	.L58:
+ 905 003c 00000000 		.word	huart3
+ 906 0040 00000000 		.word	huart1
+ 907 0044 00000000 		.word	_rx_buffer1
+ 908 0048 00000000 		.word	.LANCHOR2
+ 909              		.cfi_endproc
+ 910              	.LFE136:
+ 912              		.section	.text.Uart_peek,"ax",%progbits
+ 913              		.align	1
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 32
+
+
+ 914              		.global	Uart_peek
+ 915              		.syntax unified
+ 916              		.thumb
+ 917              		.thumb_func
+ 919              	Uart_peek:
+ 920              	.LVL64:
+ 921              	.LFB137:
+ 173:library/Src/ring_buffer.c **** 	if (uart == device_uart)
+ 922              		.loc 1 173 1 is_stmt 1 view -0
+ 923              		.cfi_startproc
+ 924              		@ args = 0, pretend = 0, frame = 0
+ 925              		@ frame_needed = 0, uses_anonymous_args = 0
+ 926              		@ link register save eliminated.
+ 174:library/Src/ring_buffer.c **** 	{
+ 927              		.loc 1 174 2 view .LVU284
+ 174:library/Src/ring_buffer.c **** 	{
+ 928              		.loc 1 174 5 is_stmt 0 view .LVU285
+ 929 0000 104B     		ldr	r3, .L67
+ 930 0002 9842     		cmp	r0, r3
+ 931 0004 0BD0     		beq	.L66
+ 186:library/Src/ring_buffer.c **** 	{
+ 932              		.loc 1 186 7 is_stmt 1 view .LVU286
+ 186:library/Src/ring_buffer.c **** 	{
+ 933              		.loc 1 186 10 is_stmt 0 view .LVU287
+ 934 0006 104B     		ldr	r3, .L67+4
+ 935 0008 9842     		cmp	r0, r3
+ 936 000a 14D1     		bne	.L64
+ 188:library/Src/ring_buffer.c **** 		  {
+ 937              		.loc 1 188 5 is_stmt 1 view .LVU288
+ 188:library/Src/ring_buffer.c **** 		  {
+ 938              		.loc 1 188 19 is_stmt 0 view .LVU289
+ 939 000c 0F4B     		ldr	r3, .L67+8
+ 940 000e 1B68     		ldr	r3, [r3]
+ 941 0010 596E     		ldr	r1, [r3, #100]
+ 188:library/Src/ring_buffer.c **** 		  {
+ 942              		.loc 1 188 40 view .LVU290
+ 943 0012 9A6E     		ldr	r2, [r3, #104]
+ 188:library/Src/ring_buffer.c **** 		  {
+ 944              		.loc 1 188 7 view .LVU291
+ 945 0014 9142     		cmp	r1, r2
+ 946 0016 11D0     		beq	.L65
+ 194:library/Src/ring_buffer.c **** 		  }
+ 947              		.loc 1 194 7 is_stmt 1 view .LVU292
+ 194:library/Src/ring_buffer.c **** 		  }
+ 948              		.loc 1 194 45 is_stmt 0 view .LVU293
+ 949 0018 9A6E     		ldr	r2, [r3, #104]
+ 194:library/Src/ring_buffer.c **** 		  }
+ 950              		.loc 1 194 33 view .LVU294
+ 951 001a 985C     		ldrb	r0, [r3, r2]	@ zero_extendqisi2
+ 952              	.LVL65:
+ 194:library/Src/ring_buffer.c **** 		  }
+ 953              		.loc 1 194 33 view .LVU295
+ 954 001c 7047     		bx	lr
+ 955              	.LVL66:
+ 956              	.L66:
+ 176:library/Src/ring_buffer.c **** 		  {
+ 957              		.loc 1 176 5 is_stmt 1 view .LVU296
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 33
+
+
+ 176:library/Src/ring_buffer.c **** 		  {
+ 958              		.loc 1 176 19 is_stmt 0 view .LVU297
+ 959 001e 0C4B     		ldr	r3, .L67+12
+ 960 0020 1B68     		ldr	r3, [r3]
+ 961 0022 596E     		ldr	r1, [r3, #100]
+ 176:library/Src/ring_buffer.c **** 		  {
+ 962              		.loc 1 176 40 view .LVU298
+ 963 0024 9A6E     		ldr	r2, [r3, #104]
+ 176:library/Src/ring_buffer.c **** 		  {
+ 964              		.loc 1 176 7 view .LVU299
+ 965 0026 9142     		cmp	r1, r2
+ 966 0028 02D0     		beq	.L63
+ 182:library/Src/ring_buffer.c **** 		  }
+ 967              		.loc 1 182 7 is_stmt 1 view .LVU300
+ 182:library/Src/ring_buffer.c **** 		  }
+ 968              		.loc 1 182 45 is_stmt 0 view .LVU301
+ 969 002a 9A6E     		ldr	r2, [r3, #104]
+ 182:library/Src/ring_buffer.c **** 		  }
+ 970              		.loc 1 182 33 view .LVU302
+ 971 002c 985C     		ldrb	r0, [r3, r2]	@ zero_extendqisi2
+ 972              	.LVL67:
+ 182:library/Src/ring_buffer.c **** 		  }
+ 973              		.loc 1 182 33 view .LVU303
+ 974 002e 7047     		bx	lr
+ 975              	.LVL68:
+ 976              	.L63:
+ 178:library/Src/ring_buffer.c **** 		  }
+ 977              		.loc 1 178 14 view .LVU304
+ 978 0030 4FF0FF30 		mov	r0, #-1
+ 979              	.LVL69:
+ 178:library/Src/ring_buffer.c **** 		  }
+ 980              		.loc 1 178 14 view .LVU305
+ 981 0034 7047     		bx	lr
+ 982              	.LVL70:
+ 983              	.L64:
+ 198:library/Src/ring_buffer.c **** }
+ 984              		.loc 1 198 9 view .LVU306
+ 985 0036 4FF0FF30 		mov	r0, #-1
+ 986              	.LVL71:
+ 198:library/Src/ring_buffer.c **** }
+ 987              		.loc 1 198 9 view .LVU307
+ 988 003a 7047     		bx	lr
+ 989              	.LVL72:
+ 990              	.L65:
+ 190:library/Src/ring_buffer.c **** 		  }
+ 991              		.loc 1 190 14 view .LVU308
+ 992 003c 4FF0FF30 		mov	r0, #-1
+ 993              	.LVL73:
+ 199:library/Src/ring_buffer.c **** 
+ 994              		.loc 1 199 1 view .LVU309
+ 995 0040 7047     		bx	lr
+ 996              	.L68:
+ 997 0042 00BF     		.align	2
+ 998              	.L67:
+ 999 0044 00000000 		.word	huart3
+ 1000 0048 00000000 		.word	huart1
+ 1001 004c 00000000 		.word	.LANCHOR2
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 34
+
+
+ 1002 0050 00000000 		.word	_rx_buffer1
+ 1003              		.cfi_endproc
+ 1004              	.LFE137:
+ 1006              		.section	.text.Uart_read,"ax",%progbits
+ 1007              		.align	1
+ 1008              		.global	Uart_read
+ 1009              		.syntax unified
+ 1010              		.thumb
+ 1011              		.thumb_func
+ 1013              	Uart_read:
+ 1014              	.LVL74:
+ 1015              	.LFB138:
+ 202:library/Src/ring_buffer.c **** 	/*if (uart == device_uart)
+ 1016              		.loc 1 202 1 is_stmt 1 view -0
+ 1017              		.cfi_startproc
+ 1018              		@ args = 0, pretend = 0, frame = 0
+ 1019              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1020              		@ link register save eliminated.
+ 218:library/Src/ring_buffer.c **** 	{
+ 1021              		.loc 1 218 2 view .LVU311
+ 218:library/Src/ring_buffer.c **** 	{
+ 1022              		.loc 1 218 5 is_stmt 0 view .LVU312
+ 1023 0000 0E4B     		ldr	r3, .L73
+ 1024 0002 8342     		cmp	r3, r0
+ 1025 0004 13D1     		bne	.L71
+ 221:library/Src/ring_buffer.c **** 		  {
+ 1026              		.loc 1 221 5 is_stmt 1 view .LVU313
+ 221:library/Src/ring_buffer.c **** 		  {
+ 1027              		.loc 1 221 19 is_stmt 0 view .LVU314
+ 1028 0006 0E4B     		ldr	r3, .L73+4
+ 1029 0008 1A68     		ldr	r2, [r3]
+ 1030 000a 516E     		ldr	r1, [r2, #100]
+ 221:library/Src/ring_buffer.c **** 		  {
+ 1031              		.loc 1 221 40 view .LVU315
+ 1032 000c 936E     		ldr	r3, [r2, #104]
+ 221:library/Src/ring_buffer.c **** 		  {
+ 1033              		.loc 1 221 7 view .LVU316
+ 1034 000e 9942     		cmp	r1, r3
+ 1035 0010 10D0     		beq	.L72
+ 1036              	.LBB8:
+ 227:library/Src/ring_buffer.c **** 		    _rx_buffer2->tail = (unsigned int)(_rx_buffer2->tail + 1) % UART_BUFFER_SIZE;
+ 1037              		.loc 1 227 7 is_stmt 1 view .LVU317
+ 227:library/Src/ring_buffer.c **** 		    _rx_buffer2->tail = (unsigned int)(_rx_buffer2->tail + 1) % UART_BUFFER_SIZE;
+ 1038              		.loc 1 227 56 is_stmt 0 view .LVU318
+ 1039 0012 936E     		ldr	r3, [r2, #104]
+ 227:library/Src/ring_buffer.c **** 		    _rx_buffer2->tail = (unsigned int)(_rx_buffer2->tail + 1) % UART_BUFFER_SIZE;
+ 1040              		.loc 1 227 21 view .LVU319
+ 1041 0014 D05C     		ldrb	r0, [r2, r3]	@ zero_extendqisi2
+ 1042              	.LVL75:
+ 228:library/Src/ring_buffer.c **** 		    return c;
+ 1043              		.loc 1 228 7 is_stmt 1 view .LVU320
+ 228:library/Src/ring_buffer.c **** 		    return c;
+ 1044              		.loc 1 228 53 is_stmt 0 view .LVU321
+ 1045 0016 916E     		ldr	r1, [r2, #104]
+ 228:library/Src/ring_buffer.c **** 		    return c;
+ 1046              		.loc 1 228 27 view .LVU322
+ 1047 0018 0131     		adds	r1, r1, #1
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 35
+
+
+ 228:library/Src/ring_buffer.c **** 		    return c;
+ 1048              		.loc 1 228 65 view .LVU323
+ 1049 001a 0A4B     		ldr	r3, .L73+8
+ 1050 001c A3FB01C3 		umull	ip, r3, r3, r1
+ 1051 0020 5B09     		lsrs	r3, r3, #5
+ 1052 0022 4FF0640C 		mov	ip, #100
+ 1053 0026 0CFB1313 		mls	r3, ip, r3, r1
+ 228:library/Src/ring_buffer.c **** 		    return c;
+ 1054              		.loc 1 228 25 view .LVU324
+ 1055 002a 9366     		str	r3, [r2, #104]
+ 229:library/Src/ring_buffer.c **** 		  }
+ 1056              		.loc 1 229 7 is_stmt 1 view .LVU325
+ 229:library/Src/ring_buffer.c **** 		  }
+ 1057              		.loc 1 229 14 is_stmt 0 view .LVU326
+ 1058 002c 7047     		bx	lr
+ 1059              	.LVL76:
+ 1060              	.L71:
+ 229:library/Src/ring_buffer.c **** 		  }
+ 1061              		.loc 1 229 14 view .LVU327
+ 1062              	.LBE8:
+ 233:library/Src/ring_buffer.c **** }
+ 1063              		.loc 1 233 14 view .LVU328
+ 1064 002e 4FF0FF30 		mov	r0, #-1
+ 1065              	.LVL77:
+ 233:library/Src/ring_buffer.c **** }
+ 1066              		.loc 1 233 14 view .LVU329
+ 1067 0032 7047     		bx	lr
+ 1068              	.LVL78:
+ 1069              	.L72:
+ 223:library/Src/ring_buffer.c **** 		  }
+ 1070              		.loc 1 223 14 view .LVU330
+ 1071 0034 4FF0FF30 		mov	r0, #-1
+ 1072              	.LVL79:
+ 234:library/Src/ring_buffer.c **** 
+ 1073              		.loc 1 234 1 view .LVU331
+ 1074 0038 7047     		bx	lr
+ 1075              	.L74:
+ 1076 003a 00BF     		.align	2
+ 1077              	.L73:
+ 1078 003c 00000000 		.word	huart1
+ 1079 0040 00000000 		.word	.LANCHOR2
+ 1080 0044 1F85EB51 		.word	1374389535
+ 1081              		.cfi_endproc
+ 1082              	.LFE138:
+ 1084              		.section	.text.spi_read,"ax",%progbits
+ 1085              		.align	1
+ 1086              		.global	spi_read
+ 1087              		.syntax unified
+ 1088              		.thumb
+ 1089              		.thumb_func
+ 1091              	spi_read:
+ 1092              	.LVL80:
+ 1093              	.LFB139:
+ 237:library/Src/ring_buffer.c **** 	if (spi == wifi_spi)
+ 1094              		.loc 1 237 1 is_stmt 1 view -0
+ 1095              		.cfi_startproc
+ 1096              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 36
+
+
+ 1097              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1098              		@ link register save eliminated.
+ 238:library/Src/ring_buffer.c **** 	{
+ 1099              		.loc 1 238 2 view .LVU333
+ 238:library/Src/ring_buffer.c **** 	{
+ 1100              		.loc 1 238 5 is_stmt 0 view .LVU334
+ 1101 0000 0E4B     		ldr	r3, .L79
+ 1102 0002 8342     		cmp	r3, r0
+ 1103 0004 13D1     		bne	.L77
+ 241:library/Src/ring_buffer.c **** 		  {
+ 1104              		.loc 1 241 5 is_stmt 1 view .LVU335
+ 241:library/Src/ring_buffer.c **** 		  {
+ 1105              		.loc 1 241 19 is_stmt 0 view .LVU336
+ 1106 0006 0E4B     		ldr	r3, .L79+4
+ 1107 0008 1A68     		ldr	r2, [r3]
+ 1108 000a 516E     		ldr	r1, [r2, #100]
+ 241:library/Src/ring_buffer.c **** 		  {
+ 1109              		.loc 1 241 40 view .LVU337
+ 1110 000c 936E     		ldr	r3, [r2, #104]
+ 241:library/Src/ring_buffer.c **** 		  {
+ 1111              		.loc 1 241 7 view .LVU338
+ 1112 000e 9942     		cmp	r1, r3
+ 1113 0010 10D0     		beq	.L78
+ 1114              	.LBB9:
+ 247:library/Src/ring_buffer.c **** 		    _rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE;
+ 1115              		.loc 1 247 7 is_stmt 1 view .LVU339
+ 247:library/Src/ring_buffer.c **** 		    _rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE;
+ 1116              		.loc 1 247 56 is_stmt 0 view .LVU340
+ 1117 0012 936E     		ldr	r3, [r2, #104]
+ 247:library/Src/ring_buffer.c **** 		    _rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE;
+ 1118              		.loc 1 247 21 view .LVU341
+ 1119 0014 D05C     		ldrb	r0, [r2, r3]	@ zero_extendqisi2
+ 1120              	.LVL81:
+ 248:library/Src/ring_buffer.c **** 		    return c;
+ 1121              		.loc 1 248 7 is_stmt 1 view .LVU342
+ 248:library/Src/ring_buffer.c **** 		    return c;
+ 1122              		.loc 1 248 53 is_stmt 0 view .LVU343
+ 1123 0016 916E     		ldr	r1, [r2, #104]
+ 248:library/Src/ring_buffer.c **** 		    return c;
+ 1124              		.loc 1 248 27 view .LVU344
+ 1125 0018 0131     		adds	r1, r1, #1
+ 248:library/Src/ring_buffer.c **** 		    return c;
+ 1126              		.loc 1 248 65 view .LVU345
+ 1127 001a 0A4B     		ldr	r3, .L79+8
+ 1128 001c A3FB01C3 		umull	ip, r3, r3, r1
+ 1129 0020 5B09     		lsrs	r3, r3, #5
+ 1130 0022 4FF0640C 		mov	ip, #100
+ 1131 0026 0CFB1313 		mls	r3, ip, r3, r1
+ 248:library/Src/ring_buffer.c **** 		    return c;
+ 1132              		.loc 1 248 25 view .LVU346
+ 1133 002a 9366     		str	r3, [r2, #104]
+ 249:library/Src/ring_buffer.c **** 		  }
+ 1134              		.loc 1 249 7 is_stmt 1 view .LVU347
+ 249:library/Src/ring_buffer.c **** 		  }
+ 1135              		.loc 1 249 14 is_stmt 0 view .LVU348
+ 1136 002c 7047     		bx	lr
+ 1137              	.LVL82:
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 37
+
+
+ 1138              	.L77:
+ 249:library/Src/ring_buffer.c **** 		  }
+ 1139              		.loc 1 249 14 view .LVU349
+ 1140              	.LBE9:
+ 253:library/Src/ring_buffer.c **** }
+ 1141              		.loc 1 253 14 view .LVU350
+ 1142 002e 4FF0FF30 		mov	r0, #-1
+ 1143              	.LVL83:
+ 253:library/Src/ring_buffer.c **** }
+ 1144              		.loc 1 253 14 view .LVU351
+ 1145 0032 7047     		bx	lr
+ 1146              	.LVL84:
+ 1147              	.L78:
+ 243:library/Src/ring_buffer.c **** 		  }
+ 1148              		.loc 1 243 14 view .LVU352
+ 1149 0034 4FF0FF30 		mov	r0, #-1
+ 1150              	.LVL85:
+ 254:library/Src/ring_buffer.c **** 
+ 1151              		.loc 1 254 1 view .LVU353
+ 1152 0038 7047     		bx	lr
+ 1153              	.L80:
+ 1154 003a 00BF     		.align	2
+ 1155              	.L79:
+ 1156 003c 00000000 		.word	hspi1
+ 1157 0040 00000000 		.word	_rx_buffer1
+ 1158 0044 1F85EB51 		.word	1374389535
+ 1159              		.cfi_endproc
+ 1160              	.LFE139:
+ 1162              		.section	.text.Uart_write,"ax",%progbits
+ 1163              		.align	1
+ 1164              		.global	Uart_write
+ 1165              		.syntax unified
+ 1166              		.thumb
+ 1167              		.thumb_func
+ 1169              	Uart_write:
+ 1170              	.LVL86:
+ 1171              	.LFB140:
+ 257:library/Src/ring_buffer.c **** 	if (c>=0)
+ 1172              		.loc 1 257 1 is_stmt 1 view -0
+ 1173              		.cfi_startproc
+ 1174              		@ args = 0, pretend = 0, frame = 0
+ 1175              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1176              		@ link register save eliminated.
+ 258:library/Src/ring_buffer.c **** 	{
+ 1177              		.loc 1 258 2 view .LVU355
+ 258:library/Src/ring_buffer.c **** 	{
+ 1178              		.loc 1 258 5 is_stmt 0 view .LVU356
+ 1179 0000 0028     		cmp	r0, #0
+ 258:library/Src/ring_buffer.c **** 	{
+ 1180              		.loc 1 258 5 view .LVU357
+ 1181 0002 02DB     		blt	.L81
+ 274:library/Src/ring_buffer.c **** 			int i = (_tx_buffer2->head + 1) % UART_BUFFER_SIZE;
+ 1182              		.loc 1 274 3 is_stmt 1 view .LVU358
+ 274:library/Src/ring_buffer.c **** 			int i = (_tx_buffer2->head + 1) % UART_BUFFER_SIZE;
+ 1183              		.loc 1 274 6 is_stmt 0 view .LVU359
+ 1184 0004 0F4B     		ldr	r3, .L85
+ 1185 0006 9942     		cmp	r1, r3
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 38
+
+
+ 1186 0008 00D0     		beq	.L84
+ 1187              	.LVL87:
+ 1188              	.L81:
+ 288:library/Src/ring_buffer.c **** 
+ 1189              		.loc 1 288 1 view .LVU360
+ 1190 000a 7047     		bx	lr
+ 1191              	.LVL88:
+ 1192              	.L84:
+ 1193              	.LBB10:
+ 275:library/Src/ring_buffer.c **** 
+ 1194              		.loc 1 275 4 is_stmt 1 view .LVU361
+ 275:library/Src/ring_buffer.c **** 
+ 1195              		.loc 1 275 24 is_stmt 0 view .LVU362
+ 1196 000c 0E4B     		ldr	r3, .L85+4
+ 1197 000e 1968     		ldr	r1, [r3]
+ 1198              	.LVL89:
+ 275:library/Src/ring_buffer.c **** 
+ 1199              		.loc 1 275 24 view .LVU363
+ 1200 0010 4B6E     		ldr	r3, [r1, #100]
+ 275:library/Src/ring_buffer.c **** 
+ 1201              		.loc 1 275 31 view .LVU364
+ 1202 0012 0133     		adds	r3, r3, #1
+ 275:library/Src/ring_buffer.c **** 
+ 1203              		.loc 1 275 36 view .LVU365
+ 1204 0014 0D4A     		ldr	r2, .L85+8
+ 1205 0016 A2FB03C2 		umull	ip, r2, r2, r3
+ 1206 001a 5209     		lsrs	r2, r2, #5
+ 1207 001c 4FF0640C 		mov	ip, #100
+ 1208 0020 0CFB1232 		mls	r2, ip, r2, r3
+ 1209              	.LVL90:
+ 280:library/Src/ring_buffer.c **** 
+ 1210              		.loc 1 280 4 is_stmt 1 view .LVU366
+ 1211              	.L83:
+ 280:library/Src/ring_buffer.c **** 
+ 1212              		.loc 1 280 34 discriminator 1 view .LVU367
+ 280:library/Src/ring_buffer.c **** 
+ 1213              		.loc 1 280 10 discriminator 1 view .LVU368
+ 280:library/Src/ring_buffer.c **** 
+ 1214              		.loc 1 280 27 is_stmt 0 discriminator 1 view .LVU369
+ 1215 0024 8B6E     		ldr	r3, [r1, #104]
+ 280:library/Src/ring_buffer.c **** 
+ 1216              		.loc 1 280 10 discriminator 1 view .LVU370
+ 1217 0026 9A42     		cmp	r2, r3
+ 1218 0028 FCD0     		beq	.L83
+ 282:library/Src/ring_buffer.c **** 			_tx_buffer2->head = i;
+ 1219              		.loc 1 282 4 is_stmt 1 view .LVU371
+ 282:library/Src/ring_buffer.c **** 			_tx_buffer2->head = i;
+ 1220              		.loc 1 282 35 is_stmt 0 view .LVU372
+ 1221 002a 4B6E     		ldr	r3, [r1, #100]
+ 282:library/Src/ring_buffer.c **** 			_tx_buffer2->head = i;
+ 1222              		.loc 1 282 43 view .LVU373
+ 1223 002c C854     		strb	r0, [r1, r3]
+ 283:library/Src/ring_buffer.c **** 
+ 1224              		.loc 1 283 4 is_stmt 1 view .LVU374
+ 283:library/Src/ring_buffer.c **** 
+ 1225              		.loc 1 283 15 is_stmt 0 view .LVU375
+ 1226 002e 064B     		ldr	r3, .L85+4
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 39
+
+
+ 1227 0030 1B68     		ldr	r3, [r3]
+ 283:library/Src/ring_buffer.c **** 
+ 1228              		.loc 1 283 22 view .LVU376
+ 1229 0032 5A66     		str	r2, [r3, #100]
+ 285:library/Src/ring_buffer.c **** 			}
+ 1230              		.loc 1 285 4 is_stmt 1 view .LVU377
+ 1231 0034 034B     		ldr	r3, .L85
+ 1232 0036 1A68     		ldr	r2, [r3]
+ 1233              	.LVL91:
+ 285:library/Src/ring_buffer.c **** 			}
+ 1234              		.loc 1 285 4 is_stmt 0 view .LVU378
+ 1235 0038 1368     		ldr	r3, [r2]
+ 1236 003a 43F08003 		orr	r3, r3, #128
+ 1237 003e 1360     		str	r3, [r2]
+ 1238              	.LVL92:
+ 285:library/Src/ring_buffer.c **** 			}
+ 1239              		.loc 1 285 4 view .LVU379
+ 1240              	.LBE10:
+ 288:library/Src/ring_buffer.c **** 
+ 1241              		.loc 1 288 1 view .LVU380
+ 1242 0040 E3E7     		b	.L81
+ 1243              	.L86:
+ 1244 0042 00BF     		.align	2
+ 1245              	.L85:
+ 1246 0044 00000000 		.word	huart1
+ 1247 0048 00000000 		.word	.LANCHOR4
+ 1248 004c 1F85EB51 		.word	1374389535
+ 1249              		.cfi_endproc
+ 1250              	.LFE140:
+ 1252              		.section	.text.spi_write,"ax",%progbits
+ 1253              		.align	1
+ 1254              		.global	spi_write
+ 1255              		.syntax unified
+ 1256              		.thumb
+ 1257              		.thumb_func
+ 1259              	spi_write:
+ 1260              	.LVL93:
+ 1261              	.LFB141:
+ 291:library/Src/ring_buffer.c **** 	if (c>=0)
+ 1262              		.loc 1 291 1 is_stmt 1 view -0
+ 1263              		.cfi_startproc
+ 1264              		@ args = 0, pretend = 0, frame = 0
+ 1265              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1266              		@ link register save eliminated.
+ 292:library/Src/ring_buffer.c **** 	{
+ 1267              		.loc 1 292 2 view .LVU382
+ 292:library/Src/ring_buffer.c **** 	{
+ 1268              		.loc 1 292 5 is_stmt 0 view .LVU383
+ 1269 0000 0028     		cmp	r0, #0
+ 292:library/Src/ring_buffer.c **** 	{
+ 1270              		.loc 1 292 5 view .LVU384
+ 1271 0002 02DB     		blt	.L87
+ 294:library/Src/ring_buffer.c **** 		int i = (_tx_buffer1->head + 1) % UART_BUFFER_SIZE;
+ 1272              		.loc 1 294 3 is_stmt 1 view .LVU385
+ 294:library/Src/ring_buffer.c **** 		int i = (_tx_buffer1->head + 1) % UART_BUFFER_SIZE;
+ 1273              		.loc 1 294 6 is_stmt 0 view .LVU386
+ 1274 0004 0F4B     		ldr	r3, .L91
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 40
+
+
+ 1275 0006 9942     		cmp	r1, r3
+ 1276 0008 00D0     		beq	.L90
+ 1277              	.LVL94:
+ 1278              	.L87:
+ 308:library/Src/ring_buffer.c **** 
+ 1279              		.loc 1 308 1 view .LVU387
+ 1280 000a 7047     		bx	lr
+ 1281              	.LVL95:
+ 1282              	.L90:
+ 1283              	.LBB11:
+ 295:library/Src/ring_buffer.c **** 
+ 1284              		.loc 1 295 3 is_stmt 1 view .LVU388
+ 295:library/Src/ring_buffer.c **** 
+ 1285              		.loc 1 295 23 is_stmt 0 view .LVU389
+ 1286 000c 0E4B     		ldr	r3, .L91+4
+ 1287 000e 1968     		ldr	r1, [r3]
+ 1288              	.LVL96:
+ 295:library/Src/ring_buffer.c **** 
+ 1289              		.loc 1 295 23 view .LVU390
+ 1290 0010 4B6E     		ldr	r3, [r1, #100]
+ 295:library/Src/ring_buffer.c **** 
+ 1291              		.loc 1 295 30 view .LVU391
+ 1292 0012 0133     		adds	r3, r3, #1
+ 295:library/Src/ring_buffer.c **** 
+ 1293              		.loc 1 295 35 view .LVU392
+ 1294 0014 0D4A     		ldr	r2, .L91+8
+ 1295 0016 A2FB03C2 		umull	ip, r2, r2, r3
+ 1296 001a 5209     		lsrs	r2, r2, #5
+ 1297 001c 4FF0640C 		mov	ip, #100
+ 1298 0020 0CFB1232 		mls	r2, ip, r2, r3
+ 1299              	.LVL97:
+ 300:library/Src/ring_buffer.c **** 
+ 1300              		.loc 1 300 3 is_stmt 1 view .LVU393
+ 1301              	.L89:
+ 300:library/Src/ring_buffer.c **** 
+ 1302              		.loc 1 300 33 discriminator 1 view .LVU394
+ 300:library/Src/ring_buffer.c **** 
+ 1303              		.loc 1 300 9 discriminator 1 view .LVU395
+ 300:library/Src/ring_buffer.c **** 
+ 1304              		.loc 1 300 26 is_stmt 0 discriminator 1 view .LVU396
+ 1305 0024 8B6E     		ldr	r3, [r1, #104]
+ 300:library/Src/ring_buffer.c **** 
+ 1306              		.loc 1 300 9 discriminator 1 view .LVU397
+ 1307 0026 9A42     		cmp	r2, r3
+ 1308 0028 FCD0     		beq	.L89
+ 302:library/Src/ring_buffer.c **** 		_tx_buffer1->head = i;
+ 1309              		.loc 1 302 3 is_stmt 1 view .LVU398
+ 302:library/Src/ring_buffer.c **** 		_tx_buffer1->head = i;
+ 1310              		.loc 1 302 34 is_stmt 0 view .LVU399
+ 1311 002a 4B6E     		ldr	r3, [r1, #100]
+ 302:library/Src/ring_buffer.c **** 		_tx_buffer1->head = i;
+ 1312              		.loc 1 302 42 view .LVU400
+ 1313 002c C854     		strb	r0, [r1, r3]
+ 303:library/Src/ring_buffer.c **** 
+ 1314              		.loc 1 303 3 is_stmt 1 view .LVU401
+ 303:library/Src/ring_buffer.c **** 
+ 1315              		.loc 1 303 14 is_stmt 0 view .LVU402
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 41
+
+
+ 1316 002e 064B     		ldr	r3, .L91+4
+ 1317 0030 1B68     		ldr	r3, [r3]
+ 303:library/Src/ring_buffer.c **** 
+ 1318              		.loc 1 303 21 view .LVU403
+ 1319 0032 5A66     		str	r2, [r3, #100]
+ 305:library/Src/ring_buffer.c **** 		}
+ 1320              		.loc 1 305 3 is_stmt 1 view .LVU404
+ 1321 0034 034B     		ldr	r3, .L91
+ 1322 0036 1A68     		ldr	r2, [r3]
+ 1323              	.LVL98:
+ 305:library/Src/ring_buffer.c **** 		}
+ 1324              		.loc 1 305 3 is_stmt 0 view .LVU405
+ 1325 0038 5368     		ldr	r3, [r2, #4]
+ 1326 003a 43F08003 		orr	r3, r3, #128
+ 1327 003e 5360     		str	r3, [r2, #4]
+ 1328              	.LVL99:
+ 305:library/Src/ring_buffer.c **** 		}
+ 1329              		.loc 1 305 3 view .LVU406
+ 1330              	.LBE11:
+ 308:library/Src/ring_buffer.c **** 
+ 1331              		.loc 1 308 1 view .LVU407
+ 1332 0040 E3E7     		b	.L87
+ 1333              	.L92:
+ 1334 0042 00BF     		.align	2
+ 1335              	.L91:
+ 1336 0044 00000000 		.word	hspi1
+ 1337 0048 00000000 		.word	.LANCHOR1
+ 1338 004c 1F85EB51 		.word	1374389535
+ 1339              		.cfi_endproc
+ 1340              	.LFE141:
+ 1342              		.section	.text.IsUartDataAvailable,"ax",%progbits
+ 1343              		.align	1
+ 1344              		.global	IsUartDataAvailable
+ 1345              		.syntax unified
+ 1346              		.thumb
+ 1347              		.thumb_func
+ 1349              	IsUartDataAvailable:
+ 1350              	.LVL100:
+ 1351              	.LFB142:
+ 311:library/Src/ring_buffer.c **** 	if (uart == device_uart) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer1->head - _rx_buffer1->tai
+ 1352              		.loc 1 311 1 is_stmt 1 view -0
+ 1353              		.cfi_startproc
+ 1354              		@ args = 0, pretend = 0, frame = 0
+ 1355              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1356              		@ link register save eliminated.
+ 312:library/Src/ring_buffer.c **** 	else if (uart == pc_uart) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer2->head - _rx_buffer2->ta
+ 1357              		.loc 1 312 2 view .LVU409
+ 312:library/Src/ring_buffer.c **** 	else if (uart == pc_uart) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer2->head - _rx_buffer2->ta
+ 1358              		.loc 1 312 5 is_stmt 0 view .LVU410
+ 1359 0000 154B     		ldr	r3, .L98
+ 1360 0002 9842     		cmp	r0, r3
+ 1361 0004 13D0     		beq	.L97
+ 313:library/Src/ring_buffer.c **** 	return -1;
+ 1362              		.loc 1 313 7 is_stmt 1 view .LVU411
+ 313:library/Src/ring_buffer.c **** 	return -1;
+ 1363              		.loc 1 313 10 is_stmt 0 view .LVU412
+ 1364 0006 154B     		ldr	r3, .L98+4
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 42
+
+
+ 1365 0008 9842     		cmp	r0, r3
+ 1366 000a 21D1     		bne	.L96
+ 313:library/Src/ring_buffer.c **** 	return -1;
+ 1367              		.loc 1 313 28 is_stmt 1 discriminator 1 view .LVU413
+ 313:library/Src/ring_buffer.c **** 	return -1;
+ 1368              		.loc 1 313 76 is_stmt 0 discriminator 1 view .LVU414
+ 1369 000c 144B     		ldr	r3, .L98+8
+ 1370 000e 1B68     		ldr	r3, [r3]
+ 1371 0010 586E     		ldr	r0, [r3, #100]
+ 1372              	.LVL101:
+ 313:library/Src/ring_buffer.c **** 	return -1;
+ 1373              		.loc 1 313 96 discriminator 1 view .LVU415
+ 1374 0012 9B6E     		ldr	r3, [r3, #104]
+ 313:library/Src/ring_buffer.c **** 	return -1;
+ 1375              		.loc 1 313 83 discriminator 1 view .LVU416
+ 1376 0014 C01A     		subs	r0, r0, r3
+ 1377 0016 80B2     		uxth	r0, r0
+ 313:library/Src/ring_buffer.c **** 	return -1;
+ 1378              		.loc 1 313 35 discriminator 1 view .LVU417
+ 1379 0018 6430     		adds	r0, r0, #100
+ 1380 001a 80B2     		uxth	r0, r0
+ 313:library/Src/ring_buffer.c **** 	return -1;
+ 1381              		.loc 1 313 104 discriminator 1 view .LVU418
+ 1382 001c 114B     		ldr	r3, .L98+12
+ 1383 001e A3FB0023 		umull	r2, r3, r3, r0
+ 1384 0022 5B09     		lsrs	r3, r3, #5
+ 1385 0024 6422     		movs	r2, #100
+ 1386 0026 02FB1300 		mls	r0, r2, r3, r0
+ 1387 002a 80B2     		uxth	r0, r0
+ 1388 002c 7047     		bx	lr
+ 1389              	.LVL102:
+ 1390              	.L97:
+ 312:library/Src/ring_buffer.c **** 	else if (uart == pc_uart) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer2->head - _rx_buffer2->ta
+ 1391              		.loc 1 312 27 is_stmt 1 discriminator 1 view .LVU419
+ 312:library/Src/ring_buffer.c **** 	else if (uart == pc_uart) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer2->head - _rx_buffer2->ta
+ 1392              		.loc 1 312 75 is_stmt 0 discriminator 1 view .LVU420
+ 1393 002e 0E4B     		ldr	r3, .L98+16
+ 1394 0030 1B68     		ldr	r3, [r3]
+ 1395 0032 586E     		ldr	r0, [r3, #100]
+ 1396              	.LVL103:
+ 312:library/Src/ring_buffer.c **** 	else if (uart == pc_uart) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer2->head - _rx_buffer2->ta
+ 1397              		.loc 1 312 95 discriminator 1 view .LVU421
+ 1398 0034 9B6E     		ldr	r3, [r3, #104]
+ 312:library/Src/ring_buffer.c **** 	else if (uart == pc_uart) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer2->head - _rx_buffer2->ta
+ 1399              		.loc 1 312 82 discriminator 1 view .LVU422
+ 1400 0036 C01A     		subs	r0, r0, r3
+ 1401 0038 80B2     		uxth	r0, r0
+ 312:library/Src/ring_buffer.c **** 	else if (uart == pc_uart) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer2->head - _rx_buffer2->ta
+ 1402              		.loc 1 312 34 discriminator 1 view .LVU423
+ 1403 003a 6430     		adds	r0, r0, #100
+ 1404 003c 80B2     		uxth	r0, r0
+ 312:library/Src/ring_buffer.c **** 	else if (uart == pc_uart) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer2->head - _rx_buffer2->ta
+ 1405              		.loc 1 312 103 discriminator 1 view .LVU424
+ 1406 003e 094B     		ldr	r3, .L98+12
+ 1407 0040 A3FB0023 		umull	r2, r3, r3, r0
+ 1408 0044 5B09     		lsrs	r3, r3, #5
+ 1409 0046 6422     		movs	r2, #100
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 43
+
+
+ 1410 0048 02FB1300 		mls	r0, r2, r3, r0
+ 1411 004c 80B2     		uxth	r0, r0
+ 1412 004e 7047     		bx	lr
+ 1413              	.LVL104:
+ 1414              	.L96:
+ 314:library/Src/ring_buffer.c **** }
+ 1415              		.loc 1 314 9 view .LVU425
+ 1416 0050 4FF0FF30 		mov	r0, #-1
+ 1417              	.LVL105:
+ 315:library/Src/ring_buffer.c **** 
+ 1418              		.loc 1 315 1 view .LVU426
+ 1419 0054 7047     		bx	lr
+ 1420              	.L99:
+ 1421 0056 00BF     		.align	2
+ 1422              	.L98:
+ 1423 0058 00000000 		.word	huart3
+ 1424 005c 00000000 		.word	huart1
+ 1425 0060 00000000 		.word	.LANCHOR2
+ 1426 0064 1F85EB51 		.word	1374389535
+ 1427 0068 00000000 		.word	_rx_buffer1
+ 1428              		.cfi_endproc
+ 1429              	.LFE142:
+ 1431              		.section	.text.IsSpiDataAvailable,"ax",%progbits
+ 1432              		.align	1
+ 1433              		.global	IsSpiDataAvailable
+ 1434              		.syntax unified
+ 1435              		.thumb
+ 1436              		.thumb_func
+ 1438              	IsSpiDataAvailable:
+ 1439              	.LVL106:
+ 1440              	.LFB143:
+ 318:library/Src/ring_buffer.c **** 	if (spi == wifi_spi) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer1->head - _rx_buffer1->tail) %
+ 1441              		.loc 1 318 1 is_stmt 1 view -0
+ 1442              		.cfi_startproc
+ 1443              		@ args = 0, pretend = 0, frame = 0
+ 1444              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1445              		@ link register save eliminated.
+ 319:library/Src/ring_buffer.c **** 	return -1;
+ 1446              		.loc 1 319 2 view .LVU428
+ 319:library/Src/ring_buffer.c **** 	return -1;
+ 1447              		.loc 1 319 5 is_stmt 0 view .LVU429
+ 1448 0000 0B4B     		ldr	r3, .L103
+ 1449 0002 8342     		cmp	r3, r0
+ 1450 0004 10D1     		bne	.L102
+ 319:library/Src/ring_buffer.c **** 	return -1;
+ 1451              		.loc 1 319 23 is_stmt 1 discriminator 1 view .LVU430
+ 319:library/Src/ring_buffer.c **** 	return -1;
+ 1452              		.loc 1 319 71 is_stmt 0 discriminator 1 view .LVU431
+ 1453 0006 0B4B     		ldr	r3, .L103+4
+ 1454 0008 1B68     		ldr	r3, [r3]
+ 1455 000a 586E     		ldr	r0, [r3, #100]
+ 1456              	.LVL107:
+ 319:library/Src/ring_buffer.c **** 	return -1;
+ 1457              		.loc 1 319 91 discriminator 1 view .LVU432
+ 1458 000c 9B6E     		ldr	r3, [r3, #104]
+ 319:library/Src/ring_buffer.c **** 	return -1;
+ 1459              		.loc 1 319 78 discriminator 1 view .LVU433
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 44
+
+
+ 1460 000e C01A     		subs	r0, r0, r3
+ 1461 0010 80B2     		uxth	r0, r0
+ 319:library/Src/ring_buffer.c **** 	return -1;
+ 1462              		.loc 1 319 30 discriminator 1 view .LVU434
+ 1463 0012 6430     		adds	r0, r0, #100
+ 1464 0014 80B2     		uxth	r0, r0
+ 319:library/Src/ring_buffer.c **** 	return -1;
+ 1465              		.loc 1 319 99 discriminator 1 view .LVU435
+ 1466 0016 084B     		ldr	r3, .L103+8
+ 1467 0018 A3FB0023 		umull	r2, r3, r3, r0
+ 1468 001c 5B09     		lsrs	r3, r3, #5
+ 1469 001e 6422     		movs	r2, #100
+ 1470 0020 02FB1300 		mls	r0, r2, r3, r0
+ 1471 0024 80B2     		uxth	r0, r0
+ 1472 0026 7047     		bx	lr
+ 1473              	.LVL108:
+ 1474              	.L102:
+ 320:library/Src/ring_buffer.c **** }
+ 1475              		.loc 1 320 9 view .LVU436
+ 1476 0028 4FF0FF30 		mov	r0, #-1
+ 1477              	.LVL109:
+ 321:library/Src/ring_buffer.c **** 
+ 1478              		.loc 1 321 1 view .LVU437
+ 1479 002c 7047     		bx	lr
+ 1480              	.L104:
+ 1481 002e 00BF     		.align	2
+ 1482              	.L103:
+ 1483 0030 00000000 		.word	hspi1
+ 1484 0034 00000000 		.word	_rx_buffer1
+ 1485 0038 1F85EB51 		.word	1374389535
+ 1486              		.cfi_endproc
+ 1487              	.LFE143:
+ 1489              		.section	.text.Uart_sendstring,"ax",%progbits
+ 1490              		.align	1
+ 1491              		.global	Uart_sendstring
+ 1492              		.syntax unified
+ 1493              		.thumb
+ 1494              		.thumb_func
+ 1496              	Uart_sendstring:
+ 1497              	.LVL110:
+ 1498              	.LFB145:
+ 338:library/Src/ring_buffer.c **** 	while(*s!='\0') Uart_write(*s++, uart);
+ 1499              		.loc 1 338 1 is_stmt 1 view -0
+ 1500              		.cfi_startproc
+ 1501              		@ args = 0, pretend = 0, frame = 0
+ 1502              		@ frame_needed = 0, uses_anonymous_args = 0
+ 338:library/Src/ring_buffer.c **** 	while(*s!='\0') Uart_write(*s++, uart);
+ 1503              		.loc 1 338 1 is_stmt 0 view .LVU439
+ 1504 0000 38B5     		push	{r3, r4, r5, lr}
+ 1505              	.LCFI10:
+ 1506              		.cfi_def_cfa_offset 16
+ 1507              		.cfi_offset 3, -16
+ 1508              		.cfi_offset 4, -12
+ 1509              		.cfi_offset 5, -8
+ 1510              		.cfi_offset 14, -4
+ 1511 0002 0446     		mov	r4, r0
+ 1512 0004 0D46     		mov	r5, r1
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 45
+
+
+ 339:library/Src/ring_buffer.c **** }
+ 1513              		.loc 1 339 2 is_stmt 1 view .LVU440
+ 339:library/Src/ring_buffer.c **** }
+ 1514              		.loc 1 339 7 is_stmt 0 view .LVU441
+ 1515 0006 03E0     		b	.L106
+ 1516              	.LVL111:
+ 1517              	.L107:
+ 339:library/Src/ring_buffer.c **** }
+ 1518              		.loc 1 339 18 is_stmt 1 discriminator 2 view .LVU442
+ 339:library/Src/ring_buffer.c **** }
+ 1519              		.loc 1 339 31 is_stmt 0 discriminator 2 view .LVU443
+ 1520 0008 0134     		adds	r4, r4, #1
+ 1521              	.LVL112:
+ 339:library/Src/ring_buffer.c **** }
+ 1522              		.loc 1 339 18 discriminator 2 view .LVU444
+ 1523 000a 2946     		mov	r1, r5
+ 1524 000c FFF7FEFF 		bl	Uart_write
+ 1525              	.LVL113:
+ 1526              	.L106:
+ 339:library/Src/ring_buffer.c **** }
+ 1527              		.loc 1 339 7 is_stmt 1 discriminator 1 view .LVU445
+ 339:library/Src/ring_buffer.c **** }
+ 1528              		.loc 1 339 8 is_stmt 0 discriminator 1 view .LVU446
+ 1529 0010 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 339:library/Src/ring_buffer.c **** }
+ 1530              		.loc 1 339 7 discriminator 1 view .LVU447
+ 1531 0012 0028     		cmp	r0, #0
+ 1532 0014 F8D1     		bne	.L107
+ 340:library/Src/ring_buffer.c **** 
+ 1533              		.loc 1 340 1 view .LVU448
+ 1534 0016 38BD     		pop	{r3, r4, r5, pc}
+ 340:library/Src/ring_buffer.c **** 
+ 1535              		.loc 1 340 1 view .LVU449
+ 1536              		.cfi_endproc
+ 1537              	.LFE145:
+ 1539              		.section	.text.Uart_printbase,"ax",%progbits
+ 1540              		.align	1
+ 1541              		.global	Uart_printbase
+ 1542              		.syntax unified
+ 1543              		.thumb
+ 1544              		.thumb_func
+ 1546              	Uart_printbase:
+ 1547              	.LVL114:
+ 1548              	.LFB146:
+ 343:library/Src/ring_buffer.c ****   char buf[8 * sizeof(long) + 1]; // Assumes 8-bit chars plus zero byte.
+ 1549              		.loc 1 343 1 is_stmt 1 view -0
+ 1550              		.cfi_startproc
+ 1551              		@ args = 0, pretend = 0, frame = 40
+ 1552              		@ frame_needed = 0, uses_anonymous_args = 0
+ 343:library/Src/ring_buffer.c ****   char buf[8 * sizeof(long) + 1]; // Assumes 8-bit chars plus zero byte.
+ 1553              		.loc 1 343 1 is_stmt 0 view .LVU451
+ 1554 0000 30B5     		push	{r4, r5, lr}
+ 1555              	.LCFI11:
+ 1556              		.cfi_def_cfa_offset 12
+ 1557              		.cfi_offset 4, -12
+ 1558              		.cfi_offset 5, -8
+ 1559              		.cfi_offset 14, -4
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 46
+
+
+ 1560 0002 8BB0     		sub	sp, sp, #44
+ 1561              	.LCFI12:
+ 1562              		.cfi_def_cfa_offset 56
+ 1563 0004 1546     		mov	r5, r2
+ 344:library/Src/ring_buffer.c ****   char *s = &buf[sizeof(buf) - 1];
+ 1564              		.loc 1 344 3 is_stmt 1 view .LVU452
+ 345:library/Src/ring_buffer.c **** 
+ 1565              		.loc 1 345 3 view .LVU453
+ 1566              	.LVL115:
+ 347:library/Src/ring_buffer.c **** 
+ 1567              		.loc 1 347 3 view .LVU454
+ 347:library/Src/ring_buffer.c **** 
+ 1568              		.loc 1 347 6 is_stmt 0 view .LVU455
+ 1569 0006 0023     		movs	r3, #0
+ 1570 0008 8DF82430 		strb	r3, [sp, #36]
+ 350:library/Src/ring_buffer.c **** 
+ 1571              		.loc 1 350 3 is_stmt 1 view .LVU456
+ 350:library/Src/ring_buffer.c **** 
+ 1572              		.loc 1 350 6 is_stmt 0 view .LVU457
+ 1573 000c 0129     		cmp	r1, #1
+ 1574 000e 01D9     		bls	.L118
+ 1575              	.LVL116:
+ 1576              	.L110:
+ 350:library/Src/ring_buffer.c **** 
+ 1577              		.loc 1 350 22 view .LVU458
+ 1578 0010 09AC     		add	r4, sp, #36
+ 1579              	.LVL117:
+ 350:library/Src/ring_buffer.c **** 
+ 1580              		.loc 1 350 22 view .LVU459
+ 1581 0012 06E0     		b	.L113
+ 1582              	.LVL118:
+ 1583              	.L118:
+ 350:library/Src/ring_buffer.c **** 
+ 1584              		.loc 1 350 22 view .LVU460
+ 1585 0014 0A21     		movs	r1, #10
+ 1586              	.LVL119:
+ 350:library/Src/ring_buffer.c **** 
+ 1587              		.loc 1 350 22 view .LVU461
+ 1588 0016 FBE7     		b	.L110
+ 1589              	.LVL120:
+ 1590              	.L119:
+ 1591              	.LBB12:
+ 356:library/Src/ring_buffer.c ****   } while(n);
+ 1592              		.loc 1 356 10 discriminator 1 view .LVU462
+ 1593 0018 3033     		adds	r3, r3, #48
+ 1594              	.LVL121:
+ 356:library/Src/ring_buffer.c ****   } while(n);
+ 1595              		.loc 1 356 10 discriminator 1 view .LVU463
+ 1596 001a DBB2     		uxtb	r3, r3
+ 1597              	.LVL122:
+ 1598              	.L112:
+ 356:library/Src/ring_buffer.c ****   } while(n);
+ 1599              		.loc 1 356 10 discriminator 4 view .LVU464
+ 1600 001c 04F8013D 		strb	r3, [r4, #-1]!
+ 1601              	.LVL123:
+ 356:library/Src/ring_buffer.c ****   } while(n);
+ 1602              		.loc 1 356 10 discriminator 4 view .LVU465
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 47
+
+
+ 1603              	.LBE12:
+ 357:library/Src/ring_buffer.c **** 
+ 1604              		.loc 1 357 10 is_stmt 1 discriminator 4 view .LVU466
+ 357:library/Src/ring_buffer.c **** 
+ 1605              		.loc 1 357 3 is_stmt 0 discriminator 4 view .LVU467
+ 1606 0020 88B1     		cbz	r0, .L114
+ 1607              	.LVL124:
+ 1608              	.L113:
+ 352:library/Src/ring_buffer.c ****     unsigned long m = n;
+ 1609              		.loc 1 352 3 is_stmt 1 view .LVU468
+ 1610              	.LBB13:
+ 353:library/Src/ring_buffer.c ****     n /= base;
+ 1611              		.loc 1 353 5 view .LVU469
+ 354:library/Src/ring_buffer.c ****     char c = m - base * n;
+ 1612              		.loc 1 354 5 view .LVU470
+ 1613 0022 0346     		mov	r3, r0
+ 354:library/Src/ring_buffer.c ****     char c = m - base * n;
+ 1614              		.loc 1 354 7 is_stmt 0 view .LVU471
+ 1615 0024 90FBF1F0 		sdiv	r0, r0, r1
+ 1616              	.LVL125:
+ 355:library/Src/ring_buffer.c ****     *--s = c < 10 ? c + '0' : c + 'A' - 10;
+ 1617              		.loc 1 355 5 is_stmt 1 view .LVU472
+ 355:library/Src/ring_buffer.c ****     *--s = c < 10 ? c + '0' : c + 'A' - 10;
+ 1618              		.loc 1 355 16 is_stmt 0 view .LVU473
+ 1619 0028 DBB2     		uxtb	r3, r3
+ 1620              	.LVL126:
+ 355:library/Src/ring_buffer.c ****     *--s = c < 10 ? c + '0' : c + 'A' - 10;
+ 1621              		.loc 1 355 16 view .LVU474
+ 1622 002a 10FB01F2 		smulbb	r2, r0, r1
+ 1623 002e D2B2     		uxtb	r2, r2
+ 355:library/Src/ring_buffer.c ****     *--s = c < 10 ? c + '0' : c + 'A' - 10;
+ 1624              		.loc 1 355 10 view .LVU475
+ 1625 0030 9B1A     		subs	r3, r3, r2
+ 1626 0032 DBB2     		uxtb	r3, r3
+ 1627              	.LVL127:
+ 356:library/Src/ring_buffer.c ****   } while(n);
+ 1628              		.loc 1 356 5 is_stmt 1 view .LVU476
+ 356:library/Src/ring_buffer.c ****   } while(n);
+ 1629              		.loc 1 356 10 is_stmt 0 view .LVU477
+ 1630 0034 092B     		cmp	r3, #9
+ 1631 0036 EFD9     		bls	.L119
+ 356:library/Src/ring_buffer.c ****   } while(n);
+ 1632              		.loc 1 356 10 discriminator 2 view .LVU478
+ 1633 0038 3733     		adds	r3, r3, #55
+ 1634              	.LVL128:
+ 356:library/Src/ring_buffer.c ****   } while(n);
+ 1635              		.loc 1 356 10 discriminator 2 view .LVU479
+ 1636 003a DBB2     		uxtb	r3, r3
+ 1637              	.LVL129:
+ 356:library/Src/ring_buffer.c ****   } while(n);
+ 1638              		.loc 1 356 10 discriminator 2 view .LVU480
+ 1639 003c EEE7     		b	.L112
+ 1640              	.LVL130:
+ 1641              	.L115:
+ 356:library/Src/ring_buffer.c ****   } while(n);
+ 1642              		.loc 1 356 10 discriminator 2 view .LVU481
+ 1643              	.LBE13:
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 48
+
+
+ 359:library/Src/ring_buffer.c **** }
+ 1644              		.loc 1 359 13 is_stmt 1 discriminator 2 view .LVU482
+ 359:library/Src/ring_buffer.c **** }
+ 1645              		.loc 1 359 26 is_stmt 0 discriminator 2 view .LVU483
+ 1646 003e 0134     		adds	r4, r4, #1
+ 1647              	.LVL131:
+ 359:library/Src/ring_buffer.c **** }
+ 1648              		.loc 1 359 13 discriminator 2 view .LVU484
+ 1649 0040 2946     		mov	r1, r5
+ 1650 0042 FFF7FEFF 		bl	Uart_write
+ 1651              	.LVL132:
+ 1652              	.L114:
+ 359:library/Src/ring_buffer.c **** }
+ 1653              		.loc 1 359 8 is_stmt 1 discriminator 1 view .LVU485
+ 359:library/Src/ring_buffer.c **** }
+ 1654              		.loc 1 359 9 is_stmt 0 discriminator 1 view .LVU486
+ 1655 0046 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 359:library/Src/ring_buffer.c **** }
+ 1656              		.loc 1 359 8 discriminator 1 view .LVU487
+ 1657 0048 0028     		cmp	r0, #0
+ 1658 004a F8D1     		bne	.L115
+ 360:library/Src/ring_buffer.c **** 
+ 1659              		.loc 1 360 1 view .LVU488
+ 1660 004c 0BB0     		add	sp, sp, #44
+ 1661              	.LCFI13:
+ 1662              		.cfi_def_cfa_offset 12
+ 1663              		@ sp needed
+ 1664 004e 30BD     		pop	{r4, r5, pc}
+ 360:library/Src/ring_buffer.c **** 
+ 1665              		.loc 1 360 1 view .LVU489
+ 1666              		.cfi_endproc
+ 1667              	.LFE146:
+ 1669              		.section	.text.Copy_upto,"ax",%progbits
+ 1670              		.align	1
+ 1671              		.global	Copy_upto
+ 1672              		.syntax unified
+ 1673              		.thumb
+ 1674              		.thumb_func
+ 1676              	Copy_upto:
+ 1677              	.LVL133:
+ 1678              	.LFB147:
+ 364:library/Src/ring_buffer.c **** 	int so_far =0;
+ 1679              		.loc 1 364 1 is_stmt 1 view -0
+ 1680              		.cfi_startproc
+ 1681              		@ args = 0, pretend = 0, frame = 0
+ 1682              		@ frame_needed = 0, uses_anonymous_args = 0
+ 364:library/Src/ring_buffer.c **** 	int so_far =0;
+ 1683              		.loc 1 364 1 is_stmt 0 view .LVU491
+ 1684 0000 2DE9704F 		push	{r4, r5, r6, r8, r9, r10, fp, lr}
+ 1685              	.LCFI14:
+ 1686              		.cfi_def_cfa_offset 32
+ 1687              		.cfi_offset 4, -32
+ 1688              		.cfi_offset 5, -28
+ 1689              		.cfi_offset 6, -24
+ 1690              		.cfi_offset 8, -20
+ 1691              		.cfi_offset 9, -16
+ 1692              		.cfi_offset 10, -12
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 49
+
+
+ 1693              		.cfi_offset 11, -8
+ 1694              		.cfi_offset 14, -4
+ 1695 0004 0646     		mov	r6, r0
+ 1696 0006 8846     		mov	r8, r1
+ 1697 0008 1446     		mov	r4, r2
+ 365:library/Src/ring_buffer.c **** 	int len = strlen (string);
+ 1698              		.loc 1 365 2 is_stmt 1 view .LVU492
+ 1699              	.LVL134:
+ 366:library/Src/ring_buffer.c **** 	int indx = 0;
+ 1700              		.loc 1 366 2 view .LVU493
+ 366:library/Src/ring_buffer.c **** 	int indx = 0;
+ 1701              		.loc 1 366 12 is_stmt 0 view .LVU494
+ 1702 000a FFF7FEFF 		bl	strlen
+ 1703              	.LVL135:
+ 366:library/Src/ring_buffer.c **** 	int indx = 0;
+ 1704              		.loc 1 366 12 view .LVU495
+ 1705 000e 8246     		mov	r10, r0
+ 1706              	.LVL136:
+ 367:library/Src/ring_buffer.c **** 
+ 1707              		.loc 1 367 2 is_stmt 1 view .LVU496
+ 367:library/Src/ring_buffer.c **** 
+ 1708              		.loc 1 367 6 is_stmt 0 view .LVU497
+ 1709 0010 4FF0000B 		mov	fp, #0
+ 1710              	.L121:
+ 1711              	.LVL137:
+ 1712              	.L122:
+ 370:library/Src/ring_buffer.c **** 	while (Uart_peek(uart) != string[so_far])
+ 1713              		.loc 1 370 36 is_stmt 1 discriminator 1 view .LVU498
+ 370:library/Src/ring_buffer.c **** 	while (Uart_peek(uart) != string[so_far])
+ 1714              		.loc 1 370 8 discriminator 1 view .LVU499
+ 370:library/Src/ring_buffer.c **** 	while (Uart_peek(uart) != string[so_far])
+ 1715              		.loc 1 370 10 is_stmt 0 discriminator 1 view .LVU500
+ 1716 0014 2046     		mov	r0, r4
+ 1717 0016 FFF7FEFF 		bl	IsUartDataAvailable
+ 1718              	.LVL138:
+ 370:library/Src/ring_buffer.c **** 	while (Uart_peek(uart) != string[so_far])
+ 1719              		.loc 1 370 8 discriminator 1 view .LVU501
+ 1720 001a 0028     		cmp	r0, #0
+ 1721 001c FAD0     		beq	.L122
+ 1722 001e 17E0     		b	.L123
+ 1723              	.L125:
+ 373:library/Src/ring_buffer.c **** 			_rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE;
+ 1724              		.loc 1 373 4 is_stmt 1 view .LVU502
+ 373:library/Src/ring_buffer.c **** 			_rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE;
+ 1725              		.loc 1 373 40 is_stmt 0 view .LVU503
+ 1726 0020 1D4B     		ldr	r3, .L132
+ 1727 0022 1A68     		ldr	r2, [r3]
+ 373:library/Src/ring_buffer.c **** 			_rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE;
+ 1728              		.loc 1 373 60 view .LVU504
+ 1729 0024 916E     		ldr	r1, [r2, #104]
+ 373:library/Src/ring_buffer.c **** 			_rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE;
+ 1730              		.loc 1 373 48 view .LVU505
+ 1731 0026 525C     		ldrb	r2, [r2, r1]	@ zero_extendqisi2
+ 373:library/Src/ring_buffer.c **** 			_rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE;
+ 1732              		.loc 1 373 27 view .LVU506
+ 1733 0028 08F80B20 		strb	r2, [r8, fp]
+ 374:library/Src/ring_buffer.c **** 			indx++;
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 50
+
+
+ 1734              		.loc 1 374 4 is_stmt 1 view .LVU507
+ 374:library/Src/ring_buffer.c **** 			indx++;
+ 1735              		.loc 1 374 50 is_stmt 0 view .LVU508
+ 1736 002c 1968     		ldr	r1, [r3]
+ 1737 002e 8A6E     		ldr	r2, [r1, #104]
+ 374:library/Src/ring_buffer.c **** 			indx++;
+ 1738              		.loc 1 374 24 view .LVU509
+ 1739 0030 0132     		adds	r2, r2, #1
+ 374:library/Src/ring_buffer.c **** 			indx++;
+ 1740              		.loc 1 374 62 view .LVU510
+ 1741 0032 1A4B     		ldr	r3, .L132+4
+ 1742 0034 A3FB0203 		umull	r0, r3, r3, r2
+ 1743 0038 5B09     		lsrs	r3, r3, #5
+ 1744 003a 6420     		movs	r0, #100
+ 1745 003c 00FB1323 		mls	r3, r0, r3, r2
+ 374:library/Src/ring_buffer.c **** 			indx++;
+ 1746              		.loc 1 374 22 view .LVU511
+ 1747 0040 8B66     		str	r3, [r1, #104]
+ 375:library/Src/ring_buffer.c **** 			while (!IsUartDataAvailable(uart));
+ 1748              		.loc 1 375 4 is_stmt 1 view .LVU512
+ 375:library/Src/ring_buffer.c **** 			while (!IsUartDataAvailable(uart));
+ 1749              		.loc 1 375 8 is_stmt 0 view .LVU513
+ 1750 0042 0BF1010B 		add	fp, fp, #1
+ 1751              	.LVL139:
+ 376:library/Src/ring_buffer.c **** 
+ 1752              		.loc 1 376 4 is_stmt 1 view .LVU514
+ 1753              	.L124:
+ 376:library/Src/ring_buffer.c **** 
+ 1754              		.loc 1 376 38 discriminator 1 view .LVU515
+ 376:library/Src/ring_buffer.c **** 
+ 1755              		.loc 1 376 10 discriminator 1 view .LVU516
+ 376:library/Src/ring_buffer.c **** 
+ 1756              		.loc 1 376 12 is_stmt 0 discriminator 1 view .LVU517
+ 1757 0046 2046     		mov	r0, r4
+ 1758 0048 FFF7FEFF 		bl	IsUartDataAvailable
+ 1759              	.LVL140:
+ 376:library/Src/ring_buffer.c **** 
+ 1760              		.loc 1 376 10 discriminator 1 view .LVU518
+ 1761 004c 0028     		cmp	r0, #0
+ 1762 004e FAD0     		beq	.L124
+ 1763              	.L123:
+ 371:library/Src/ring_buffer.c **** 		{
+ 1764              		.loc 1 371 8 is_stmt 1 view .LVU519
+ 371:library/Src/ring_buffer.c **** 		{
+ 1765              		.loc 1 371 9 is_stmt 0 view .LVU520
+ 1766 0050 2046     		mov	r0, r4
+ 1767 0052 FFF7FEFF 		bl	Uart_peek
+ 1768              	.LVL141:
+ 371:library/Src/ring_buffer.c **** 		{
+ 1769              		.loc 1 371 34 view .LVU521
+ 1770 0056 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 371:library/Src/ring_buffer.c **** 		{
+ 1771              		.loc 1 371 8 view .LVU522
+ 1772 0058 9842     		cmp	r0, r3
+ 1773 005a E1D1     		bne	.L125
+ 371:library/Src/ring_buffer.c **** 		{
+ 1774              		.loc 1 371 8 view .LVU523
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 51
+
+
+ 1775 005c 0025     		movs	r5, #0
+ 1776              	.LVL142:
+ 1777              	.L126:
+ 379:library/Src/ring_buffer.c **** 	{
+ 1778              		.loc 1 379 8 is_stmt 1 view .LVU524
+ 379:library/Src/ring_buffer.c **** 	{
+ 1779              		.loc 1 379 9 is_stmt 0 view .LVU525
+ 1780 005e 2046     		mov	r0, r4
+ 1781 0060 FFF7FEFF 		bl	Uart_peek
+ 1782              	.LVL143:
+ 379:library/Src/ring_buffer.c **** 	{
+ 1783              		.loc 1 379 35 view .LVU526
+ 1784 0064 735D     		ldrb	r3, [r6, r5]	@ zero_extendqisi2
+ 379:library/Src/ring_buffer.c **** 	{
+ 1785              		.loc 1 379 8 view .LVU527
+ 1786 0066 9842     		cmp	r0, r3
+ 1787 0068 10D1     		bne	.L131
+ 381:library/Src/ring_buffer.c **** 		buffertocopyinto[indx++] = Uart_read(uart);
+ 1788              		.loc 1 381 3 is_stmt 1 view .LVU528
+ 381:library/Src/ring_buffer.c **** 		buffertocopyinto[indx++] = Uart_read(uart);
+ 1789              		.loc 1 381 9 is_stmt 0 view .LVU529
+ 1790 006a 0135     		adds	r5, r5, #1
+ 1791              	.LVL144:
+ 382:library/Src/ring_buffer.c **** 		if (so_far == len) return 1;
+ 1792              		.loc 1 382 3 is_stmt 1 view .LVU530
+ 382:library/Src/ring_buffer.c **** 		if (so_far == len) return 1;
+ 1793              		.loc 1 382 30 is_stmt 0 view .LVU531
+ 1794 006c 2046     		mov	r0, r4
+ 1795 006e FFF7FEFF 		bl	Uart_read
+ 1796              	.LVL145:
+ 382:library/Src/ring_buffer.c **** 		if (so_far == len) return 1;
+ 1797              		.loc 1 382 24 view .LVU532
+ 1798 0072 0BF10109 		add	r9, fp, #1
+ 1799              	.LVL146:
+ 382:library/Src/ring_buffer.c **** 		if (so_far == len) return 1;
+ 1800              		.loc 1 382 28 view .LVU533
+ 1801 0076 08F80B00 		strb	r0, [r8, fp]
+ 383:library/Src/ring_buffer.c **** 		while (!IsUartDataAvailable(uart));
+ 1802              		.loc 1 383 3 is_stmt 1 view .LVU534
+ 383:library/Src/ring_buffer.c **** 		while (!IsUartDataAvailable(uart));
+ 1803              		.loc 1 383 6 is_stmt 0 view .LVU535
+ 1804 007a AA45     		cmp	r10, r5
+ 1805 007c 08D0     		beq	.L127
+ 1806              	.L128:
+ 384:library/Src/ring_buffer.c **** 	}
+ 1807              		.loc 1 384 37 is_stmt 1 discriminator 1 view .LVU536
+ 384:library/Src/ring_buffer.c **** 	}
+ 1808              		.loc 1 384 9 discriminator 1 view .LVU537
+ 384:library/Src/ring_buffer.c **** 	}
+ 1809              		.loc 1 384 11 is_stmt 0 discriminator 1 view .LVU538
+ 1810 007e 2046     		mov	r0, r4
+ 1811 0080 FFF7FEFF 		bl	IsUartDataAvailable
+ 1812              	.LVL147:
+ 384:library/Src/ring_buffer.c **** 	}
+ 1813              		.loc 1 384 9 discriminator 1 view .LVU539
+ 1814 0084 0028     		cmp	r0, #0
+ 1815 0086 FAD0     		beq	.L128
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 52
+
+
+ 382:library/Src/ring_buffer.c **** 		if (so_far == len) return 1;
+ 1816              		.loc 1 382 24 view .LVU540
+ 1817 0088 CB46     		mov	fp, r9
+ 1818 008a E8E7     		b	.L126
+ 1819              	.LVL148:
+ 1820              	.L131:
+ 387:library/Src/ring_buffer.c **** 	{
+ 1821              		.loc 1 387 2 is_stmt 1 view .LVU541
+ 387:library/Src/ring_buffer.c **** 	{
+ 1822              		.loc 1 387 5 is_stmt 0 view .LVU542
+ 1823 008c 5545     		cmp	r5, r10
+ 1824 008e C1D1     		bne	.L122
+ 1825              	.LVL149:
+ 1826              	.L127:
+ 396:library/Src/ring_buffer.c **** 
+ 1827              		.loc 1 396 1 view .LVU543
+ 1828 0090 0120     		movs	r0, #1
+ 1829 0092 BDE8708F 		pop	{r4, r5, r6, r8, r9, r10, fp, pc}
+ 1830              	.LVL150:
+ 1831              	.L133:
+ 396:library/Src/ring_buffer.c **** 
+ 1832              		.loc 1 396 1 view .LVU544
+ 1833 0096 00BF     		.align	2
+ 1834              	.L132:
+ 1835 0098 00000000 		.word	_rx_buffer1
+ 1836 009c 1F85EB51 		.word	1374389535
+ 1837              		.cfi_endproc
+ 1838              	.LFE147:
+ 1840              		.section	.text.Wait_for,"ax",%progbits
+ 1841              		.align	1
+ 1842              		.global	Wait_for
+ 1843              		.syntax unified
+ 1844              		.thumb
+ 1845              		.thumb_func
+ 1847              	Wait_for:
+ 1848              	.LVL151:
+ 1849              	.LFB148:
+ 400:library/Src/ring_buffer.c **** 	int so_far =0;
+ 1850              		.loc 1 400 1 is_stmt 1 view -0
+ 1851              		.cfi_startproc
+ 1852              		@ args = 0, pretend = 0, frame = 0
+ 1853              		@ frame_needed = 0, uses_anonymous_args = 0
+ 400:library/Src/ring_buffer.c **** 	int so_far =0;
+ 1854              		.loc 1 400 1 is_stmt 0 view .LVU546
+ 1855 0000 2DE97841 		push	{r3, r4, r5, r6, r8, lr}
+ 1856              	.LCFI15:
+ 1857              		.cfi_def_cfa_offset 24
+ 1858              		.cfi_offset 3, -24
+ 1859              		.cfi_offset 4, -20
+ 1860              		.cfi_offset 5, -16
+ 1861              		.cfi_offset 6, -12
+ 1862              		.cfi_offset 8, -8
+ 1863              		.cfi_offset 14, -4
+ 1864 0004 0646     		mov	r6, r0
+ 1865 0006 0C46     		mov	r4, r1
+ 401:library/Src/ring_buffer.c **** 	int len = strlen (string);
+ 1866              		.loc 1 401 2 is_stmt 1 view .LVU547
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 53
+
+
+ 1867              	.LVL152:
+ 402:library/Src/ring_buffer.c **** 
+ 1868              		.loc 1 402 2 view .LVU548
+ 402:library/Src/ring_buffer.c **** 
+ 1869              		.loc 1 402 12 is_stmt 0 view .LVU549
+ 1870 0008 FFF7FEFF 		bl	strlen
+ 1871              	.LVL153:
+ 402:library/Src/ring_buffer.c **** 
+ 1872              		.loc 1 402 12 view .LVU550
+ 1873 000c 8046     		mov	r8, r0
+ 1874              	.LVL154:
+ 402:library/Src/ring_buffer.c **** 
+ 1875              		.loc 1 402 12 view .LVU551
+ 1876 000e 15E0     		b	.L135
+ 1877              	.LVL155:
+ 1878              	.L137:
+ 407:library/Src/ring_buffer.c **** 	while (Uart_peek(uart) != string[so_far]) 
+ 1879              		.loc 1 407 2 is_stmt 1 view .LVU552
+ 407:library/Src/ring_buffer.c **** 	while (Uart_peek(uart) != string[so_far]) 
+ 1880              		.loc 1 407 14 is_stmt 0 view .LVU553
+ 1881 0010 2B4B     		ldr	r3, .L154
+ 1882 0012 1B88     		ldrh	r3, [r3]
+ 407:library/Src/ring_buffer.c **** 	while (Uart_peek(uart) != string[so_far]) 
+ 1883              		.loc 1 407 5 view .LVU554
+ 1884 0014 002B     		cmp	r3, #0
+ 1885 0016 4BD0     		beq	.L151
+ 408:library/Src/ring_buffer.c **** 	{
+ 1886              		.loc 1 408 2 is_stmt 1 view .LVU555
+ 408:library/Src/ring_buffer.c **** 	{
+ 1887              		.loc 1 408 8 view .LVU556
+ 408:library/Src/ring_buffer.c **** 	{
+ 1888              		.loc 1 408 9 is_stmt 0 view .LVU557
+ 1889 0018 2046     		mov	r0, r4
+ 1890 001a FFF7FEFF 		bl	Uart_peek
+ 1891              	.LVL156:
+ 408:library/Src/ring_buffer.c **** 	{
+ 1892              		.loc 1 408 34 view .LVU558
+ 1893 001e 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 408:library/Src/ring_buffer.c **** 	{
+ 1894              		.loc 1 408 8 view .LVU559
+ 1895 0020 9842     		cmp	r0, r3
+ 1896 0022 19D0     		beq	.L152
+ 410:library/Src/ring_buffer.c **** 		goto again_device;
+ 1897              		.loc 1 410 4 is_stmt 1 view .LVU560
+ 410:library/Src/ring_buffer.c **** 		goto again_device;
+ 1898              		.loc 1 410 50 is_stmt 0 view .LVU561
+ 1899 0024 274B     		ldr	r3, .L154+4
+ 1900 0026 1968     		ldr	r1, [r3]
+ 1901 0028 8A6E     		ldr	r2, [r1, #104]
+ 410:library/Src/ring_buffer.c **** 		goto again_device;
+ 1902              		.loc 1 410 24 view .LVU562
+ 1903 002a 0132     		adds	r2, r2, #1
+ 410:library/Src/ring_buffer.c **** 		goto again_device;
+ 1904              		.loc 1 410 62 view .LVU563
+ 1905 002c 264B     		ldr	r3, .L154+8
+ 1906 002e A3FB0203 		umull	r0, r3, r3, r2
+ 1907 0032 5B09     		lsrs	r3, r3, #5
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 54
+
+
+ 1908 0034 6420     		movs	r0, #100
+ 1909 0036 00FB1323 		mls	r3, r0, r3, r2
+ 410:library/Src/ring_buffer.c **** 		goto again_device;
+ 1910              		.loc 1 410 22 view .LVU564
+ 1911 003a 8B66     		str	r3, [r1, #104]
+ 411:library/Src/ring_buffer.c **** 
+ 1912              		.loc 1 411 3 is_stmt 1 view .LVU565
+ 1913              	.L136:
+ 1914              	.LVL157:
+ 1915              	.L135:
+ 405:library/Src/ring_buffer.c **** 	while ((!IsUartDataAvailable(uart))&&timeout); 
+ 1916              		.loc 1 405 2 view .LVU566
+ 405:library/Src/ring_buffer.c **** 	while ((!IsUartDataAvailable(uart))&&timeout); 
+ 1917              		.loc 1 405 10 is_stmt 0 view .LVU567
+ 1918 003c 204B     		ldr	r3, .L154
+ 1919 003e 4FF4FA72 		mov	r2, #500
+ 1920 0042 1A80     		strh	r2, [r3]	@ movhi
+ 406:library/Src/ring_buffer.c **** 	if (timeout == 0) return 0;
+ 1921              		.loc 1 406 2 is_stmt 1 view .LVU568
+ 1922              	.L138:
+ 406:library/Src/ring_buffer.c **** 	if (timeout == 0) return 0;
+ 1923              		.loc 1 406 47 discriminator 2 view .LVU569
+ 406:library/Src/ring_buffer.c **** 	if (timeout == 0) return 0;
+ 1924              		.loc 1 406 8 discriminator 2 view .LVU570
+ 406:library/Src/ring_buffer.c **** 	if (timeout == 0) return 0;
+ 1925              		.loc 1 406 11 is_stmt 0 discriminator 2 view .LVU571
+ 1926 0044 2046     		mov	r0, r4
+ 1927 0046 FFF7FEFF 		bl	IsUartDataAvailable
+ 1928              	.LVL158:
+ 406:library/Src/ring_buffer.c **** 	if (timeout == 0) return 0;
+ 1929              		.loc 1 406 8 discriminator 2 view .LVU572
+ 1930 004a 0028     		cmp	r0, #0
+ 1931 004c E0D1     		bne	.L137
+ 406:library/Src/ring_buffer.c **** 	if (timeout == 0) return 0;
+ 1932              		.loc 1 406 37 discriminator 1 view .LVU573
+ 1933 004e 1C4B     		ldr	r3, .L154
+ 1934 0050 1B88     		ldrh	r3, [r3]
+ 1935 0052 002B     		cmp	r3, #0
+ 1936 0054 F6D1     		bne	.L138
+ 1937 0056 DBE7     		b	.L137
+ 1938              	.L152:
+ 406:library/Src/ring_buffer.c **** 	if (timeout == 0) return 0;
+ 1939              		.loc 1 406 37 discriminator 1 view .LVU574
+ 1940 0058 0025     		movs	r5, #0
+ 1941 005a 02E0     		b	.L142
+ 1942              	.LVL159:
+ 1943              	.L143:
+ 421:library/Src/ring_buffer.c **** 	}
+ 1944              		.loc 1 421 3 is_stmt 1 view .LVU575
+ 421:library/Src/ring_buffer.c **** 	}
+ 1945              		.loc 1 421 15 is_stmt 0 view .LVU576
+ 1946 005c 184B     		ldr	r3, .L154
+ 1947 005e 1B88     		ldrh	r3, [r3]
+ 421:library/Src/ring_buffer.c **** 	}
+ 1948              		.loc 1 421 6 view .LVU577
+ 1949 0060 5BB3     		cbz	r3, .L148
+ 1950              	.LVL160:
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 55
+
+
+ 1951              	.L142:
+ 414:library/Src/ring_buffer.c **** 	{
+ 1952              		.loc 1 414 8 is_stmt 1 view .LVU578
+ 414:library/Src/ring_buffer.c **** 	{
+ 1953              		.loc 1 414 9 is_stmt 0 view .LVU579
+ 1954 0062 2046     		mov	r0, r4
+ 1955 0064 FFF7FEFF 		bl	Uart_peek
+ 1956              	.LVL161:
+ 414:library/Src/ring_buffer.c **** 	{
+ 1957              		.loc 1 414 35 view .LVU580
+ 1958 0068 735D     		ldrb	r3, [r6, r5]	@ zero_extendqisi2
+ 414:library/Src/ring_buffer.c **** 	{
+ 1959              		.loc 1 414 8 view .LVU581
+ 1960 006a 9842     		cmp	r0, r3
+ 1961 006c 1CD1     		bne	.L153
+ 416:library/Src/ring_buffer.c **** 		_rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE; 
+ 1962              		.loc 1 416 3 is_stmt 1 view .LVU582
+ 416:library/Src/ring_buffer.c **** 		_rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE; 
+ 1963              		.loc 1 416 9 is_stmt 0 view .LVU583
+ 1964 006e 0135     		adds	r5, r5, #1
+ 1965              	.LVL162:
+ 417:library/Src/ring_buffer.c **** 		if (so_far == len) return 1;
+ 1966              		.loc 1 417 3 is_stmt 1 view .LVU584
+ 417:library/Src/ring_buffer.c **** 		if (so_far == len) return 1;
+ 1967              		.loc 1 417 49 is_stmt 0 view .LVU585
+ 1968 0070 144B     		ldr	r3, .L154+4
+ 1969 0072 1968     		ldr	r1, [r3]
+ 1970 0074 8A6E     		ldr	r2, [r1, #104]
+ 417:library/Src/ring_buffer.c **** 		if (so_far == len) return 1;
+ 1971              		.loc 1 417 23 view .LVU586
+ 1972 0076 0132     		adds	r2, r2, #1
+ 417:library/Src/ring_buffer.c **** 		if (so_far == len) return 1;
+ 1973              		.loc 1 417 61 view .LVU587
+ 1974 0078 134B     		ldr	r3, .L154+8
+ 1975 007a A3FB0203 		umull	r0, r3, r3, r2
+ 1976 007e 5B09     		lsrs	r3, r3, #5
+ 1977 0080 6420     		movs	r0, #100
+ 1978 0082 00FB1323 		mls	r3, r0, r3, r2
+ 417:library/Src/ring_buffer.c **** 		if (so_far == len) return 1;
+ 1979              		.loc 1 417 21 view .LVU588
+ 1980 0086 8B66     		str	r3, [r1, #104]
+ 418:library/Src/ring_buffer.c **** 		timeout = TIMEOUT_DEF;
+ 1981              		.loc 1 418 3 is_stmt 1 view .LVU589
+ 418:library/Src/ring_buffer.c **** 		timeout = TIMEOUT_DEF;
+ 1982              		.loc 1 418 6 is_stmt 0 view .LVU590
+ 1983 0088 A845     		cmp	r8, r5
+ 1984 008a 13D0     		beq	.L147
+ 419:library/Src/ring_buffer.c **** 		while ((!IsUartDataAvailable(uart))&&timeout);
+ 1985              		.loc 1 419 3 is_stmt 1 view .LVU591
+ 419:library/Src/ring_buffer.c **** 		while ((!IsUartDataAvailable(uart))&&timeout);
+ 1986              		.loc 1 419 11 is_stmt 0 view .LVU592
+ 1987 008c 0C4B     		ldr	r3, .L154
+ 1988 008e 4FF4FA72 		mov	r2, #500
+ 1989 0092 1A80     		strh	r2, [r3]	@ movhi
+ 420:library/Src/ring_buffer.c **** 		if (timeout == 0) return -1;
+ 1990              		.loc 1 420 3 is_stmt 1 view .LVU593
+ 1991              	.L144:
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 56
+
+
+ 420:library/Src/ring_buffer.c **** 		if (timeout == 0) return -1;
+ 1992              		.loc 1 420 48 discriminator 2 view .LVU594
+ 420:library/Src/ring_buffer.c **** 		if (timeout == 0) return -1;
+ 1993              		.loc 1 420 9 discriminator 2 view .LVU595
+ 420:library/Src/ring_buffer.c **** 		if (timeout == 0) return -1;
+ 1994              		.loc 1 420 12 is_stmt 0 discriminator 2 view .LVU596
+ 1995 0094 2046     		mov	r0, r4
+ 1996 0096 FFF7FEFF 		bl	IsUartDataAvailable
+ 1997              	.LVL163:
+ 420:library/Src/ring_buffer.c **** 		if (timeout == 0) return -1;
+ 1998              		.loc 1 420 9 discriminator 2 view .LVU597
+ 1999 009a 0028     		cmp	r0, #0
+ 2000 009c DED1     		bne	.L143
+ 420:library/Src/ring_buffer.c **** 		if (timeout == 0) return -1;
+ 2001              		.loc 1 420 38 discriminator 1 view .LVU598
+ 2002 009e 084B     		ldr	r3, .L154
+ 2003 00a0 1B88     		ldrh	r3, [r3]
+ 2004 00a2 002B     		cmp	r3, #0
+ 2005 00a4 F6D1     		bne	.L144
+ 2006 00a6 D9E7     		b	.L143
+ 2007              	.L153:
+ 424:library/Src/ring_buffer.c **** 	{
+ 2008              		.loc 1 424 2 is_stmt 1 view .LVU599
+ 424:library/Src/ring_buffer.c **** 	{
+ 2009              		.loc 1 424 5 is_stmt 0 view .LVU600
+ 2010 00a8 4545     		cmp	r5, r8
+ 2011 00aa C7D1     		bne	.L135
+ 430:library/Src/ring_buffer.c **** 	else return -1;
+ 2012              		.loc 1 430 28 view .LVU601
+ 2013 00ac 0120     		movs	r0, #1
+ 2014 00ae 02E0     		b	.L134
+ 2015              	.LVL164:
+ 2016              	.L151:
+ 407:library/Src/ring_buffer.c **** 	while (Uart_peek(uart) != string[so_far]) 
+ 2017              		.loc 1 407 27 view .LVU602
+ 2018 00b0 0020     		movs	r0, #0
+ 2019 00b2 00E0     		b	.L134
+ 2020              	.LVL165:
+ 2021              	.L147:
+ 418:library/Src/ring_buffer.c **** 		timeout = TIMEOUT_DEF;
+ 2022              		.loc 1 418 29 view .LVU603
+ 2023 00b4 0120     		movs	r0, #1
+ 2024              	.LVL166:
+ 2025              	.L134:
+ 432:library/Src/ring_buffer.c **** 
+ 2026              		.loc 1 432 1 view .LVU604
+ 2027 00b6 BDE87881 		pop	{r3, r4, r5, r6, r8, pc}
+ 2028              	.LVL167:
+ 2029              	.L148:
+ 421:library/Src/ring_buffer.c **** 	}
+ 2030              		.loc 1 421 28 view .LVU605
+ 2031 00ba 4FF0FF30 		mov	r0, #-1
+ 2032 00be FAE7     		b	.L134
+ 2033              	.L155:
+ 2034              		.align	2
+ 2035              	.L154:
+ 2036 00c0 00000000 		.word	.LANCHOR6
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 57
+
+
+ 2037 00c4 00000000 		.word	_rx_buffer1
+ 2038 00c8 1F85EB51 		.word	1374389535
+ 2039              		.cfi_endproc
+ 2040              	.LFE148:
+ 2042              		.section	.text.Get_after,"ax",%progbits
+ 2043              		.align	1
+ 2044              		.global	Get_after
+ 2045              		.syntax unified
+ 2046              		.thumb
+ 2047              		.thumb_func
+ 2049              	Get_after:
+ 2050              	.LVL168:
+ 2051              	.LFB144:
+ 326:library/Src/ring_buffer.c **** 
+ 2052              		.loc 1 326 1 is_stmt 1 view -0
+ 2053              		.cfi_startproc
+ 2054              		@ args = 0, pretend = 0, frame = 0
+ 2055              		@ frame_needed = 0, uses_anonymous_args = 0
+ 326:library/Src/ring_buffer.c **** 
+ 2056              		.loc 1 326 1 is_stmt 0 view .LVU607
+ 2057 0000 2DE97841 		push	{r3, r4, r5, r6, r8, lr}
+ 2058              	.LCFI16:
+ 2059              		.cfi_def_cfa_offset 24
+ 2060              		.cfi_offset 3, -24
+ 2061              		.cfi_offset 4, -20
+ 2062              		.cfi_offset 5, -16
+ 2063              		.cfi_offset 6, -12
+ 2064              		.cfi_offset 8, -8
+ 2065              		.cfi_offset 14, -4
+ 2066 0004 0546     		mov	r5, r0
+ 2067 0006 0E46     		mov	r6, r1
+ 2068 0008 9046     		mov	r8, r2
+ 2069 000a 1C46     		mov	r4, r3
+ 328:library/Src/ring_buffer.c **** 	for (int indx=0; indx<numberofchars; indx++)
+ 2070              		.loc 1 328 2 is_stmt 1 view .LVU608
+ 2071              	.LVL169:
+ 2072              	.L157:
+ 328:library/Src/ring_buffer.c **** 	for (int indx=0; indx<numberofchars; indx++)
+ 2073              		.loc 1 328 37 discriminator 1 view .LVU609
+ 328:library/Src/ring_buffer.c **** 	for (int indx=0; indx<numberofchars; indx++)
+ 2074              		.loc 1 328 8 discriminator 1 view .LVU610
+ 328:library/Src/ring_buffer.c **** 	for (int indx=0; indx<numberofchars; indx++)
+ 2075              		.loc 1 328 9 is_stmt 0 discriminator 1 view .LVU611
+ 2076 000c 2146     		mov	r1, r4
+ 2077 000e 2846     		mov	r0, r5
+ 2078 0010 FFF7FEFF 		bl	Wait_for
+ 2079              	.LVL170:
+ 328:library/Src/ring_buffer.c **** 	for (int indx=0; indx<numberofchars; indx++)
+ 2080              		.loc 1 328 8 discriminator 1 view .LVU612
+ 2081 0014 0128     		cmp	r0, #1
+ 2082 0016 F9D1     		bne	.L157
+ 2083              	.LBB14:
+ 329:library/Src/ring_buffer.c **** 	{
+ 2084              		.loc 1 329 11 view .LVU613
+ 2085 0018 0025     		movs	r5, #0
+ 2086              	.LVL171:
+ 329:library/Src/ring_buffer.c **** 	{
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 58
+
+
+ 2087              		.loc 1 329 11 view .LVU614
+ 2088 001a 0AE0     		b	.L158
+ 2089              	.LVL172:
+ 2090              	.L159:
+ 331:library/Src/ring_buffer.c **** 		buffertosave[indx] = Uart_read(uart);
+ 2091              		.loc 1 331 39 is_stmt 1 discriminator 1 view .LVU615
+ 331:library/Src/ring_buffer.c **** 		buffertosave[indx] = Uart_read(uart);
+ 2092              		.loc 1 331 9 discriminator 1 view .LVU616
+ 331:library/Src/ring_buffer.c **** 		buffertosave[indx] = Uart_read(uart);
+ 2093              		.loc 1 331 12 is_stmt 0 discriminator 1 view .LVU617
+ 2094 001c 2046     		mov	r0, r4
+ 2095 001e FFF7FEFF 		bl	IsUartDataAvailable
+ 2096              	.LVL173:
+ 331:library/Src/ring_buffer.c **** 		buffertosave[indx] = Uart_read(uart);
+ 2097              		.loc 1 331 9 discriminator 1 view .LVU618
+ 2098 0022 0028     		cmp	r0, #0
+ 2099 0024 FAD0     		beq	.L159
+ 332:library/Src/ring_buffer.c **** 	}
+ 2100              		.loc 1 332 3 is_stmt 1 discriminator 2 view .LVU619
+ 332:library/Src/ring_buffer.c **** 	}
+ 2101              		.loc 1 332 24 is_stmt 0 discriminator 2 view .LVU620
+ 2102 0026 2046     		mov	r0, r4
+ 2103 0028 FFF7FEFF 		bl	Uart_read
+ 2104              	.LVL174:
+ 332:library/Src/ring_buffer.c **** 	}
+ 2105              		.loc 1 332 22 discriminator 2 view .LVU621
+ 2106 002c 08F80500 		strb	r0, [r8, r5]
+ 329:library/Src/ring_buffer.c **** 	{
+ 2107              		.loc 1 329 39 is_stmt 1 discriminator 2 view .LVU622
+ 329:library/Src/ring_buffer.c **** 	{
+ 2108              		.loc 1 329 43 is_stmt 0 discriminator 2 view .LVU623
+ 2109 0030 0135     		adds	r5, r5, #1
+ 2110              	.LVL175:
+ 2111              	.L158:
+ 329:library/Src/ring_buffer.c **** 	{
+ 2112              		.loc 1 329 19 is_stmt 1 discriminator 1 view .LVU624
+ 329:library/Src/ring_buffer.c **** 	{
+ 2113              		.loc 1 329 2 is_stmt 0 discriminator 1 view .LVU625
+ 2114 0032 AE42     		cmp	r6, r5
+ 2115 0034 F2DC     		bgt	.L159
+ 2116              	.LBE14:
+ 334:library/Src/ring_buffer.c **** }
+ 2117              		.loc 1 334 2 is_stmt 1 view .LVU626
+ 335:library/Src/ring_buffer.c **** 
+ 2118              		.loc 1 335 1 is_stmt 0 view .LVU627
+ 2119 0036 0120     		movs	r0, #1
+ 2120 0038 BDE87881 		pop	{r3, r4, r5, r6, r8, pc}
+ 335:library/Src/ring_buffer.c **** 
+ 2121              		.loc 1 335 1 view .LVU628
+ 2122              		.cfi_endproc
+ 2123              	.LFE144:
+ 2125              		.section	.text.my_Uart_isr,"ax",%progbits
+ 2126              		.align	1
+ 2127              		.global	my_Uart_isr
+ 2128              		.syntax unified
+ 2129              		.thumb
+ 2130              		.thumb_func
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 59
+
+
+ 2132              	my_Uart_isr:
+ 2133              	.LVL176:
+ 2134              	.LFB149:
+ 435:library/Src/ring_buffer.c **** 	  uint32_t isrflags   = READ_REG(huart->Instance->ISR);
+ 2135              		.loc 1 435 1 is_stmt 1 view -0
+ 2136              		.cfi_startproc
+ 2137              		@ args = 0, pretend = 0, frame = 0
+ 2138              		@ frame_needed = 0, uses_anonymous_args = 0
+ 435:library/Src/ring_buffer.c **** 	  uint32_t isrflags   = READ_REG(huart->Instance->ISR);
+ 2139              		.loc 1 435 1 is_stmt 0 view .LVU630
+ 2140 0000 10B5     		push	{r4, lr}
+ 2141              	.LCFI17:
+ 2142              		.cfi_def_cfa_offset 8
+ 2143              		.cfi_offset 4, -8
+ 2144              		.cfi_offset 14, -4
+ 436:library/Src/ring_buffer.c **** 	  uint32_t cr1its     = READ_REG(huart->Instance->CR1);
+ 2145              		.loc 1 436 4 is_stmt 1 view .LVU631
+ 436:library/Src/ring_buffer.c **** 	  uint32_t cr1its     = READ_REG(huart->Instance->CR1);
+ 2146              		.loc 1 436 26 is_stmt 0 view .LVU632
+ 2147 0002 0368     		ldr	r3, [r0]
+ 436:library/Src/ring_buffer.c **** 	  uint32_t cr1its     = READ_REG(huart->Instance->CR1);
+ 2148              		.loc 1 436 13 view .LVU633
+ 2149 0004 DA69     		ldr	r2, [r3, #28]
+ 2150              	.LVL177:
+ 437:library/Src/ring_buffer.c **** 
+ 2151              		.loc 1 437 4 is_stmt 1 view .LVU634
+ 437:library/Src/ring_buffer.c **** 
+ 2152              		.loc 1 437 13 is_stmt 0 view .LVU635
+ 2153 0006 1968     		ldr	r1, [r3]
+ 2154              	.LVL178:
+ 440:library/Src/ring_buffer.c ****     {
+ 2155              		.loc 1 440 5 is_stmt 1 view .LVU636
+ 440:library/Src/ring_buffer.c ****     {
+ 2156              		.loc 1 440 8 is_stmt 0 view .LVU637
+ 2157 0008 12F0200F 		tst	r2, #32
+ 2158 000c 02D0     		beq	.L162
+ 440:library/Src/ring_buffer.c ****     {
+ 2159              		.loc 1 440 48 discriminator 1 view .LVU638
+ 2160 000e 11F0200F 		tst	r1, #32
+ 2161 0012 06D1     		bne	.L171
+ 2162              	.L162:
+ 469:library/Src/ring_buffer.c ****     {
+ 2163              		.loc 1 469 5 is_stmt 1 view .LVU639
+ 469:library/Src/ring_buffer.c ****     {
+ 2164              		.loc 1 469 8 is_stmt 0 view .LVU640
+ 2165 0014 12F0800F 		tst	r2, #128
+ 2166 0018 02D0     		beq	.L161
+ 469:library/Src/ring_buffer.c ****     {
+ 2167              		.loc 1 469 47 discriminator 1 view .LVU641
+ 2168 001a 11F0800F 		tst	r1, #128
+ 2169 001e 15D1     		bne	.L172
+ 2170              	.LVL179:
+ 2171              	.L161:
+ 537:library/Src/ring_buffer.c **** 
+ 2172              		.loc 1 537 1 view .LVU642
+ 2173 0020 10BD     		pop	{r4, pc}
+ 2174              	.LVL180:
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 60
+
+
+ 2175              	.L171:
+ 2176              	.LBB15:
+ 453:library/Src/ring_buffer.c ****         unsigned char c = huart->Instance->RDR;     /* Read data register */
+ 2177              		.loc 1 453 3 is_stmt 1 view .LVU643
+ 453:library/Src/ring_buffer.c ****         unsigned char c = huart->Instance->RDR;     /* Read data register */
+ 2178              		.loc 1 453 18 is_stmt 0 view .LVU644
+ 2179 0022 DA69     		ldr	r2, [r3, #28]
+ 2180              	.LVL181:
+ 454:library/Src/ring_buffer.c ****         if (huart == device_uart)
+ 2181              		.loc 1 454 9 is_stmt 1 view .LVU645
+ 454:library/Src/ring_buffer.c ****         if (huart == device_uart)
+ 2182              		.loc 1 454 42 is_stmt 0 view .LVU646
+ 2183 0024 9B8C     		ldrh	r3, [r3, #36]
+ 454:library/Src/ring_buffer.c ****         if (huart == device_uart)
+ 2184              		.loc 1 454 23 view .LVU647
+ 2185 0026 DBB2     		uxtb	r3, r3
+ 2186              	.LVL182:
+ 455:library/Src/ring_buffer.c ****         {
+ 2187              		.loc 1 455 9 is_stmt 1 view .LVU648
+ 455:library/Src/ring_buffer.c ****         {
+ 2188              		.loc 1 455 12 is_stmt 0 view .LVU649
+ 2189 0028 274A     		ldr	r2, .L177
+ 2190 002a 9042     		cmp	r0, r2
+ 2191 002c 08D0     		beq	.L173
+ 460:library/Src/ring_buffer.c ****         {
+ 2192              		.loc 1 460 14 is_stmt 1 view .LVU650
+ 460:library/Src/ring_buffer.c ****         {
+ 2193              		.loc 1 460 17 is_stmt 0 view .LVU651
+ 2194 002e 274A     		ldr	r2, .L177+4
+ 2195 0030 9042     		cmp	r0, r2
+ 2196 0032 F5D1     		bne	.L161
+ 462:library/Src/ring_buffer.c ****         }
+ 2197              		.loc 1 462 13 is_stmt 1 view .LVU652
+ 2198 0034 264A     		ldr	r2, .L177+8
+ 2199 0036 1168     		ldr	r1, [r2]
+ 2200              	.LVL183:
+ 462:library/Src/ring_buffer.c ****         }
+ 2201              		.loc 1 462 13 is_stmt 0 view .LVU653
+ 2202 0038 1846     		mov	r0, r3
+ 2203              	.LVL184:
+ 462:library/Src/ring_buffer.c ****         }
+ 2204              		.loc 1 462 13 view .LVU654
+ 2205 003a FFF7FEFF 		bl	store_char
+ 2206              	.LVL185:
+ 465:library/Src/ring_buffer.c ****     }
+ 2207              		.loc 1 465 9 is_stmt 1 view .LVU655
+ 2208 003e EFE7     		b	.L161
+ 2209              	.LVL186:
+ 2210              	.L173:
+ 457:library/Src/ring_buffer.c ****         }
+ 2211              		.loc 1 457 10 view .LVU656
+ 2212 0040 244A     		ldr	r2, .L177+12
+ 2213 0042 1168     		ldr	r1, [r2]
+ 2214              	.LVL187:
+ 457:library/Src/ring_buffer.c ****         }
+ 2215              		.loc 1 457 10 is_stmt 0 view .LVU657
+ 2216 0044 1846     		mov	r0, r3
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 61
+
+
+ 2217              	.LVL188:
+ 457:library/Src/ring_buffer.c ****         }
+ 2218              		.loc 1 457 10 view .LVU658
+ 2219 0046 FFF7FEFF 		bl	store_char
+ 2220              	.LVL189:
+ 457:library/Src/ring_buffer.c ****         }
+ 2221              		.loc 1 457 10 view .LVU659
+ 2222 004a E9E7     		b	.L161
+ 2223              	.LVL190:
+ 2224              	.L172:
+ 457:library/Src/ring_buffer.c ****         }
+ 2225              		.loc 1 457 10 view .LVU660
+ 2226              	.LBE15:
+ 471:library/Src/ring_buffer.c ****     	if(tx_buffer1.head == tx_buffer1.tail)
+ 2227              		.loc 1 471 6 is_stmt 1 view .LVU661
+ 471:library/Src/ring_buffer.c ****     	if(tx_buffer1.head == tx_buffer1.tail)
+ 2228              		.loc 1 471 9 is_stmt 0 view .LVU662
+ 2229 004c 1E4A     		ldr	r2, .L177
+ 2230              	.LVL191:
+ 471:library/Src/ring_buffer.c ****     	if(tx_buffer1.head == tx_buffer1.tail)
+ 2231              		.loc 1 471 9 view .LVU663
+ 2232 004e 9042     		cmp	r0, r2
+ 2233 0050 19D0     		beq	.L174
+ 503:library/Src/ring_buffer.c ****         	if(tx_buffer2.head == tx_buffer2.tail)
+ 2234              		.loc 1 503 11 is_stmt 1 view .LVU664
+ 503:library/Src/ring_buffer.c ****         	if(tx_buffer2.head == tx_buffer2.tail)
+ 2235              		.loc 1 503 14 is_stmt 0 view .LVU665
+ 2236 0052 1E4A     		ldr	r2, .L177+4
+ 2237 0054 9042     		cmp	r0, r2
+ 2238 0056 E3D1     		bne	.L161
+ 504:library/Src/ring_buffer.c ****         	    {
+ 2239              		.loc 1 504 10 is_stmt 1 view .LVU666
+ 504:library/Src/ring_buffer.c ****         	    {
+ 2240              		.loc 1 504 23 is_stmt 0 view .LVU667
+ 2241 0058 1F4A     		ldr	r2, .L177+16
+ 2242 005a 516E     		ldr	r1, [r2, #100]
+ 2243              	.LVL192:
+ 504:library/Src/ring_buffer.c ****         	    {
+ 2244              		.loc 1 504 42 view .LVU668
+ 2245 005c 926E     		ldr	r2, [r2, #104]
+ 504:library/Src/ring_buffer.c ****         	    {
+ 2246              		.loc 1 504 12 view .LVU669
+ 2247 005e 9142     		cmp	r1, r2
+ 2248 0060 2DD0     		beq	.L175
+ 2249              	.LBB16:
+ 515:library/Src/ring_buffer.c ****         	      tx_buffer2.tail = (tx_buffer2.tail + 1) % UART_BUFFER_SIZE;
+ 2250              		.loc 1 515 16 is_stmt 1 view .LVU670
+ 515:library/Src/ring_buffer.c ****         	      tx_buffer2.tail = (tx_buffer2.tail + 1) % UART_BUFFER_SIZE;
+ 2251              		.loc 1 515 62 is_stmt 0 view .LVU671
+ 2252 0062 1D4A     		ldr	r2, .L177+16
+ 2253 0064 946E     		ldr	r4, [r2, #104]
+ 2254              	.LVL193:
+ 516:library/Src/ring_buffer.c **** 
+ 2255              		.loc 1 516 16 is_stmt 1 view .LVU672
+ 516:library/Src/ring_buffer.c **** 
+ 2256              		.loc 1 516 45 is_stmt 0 view .LVU673
+ 2257 0066 916E     		ldr	r1, [r2, #104]
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 62
+
+
+ 516:library/Src/ring_buffer.c **** 
+ 2258              		.loc 1 516 51 view .LVU674
+ 2259 0068 0131     		adds	r1, r1, #1
+ 516:library/Src/ring_buffer.c **** 
+ 2260              		.loc 1 516 56 view .LVU675
+ 2261 006a 1C4B     		ldr	r3, .L177+20
+ 2262 006c A3FB01C3 		umull	ip, r3, r3, r1
+ 2263 0070 5B09     		lsrs	r3, r3, #5
+ 2264 0072 4FF0640C 		mov	ip, #100
+ 2265 0076 0CFB1313 		mls	r3, ip, r3, r1
+ 516:library/Src/ring_buffer.c **** 
+ 2266              		.loc 1 516 32 view .LVU676
+ 2267 007a 9366     		str	r3, [r2, #104]
+ 530:library/Src/ring_buffer.c ****         	      huart->Instance->TDR = c;
+ 2268              		.loc 1 530 16 is_stmt 1 view .LVU677
+ 530:library/Src/ring_buffer.c ****         	      huart->Instance->TDR = c;
+ 2269              		.loc 1 530 21 is_stmt 0 view .LVU678
+ 2270 007c 0368     		ldr	r3, [r0]
+ 530:library/Src/ring_buffer.c ****         	      huart->Instance->TDR = c;
+ 2271              		.loc 1 530 31 view .LVU679
+ 2272 007e D969     		ldr	r1, [r3, #28]
+ 531:library/Src/ring_buffer.c **** 
+ 2273              		.loc 1 531 16 is_stmt 1 view .LVU680
+ 531:library/Src/ring_buffer.c **** 
+ 2274              		.loc 1 531 37 is_stmt 0 view .LVU681
+ 2275 0080 125D     		ldrb	r2, [r2, r4]	@ zero_extendqisi2
+ 2276              	.LVL194:
+ 531:library/Src/ring_buffer.c **** 
+ 2277              		.loc 1 531 37 view .LVU682
+ 2278 0082 1A85     		strh	r2, [r3, #40]	@ movhi
+ 2279              	.LBE16:
+ 535:library/Src/ring_buffer.c ****     }
+ 2280              		.loc 1 535 6 is_stmt 1 view .LVU683
+ 2281 0084 CCE7     		b	.L161
+ 2282              	.LVL195:
+ 2283              	.L174:
+ 472:library/Src/ring_buffer.c ****     	    {
+ 2284              		.loc 1 472 6 view .LVU684
+ 472:library/Src/ring_buffer.c ****     	    {
+ 2285              		.loc 1 472 19 is_stmt 0 view .LVU685
+ 2286 0086 164A     		ldr	r2, .L177+24
+ 2287 0088 516E     		ldr	r1, [r2, #100]
+ 2288              	.LVL196:
+ 472:library/Src/ring_buffer.c ****     	    {
+ 2289              		.loc 1 472 38 view .LVU686
+ 2290 008a 926E     		ldr	r2, [r2, #104]
+ 472:library/Src/ring_buffer.c ****     	    {
+ 2291              		.loc 1 472 8 view .LVU687
+ 2292 008c 9142     		cmp	r1, r2
+ 2293 008e 11D0     		beq	.L176
+ 2294              	.LBB17:
+ 482:library/Src/ring_buffer.c ****     	      tx_buffer1.tail = (tx_buffer1.tail + 1) % UART_BUFFER_SIZE;
+ 2295              		.loc 1 482 12 is_stmt 1 view .LVU688
+ 482:library/Src/ring_buffer.c ****     	      tx_buffer1.tail = (tx_buffer1.tail + 1) % UART_BUFFER_SIZE;
+ 2296              		.loc 1 482 58 is_stmt 0 view .LVU689
+ 2297 0090 134A     		ldr	r2, .L177+24
+ 2298 0092 946E     		ldr	r4, [r2, #104]
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 63
+
+
+ 2299              	.LVL197:
+ 483:library/Src/ring_buffer.c **** 
+ 2300              		.loc 1 483 12 is_stmt 1 view .LVU690
+ 483:library/Src/ring_buffer.c **** 
+ 2301              		.loc 1 483 41 is_stmt 0 view .LVU691
+ 2302 0094 916E     		ldr	r1, [r2, #104]
+ 483:library/Src/ring_buffer.c **** 
+ 2303              		.loc 1 483 47 view .LVU692
+ 2304 0096 0131     		adds	r1, r1, #1
+ 483:library/Src/ring_buffer.c **** 
+ 2305              		.loc 1 483 52 view .LVU693
+ 2306 0098 104B     		ldr	r3, .L177+20
+ 2307 009a A3FB01C3 		umull	ip, r3, r3, r1
+ 2308 009e 5B09     		lsrs	r3, r3, #5
+ 2309 00a0 4FF0640C 		mov	ip, #100
+ 2310 00a4 0CFB1313 		mls	r3, ip, r3, r1
+ 483:library/Src/ring_buffer.c **** 
+ 2311              		.loc 1 483 28 view .LVU694
+ 2312 00a8 9366     		str	r3, [r2, #104]
+ 497:library/Src/ring_buffer.c ****     	      huart->Instance->TDR = c;
+ 2313              		.loc 1 497 12 is_stmt 1 view .LVU695
+ 497:library/Src/ring_buffer.c ****     	      huart->Instance->TDR = c;
+ 2314              		.loc 1 497 17 is_stmt 0 view .LVU696
+ 2315 00aa 0368     		ldr	r3, [r0]
+ 497:library/Src/ring_buffer.c ****     	      huart->Instance->TDR = c;
+ 2316              		.loc 1 497 27 view .LVU697
+ 2317 00ac D969     		ldr	r1, [r3, #28]
+ 498:library/Src/ring_buffer.c **** 
+ 2318              		.loc 1 498 12 is_stmt 1 view .LVU698
+ 498:library/Src/ring_buffer.c **** 
+ 2319              		.loc 1 498 33 is_stmt 0 view .LVU699
+ 2320 00ae 125D     		ldrb	r2, [r2, r4]	@ zero_extendqisi2
+ 2321              	.LVL198:
+ 498:library/Src/ring_buffer.c **** 
+ 2322              		.loc 1 498 33 view .LVU700
+ 2323 00b0 1A85     		strh	r2, [r3, #40]	@ movhi
+ 2324 00b2 B5E7     		b	.L161
+ 2325              	.LVL199:
+ 2326              	.L176:
+ 498:library/Src/ring_buffer.c **** 
+ 2327              		.loc 1 498 33 view .LVU701
+ 2328              	.LBE17:
+ 475:library/Src/ring_buffer.c **** 
+ 2329              		.loc 1 475 12 is_stmt 1 view .LVU702
+ 2330 00b4 1A68     		ldr	r2, [r3]
+ 2331 00b6 22F08002 		bic	r2, r2, #128
+ 2332 00ba 1A60     		str	r2, [r3]
+ 2333 00bc B0E7     		b	.L161
+ 2334              	.L175:
+ 508:library/Src/ring_buffer.c **** 
+ 2335              		.loc 1 508 16 view .LVU703
+ 2336 00be 1A68     		ldr	r2, [r3]
+ 2337 00c0 22F08002 		bic	r2, r2, #128
+ 2338 00c4 1A60     		str	r2, [r3]
+ 2339 00c6 ABE7     		b	.L161
+ 2340              	.L178:
+ 2341              		.align	2
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 64
+
+
+ 2342              	.L177:
+ 2343 00c8 00000000 		.word	huart3
+ 2344 00cc 00000000 		.word	huart1
+ 2345 00d0 00000000 		.word	.LANCHOR2
+ 2346 00d4 00000000 		.word	_rx_buffer1
+ 2347 00d8 00000000 		.word	.LANCHOR5
+ 2348 00dc 1F85EB51 		.word	1374389535
+ 2349 00e0 00000000 		.word	tx_buffer1
+ 2350              		.cfi_endproc
+ 2351              	.LFE149:
+ 2353              		.global	timeout
+ 2354              		.global	_tx_buffer2
+ 2355              		.global	_rx_buffer2
+ 2356              		.global	_tx_buffer1
+ 2357              		.global	_rx_buffer1
+ 2358              		.section	.bss._rx_buffer1,"aw",%nobits
+ 2359              		.align	2
+ 2362              	_rx_buffer1:
+ 2363 0000 00000000 		.space	4
+ 2364              		.global	tx_buffer2
+ 2365              		.global	rx_buffer2
+ 2366              		.global	tx_buffer1
+ 2367              		.section	.bss.tx_buffer1,"aw",%nobits
+ 2368              		.align	2
+ 2371              	tx_buffer1:
+ 2372 0000 00000000 		.space	108
+ 2372      00000000 
+ 2372      00000000 
+ 2372      00000000 
+ 2372      00000000 
+ 2373              		.global	rx_buffer1
+ 2374              		.section	.bss._rx_buffer2,"aw",%nobits
+ 2375              		.align	2
+ 2376              		.set	.LANCHOR2,. + 0
+ 2379              	_rx_buffer2:
+ 2380 0000 00000000 		.space	4
+ 2381              		.section	.bss._tx_buffer1,"aw",%nobits
+ 2382              		.align	2
+ 2383              		.set	.LANCHOR1,. + 0
+ 2386              	_tx_buffer1:
+ 2387 0000 00000000 		.space	4
+ 2388              		.section	.bss._tx_buffer2,"aw",%nobits
+ 2389              		.align	2
+ 2390              		.set	.LANCHOR4,. + 0
+ 2393              	_tx_buffer2:
+ 2394 0000 00000000 		.space	4
+ 2395              		.section	.bss.rx_buffer1,"aw",%nobits
+ 2396              		.align	2
+ 2397              		.set	.LANCHOR0,. + 0
+ 2400              	rx_buffer1:
+ 2401 0000 00000000 		.space	108
+ 2401      00000000 
+ 2401      00000000 
+ 2401      00000000 
+ 2401      00000000 
+ 2402              		.section	.bss.rx_buffer2,"aw",%nobits
+ 2403              		.align	2
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 65
+
+
+ 2404              		.set	.LANCHOR3,. + 0
+ 2407              	rx_buffer2:
+ 2408 0000 00000000 		.space	108
+ 2408      00000000 
+ 2408      00000000 
+ 2408      00000000 
+ 2408      00000000 
+ 2409              		.section	.bss.timeout,"aw",%nobits
+ 2410              		.align	1
+ 2411              		.set	.LANCHOR6,. + 0
+ 2414              	timeout:
+ 2415 0000 0000     		.space	2
+ 2416              		.section	.bss.tx_buffer2,"aw",%nobits
+ 2417              		.align	2
+ 2418              		.set	.LANCHOR5,. + 0
+ 2421              	tx_buffer2:
+ 2422 0000 00000000 		.space	108
+ 2422      00000000 
+ 2422      00000000 
+ 2422      00000000 
+ 2422      00000000 
+ 2423              		.text
+ 2424              	.Letext0:
+ 2425              		.file 2 "c:\\tools\\gcc-arm-none-eabi-10.3-2021.10-win32\\gcc-arm-none-eabi-10.3-2021.10\\arm-none
+ 2426              		.file 3 "c:\\tools\\gcc-arm-none-eabi-10.3-2021.10-win32\\gcc-arm-none-eabi-10.3-2021.10\\arm-none
+ 2427              		.file 4 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l475xx.h"
+ 2428              		.file 5 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h"
+ 2429              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 2430              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 2431              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 2432              		.file 9 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 2433              		.file 10 "library/Inc/ring_buffer.h"
+ 2434              		.file 11 "c:\\tools\\gcc-arm-none-eabi-10.3-2021.10-win32\\gcc-arm-none-eabi-10.3-2021.10\\arm-non
+ 2435              		.file 12 "<built-in>"
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 66
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 ring_buffer.c
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:20     .text.my_spi_isr:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:26     .text.my_spi_isr:00000000 my_spi_isr
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:503    .text.store_char:00000000 store_char
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:396    .text.my_spi_isr:00000184 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2362   .bss._rx_buffer1:00000000 _rx_buffer1
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2371   .bss.tx_buffer1:00000000 tx_buffer1
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:404    .text.Ringbuf_init:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:410    .text.Ringbuf_init:00000000 Ringbuf_init
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:482    .text.Ringbuf_init:00000060 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:497    .text.store_char:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:543    .text.store_char:00000024 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:548    .text.Look_for:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:554    .text.Look_for:00000000 Look_for
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:638    .text.GetDataFromBuffer:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:644    .text.GetDataFromBuffer:00000000 GetDataFromBuffer
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:825    .text.Uart_flush:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:831    .text.Uart_flush:00000000 Uart_flush
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:905    .text.Uart_flush:0000003c $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:913    .text.Uart_peek:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:919    .text.Uart_peek:00000000 Uart_peek
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:999    .text.Uart_peek:00000044 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1007   .text.Uart_read:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1013   .text.Uart_read:00000000 Uart_read
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1078   .text.Uart_read:0000003c $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1085   .text.spi_read:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1091   .text.spi_read:00000000 spi_read
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1156   .text.spi_read:0000003c $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1163   .text.Uart_write:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1169   .text.Uart_write:00000000 Uart_write
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1246   .text.Uart_write:00000044 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1253   .text.spi_write:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1259   .text.spi_write:00000000 spi_write
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1336   .text.spi_write:00000044 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1343   .text.IsUartDataAvailable:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1349   .text.IsUartDataAvailable:00000000 IsUartDataAvailable
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1423   .text.IsUartDataAvailable:00000058 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1432   .text.IsSpiDataAvailable:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1438   .text.IsSpiDataAvailable:00000000 IsSpiDataAvailable
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1483   .text.IsSpiDataAvailable:00000030 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1490   .text.Uart_sendstring:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1496   .text.Uart_sendstring:00000000 Uart_sendstring
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1540   .text.Uart_printbase:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1546   .text.Uart_printbase:00000000 Uart_printbase
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1670   .text.Copy_upto:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1676   .text.Copy_upto:00000000 Copy_upto
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1835   .text.Copy_upto:00000098 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1841   .text.Wait_for:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:1847   .text.Wait_for:00000000 Wait_for
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2036   .text.Wait_for:000000c0 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2043   .text.Get_after:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2049   .text.Get_after:00000000 Get_after
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2126   .text.my_Uart_isr:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2132   .text.my_Uart_isr:00000000 my_Uart_isr
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2343   .text.my_Uart_isr:000000c8 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2414   .bss.timeout:00000000 timeout
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s 			page 67
+
+
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2393   .bss._tx_buffer2:00000000 _tx_buffer2
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2379   .bss._rx_buffer2:00000000 _rx_buffer2
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2386   .bss._tx_buffer1:00000000 _tx_buffer1
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2359   .bss._rx_buffer1:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2421   .bss.tx_buffer2:00000000 tx_buffer2
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2407   .bss.rx_buffer2:00000000 rx_buffer2
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2368   .bss.tx_buffer1:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2400   .bss.rx_buffer1:00000000 rx_buffer1
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2375   .bss._rx_buffer2:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2382   .bss._tx_buffer1:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2389   .bss._tx_buffer2:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2396   .bss.rx_buffer1:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2403   .bss.rx_buffer2:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2410   .bss.timeout:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\ccjApxTJ.s:2417   .bss.tx_buffer2:00000000 $d
+
+UNDEFINED SYMBOLS
+hspi1
+huart3
+huart1
+strlen
+memset

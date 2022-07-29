@@ -1,0 +1,1 @@
+nul.o: nul
