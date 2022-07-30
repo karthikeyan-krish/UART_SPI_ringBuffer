@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
   35              	.LCFI0:
   36              		.cfi_def_cfa_offset 4
   37              		.cfi_offset 14, -4
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 2
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 2
 
 
   38 0002 83B0     		sub	sp, sp, #12
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
   88              		.thumb
   89              		.thumb_func
   91              	ST7789_WriteSmallData:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 3
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 3
 
 
   92              	.LVL4:
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  105              		.cfi_def_cfa_offset 16
  106 0004 8DF80700 		strb	r0, [sp, #7]
   68:library/Src/st7789.c **** 	ST7789_Select();
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 4
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 4
 
 
  107              		.loc 1 68 2 is_stmt 1 view .LVU10
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
   35:library/Src/st7789.c **** 	ST7789_Select();
  159              		.loc 1 35 1 is_stmt 1 view -0
  160              		.cfi_startproc
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 5
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 5
 
 
  161              		@ args = 0, pretend = 0, frame = 0
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  204              		.loc 1 47 11 discriminator 1 view .LVU27
   47:library/Src/st7789.c **** 				{}
  205              		.loc 1 47 27 is_stmt 0 discriminator 1 view .LVU28
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 6
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 6
 
 
  206 001c 0F4B     		ldr	r3, .L18+4
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
   51:library/Src/st7789.c **** 		#else
  246              		.loc 1 51 5 is_stmt 1 view .LVU43
  247 0046 4FF0FF33 		mov	r3, #-1
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 7
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 7
 
 
  248 004a 3146     		mov	r1, r6
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
   85:library/Src/st7789.c **** 		break;
   86:library/Src/st7789.c **** 	case 1:
   87:library/Src/st7789.c **** 		ST7789_WriteSmallData(ST7789_MADCTL_MY | ST7789_MADCTL_MV | ST7789_MADCTL_RGB);
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 8
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 8
 
 
   88:library/Src/st7789.c **** 		break;
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  316              		.thumb
  317              		.syntax unified
  318 000e 2A20     		movs	r0, #42
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 9
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 9
 
 
  319              	.LVL22:
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  360              	.LVL27:
  126:library/Src/st7789.c **** 	ST7789_UnSelect();
  361              		.loc 1 126 2 view .LVU64
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 10
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 10
 
 
  362              		.syntax unified
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  412 0014 0A       		.byte	(.L26-.L25)/2
  413 0015 0E       		.byte	(.L24-.L25)/2
  414              		.p2align 1
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 11
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 11
 
 
  415              	.L28:
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  130:library/Src/st7789.c ****  * @brief Initialize ST7789 controller
  131:library/Src/st7789.c ****  * @param none
  132:library/Src/st7789.c ****  * @return none
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 12
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 12
 
 
  133:library/Src/st7789.c ****  */
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  187:library/Src/st7789.c ****   	ST7789_WriteCommand (ST7789_NORON);		//	Normal Display on
  188:library/Src/st7789.c ****   	ST7789_WriteCommand (ST7789_DISPON);	//	Main screen turned on	
  189:library/Src/st7789.c **** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 13
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 13
 
 
  190:library/Src/st7789.c **** 	HAL_Delay(50);
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  496              	.L32:
  207:library/Src/st7789.c **** 		{
  208:library/Src/st7789.c **** 			memset(disp_buf, color, sizeof(disp_buf));
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 14
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 14
 
 
  497              		.loc 1 208 4 is_stmt 1 discriminator 3 view .LVU91
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  534              	.L34:
  535 003c 00000000 		.word	.LANCHOR1
  536              		.cfi_endproc
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 15
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 15
 
 
  537              	.LFE138:
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  583              	.LVL47:
  141:library/Src/st7789.c ****     ST7789_RST_Set();
  584              		.loc 1 141 5 view .LVU105
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 16
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 16
 
 
  585 0022 1920     		movs	r0, #25
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  629 0066 FFF7FEFF 		bl	ST7789_WriteCommand
  630              	.LVL56:
  156:library/Src/st7789.c ****     ST7789_WriteCommand(0xBB);				//	VCOM setting
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 17
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 17
 
 
  631              		.loc 1 156 5 view .LVU116
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  167:library/Src/st7789.c ****     ST7789_WriteSmallData (0x0F);			//	Default value (60HZ)
  675              		.loc 1 167 5 view .LVU127
  676 00ac C620     		movs	r0, #198
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 18
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 18
 
 
  677 00ae FFF7FEFF 		bl	ST7789_WriteCommand
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  720 00ec 134B     		ldr	r3, .L38+16
  721 00ee EC46     		mov	ip, sp
  722 00f0 0FCB     		ldm	r3, {r0, r1, r2, r3}
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 19
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 19
 
 
  723 00f2 ACE80700 		stmia	ip!, {r0, r1, r2}
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  769              		.cfi_endproc
  770              	.LFE137:
  772              		.section	.text.ST7789_DrawPixel,"ax",%progbits
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 20
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 20
 
 
  773              		.align	1
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  809              		.cfi_def_cfa_offset 8
  810              		@ sp needed
  811 0010 10BD     		pop	{r4, pc}
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 21
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 21
 
 
  812              	.LVL85:
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  859              		.section	.text.ST7789_Fill,"ax",%progbits
  860              		.align	1
  861              		.global	ST7789_Fill
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 22
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 22
 
 
  862              		.syntax unified
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  255:library/Src/st7789.c **** 		for (j = xSta; j <= xEnd; j++) {
  256:library/Src/st7789.c **** 			uint8_t data[] = {color >> 8, color & 0xFF};
  257:library/Src/st7789.c **** 			ST7789_WriteData(data, sizeof(data));
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 23
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 23
 
 
  258:library/Src/st7789.c **** 		}
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  942 003c 0134     		adds	r4, r4, #1
  943              	.LVL96:
  255:library/Src/st7789.c **** 			uint8_t data[] = {color >> 8, color & 0xFF};
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 24
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 24
 
 
  944              		.loc 1 255 30 discriminator 3 view .LVU177
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  263:library/Src/st7789.c ****  * @brief Draw a big Pixel at a point
  264:library/Src/st7789.c ****  * @param x&y -> coordinate of the point
  265:library/Src/st7789.c ****  * @param color -> color of the Pixel
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 25
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 25
 
 
  266:library/Src/st7789.c ****  * @return none
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1031              		.loc 1 273 2 view .LVU196
  1032              		.thumb
  1033              		.syntax unified
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 26
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 26
 
 
  1034 0020 4B1C     		adds	r3, r1, #1
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1076 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
  1077              	.LCFI28:
  1078              		.cfi_def_cfa_offset 36
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 27
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 27
 
 
  1079              		.cfi_offset 4, -36
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1118              		.loc 1 300 5 is_stmt 1 view .LVU209
  1119              		.loc 1 300 8 is_stmt 0 view .LVU210
  1120 0038 AF42     		cmp	r7, r5
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 28
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 28
 
 
  1121 003a 05D8     		bhi	.L64
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1158              		.loc 1 317 5 is_stmt 1 view .LVU222
  318:library/Src/st7789.c **** 
  319:library/Src/st7789.c ****     if (y0 < y1) {
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 29
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 29
 
 
  1159              		.loc 1 319 5 view .LVU223
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  325:library/Src/st7789.c ****         if (steep) {
  1197              		.loc 1 325 12 is_stmt 1 discriminator 1 view .LVU235
  325:library/Src/st7789.c ****         if (steep) {
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 30
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 30
 
 
  1198              		.loc 1 325 5 is_stmt 0 discriminator 1 view .LVU236
@@ -1798,7 +1798,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1243              		@ sp needed
  1244 00b6 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
  1245              		.loc 1 337 1 view .LVU249
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 31
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 31
 
 
  1246              		.cfi_endproc
@@ -1858,7 +1858,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1291              	.LVL132:
  1292              		.loc 1 348 2 is_stmt 0 view .LVU254
  1293 001a FFF7FEFF 		bl	ST7789_DrawLine
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 32
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 32
 
 
  1294              	.LVL133:
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1345              	.LFB144:
  354:library/Src/st7789.c **** 
  355:library/Src/st7789.c **** /** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 33
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 33
 
 
  356:library/Src/st7789.c ****  * @brief Draw a circle with single color
@@ -1978,7 +1978,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1387              		.loc 1 368 10 is_stmt 0 view .LVU272
  1388 001c 13B2     		sxth	r3, r2
  1389 001e 0193     		str	r3, [sp, #4]
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 34
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 34
 
 
  1390              	.LVL141:
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1434 005a 0123     		movs	r3, #1
  1435 005c 0393     		str	r3, [sp, #12]
  1436              		.loc 1 376 8 view .LVU283
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 35
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 35
 
 
  1437 005e 5EE0     		b	.L78
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1483              	.LVL156:
  385:library/Src/st7789.c **** 
  386:library/Src/st7789.c **** 		ST7789_DrawPixel(x0 + x, y0 + y, color);
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 36
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 36
 
 
  1484              		.loc 1 386 3 is_stmt 1 view .LVU298
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1532 00fc 4146     		mov	r1, r8
  1533 00fe 2046     		mov	r0, r4
  1534 0100 FFF7FEFF 		bl	ST7789_DrawPixel
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 37
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 37
 
 
  1535              	.LVL162:
@@ -2218,7 +2218,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1582              		.syntax unified
  1583              		.thumb
  1584              		.thumb_func
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 38
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 38
 
 
  1586              	ST7789_DrawImage:
@@ -2278,7 +2278,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1624              	.L84:
  413:library/Src/st7789.c **** 		return;
  414:library/Src/st7789.c **** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 39
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 39
 
 
  415:library/Src/st7789.c **** 	ST7789_Select();
@@ -2338,7 +2338,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1664              		.thumb
  1665              		.syntax unified
  1666 003e ECE7     		b	.L84
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 40
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 40
 
 
  1667              	.LVL172:
@@ -2398,7 +2398,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1712              		.loc 1 429 2 is_stmt 0 discriminator 4 view .LVU339
  1713 0008 FFF7FEFF 		bl	ST7789_WriteCommand
  1714              	.LVL175:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 41
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 41
 
 
  430:library/Src/st7789.c **** 	ST7789_UnSelect();
@@ -2458,7 +2458,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1755              		.cfi_offset 4, -44
  1756              		.cfi_offset 5, -40
  1757              		.cfi_offset 6, -36
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 42
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 42
 
 
  1758              		.cfi_offset 7, -32
@@ -2518,7 +2518,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  449:library/Src/st7789.c **** 		b = font.data[(ch - 32) * font.height + i];
  450:library/Src/st7789.c **** 		for (j = 0; j < font.width; j++) {
  451:library/Src/st7789.c **** 			if ((b << j) & 0x8000) {
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 43
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 43
 
 
  452:library/Src/st7789.c **** 				uint8_t data[] = {color >> 8, color & 0xFF};
@@ -2578,7 +2578,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1845              	.LVL184:
  1846              	.LBE11:
  1847 0070 ECE7     		b	.L99
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 44
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 44
 
 
  1848              	.L103:
@@ -2638,7 +2638,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1886 0090 BDE8F04F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
  1887              	.LCFI44:
  1888              		.cfi_restore 14
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 45
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 45
 
 
  1889              		.cfi_restore 11
@@ -2698,7 +2698,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1933              		.cfi_offset 9, -16
  1934              		.cfi_offset 14, -12
  1935 0006 85B0     		sub	sp, sp, #20
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 46
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 46
 
 
  1936              	.LCFI48:
@@ -2758,7 +2758,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  1973 0030 2946     		mov	r1, r5
  1974 0032 3046     		mov	r0, r6
  1975 0034 FFF7FEFF 		bl	ST7789_WriteChar
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 47
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 47
 
 
  1976              	.LVL193:
@@ -2818,7 +2818,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  480:library/Src/st7789.c **** 				break;
  2014              		.loc 1 480 7 view .LVU415
  2015 0056 EF2B     		cmp	r3, #239
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 48
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 48
 
 
  2016 0058 03DC     		bgt	.L108
@@ -2878,7 +2878,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  2066              	.LFB149:
  496:library/Src/st7789.c **** 
  497:library/Src/st7789.c **** /** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 49
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 49
 
 
  498:library/Src/st7789.c ****  * @brief Draw a filled Rectangle with single color
@@ -2938,7 +2938,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  514:library/Src/st7789.c **** 	}
  515:library/Src/st7789.c **** 
  516:library/Src/st7789.c **** 	/* Check width and height */
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 50
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 50
 
 
  517:library/Src/st7789.c **** 	if ((x + w) >= ST7789_WIDTH) {
@@ -2998,7 +2998,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  2147              		.loc 1 525 22 discriminator 3 view .LVU443
  525:library/Src/st7789.c **** 		/* Draw lines */
  2148              		.loc 1 525 23 is_stmt 0 discriminator 3 view .LVU444
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 51
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 51
 
 
  2149 0052 0134     		adds	r4, r4, #1
@@ -3058,7 +3058,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  539:library/Src/st7789.c **** {
  2190              		.loc 1 539 1 is_stmt 1 view -0
  2191              		.cfi_startproc
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 52
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 52
 
 
  2192              		@ args = 12, pretend = 0, frame = 0
@@ -3118,7 +3118,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  2241 003a FFF7FEFF 		bl	ST7789_DrawLine
  2242              	.LVL213:
  545:library/Src/st7789.c **** 	ST7789_UnSelect();
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 53
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 53
 
 
  2243              		.loc 1 545 2 view .LVU458
@@ -3178,7 +3178,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  2289              		.cfi_def_cfa_offset 80
  2290 0006 BDF85040 		ldrh	r4, [sp, #80]
  2291 000a 0594     		str	r4, [sp, #20]
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 54
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 54
 
 
  2292 000c BDF85440 		ldrh	r4, [sp, #84]
@@ -3238,7 +3238,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  567:library/Src/st7789.c **** 		xinc1 = 1;
  2335              		.loc 1 567 9 view .LVU477
  2336 0046 0122     		movs	r2, #1
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 55
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 55
 
 
  2337              	.LVL220:
@@ -3298,7 +3298,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  2368              		.loc 1 590 3 is_stmt 0 view .LVU492
  2369 005e 089B     		ldr	r3, [sp, #32]
  2370 0060 0393     		str	r3, [sp, #12]
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 56
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 56
 
 
  586:library/Src/st7789.c **** 		den = deltax;
@@ -3358,7 +3358,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  596:library/Src/st7789.c **** 		numadd = deltax;
  2405              		.loc 1 596 3 view .LVU505
  596:library/Src/st7789.c **** 		numadd = deltax;
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 57
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 57
 
 
  2406              		.loc 1 596 7 is_stmt 0 view .LVU506
@@ -3418,7 +3418,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  611:library/Src/st7789.c **** 		y += yinc2;
  2442              		.loc 1 611 3 is_stmt 1 discriminator 2 view .LVU519
  2443              		.loc 1 611 5 is_stmt 0 discriminator 2 view .LVU520
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 58
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 58
 
 
  2444 009e 049B     		ldr	r3, [sp, #16]
@@ -3478,7 +3478,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  606:library/Src/st7789.c **** 			x += xinc1;
  2486              		.loc 1 606 8 is_stmt 0 view .LVU534
  2487 00d2 A3EB0A03 		sub	r3, r3, r10
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 59
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 59
 
 
  2488 00d6 0FFA83F8 		sxth	r8, r3
@@ -3538,7 +3538,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  616:library/Src/st7789.c **** /** 
  617:library/Src/st7789.c ****  * @brief Draw a Filled circle with single color
  618:library/Src/st7789.c ****  * @param x0&y0 -> coordinate of circle center
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 60
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 60
 
 
  619:library/Src/st7789.c ****  * @param r -> radius of circle
@@ -3598,7 +3598,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  2578 001a 1BB2     		sxth	r3, r3
  2579 001c 0593     		str	r3, [sp, #20]
  2580              	.LVL255:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 61
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 61
 
 
  629:library/Src/st7789.c **** 	int16_t x = 0;
@@ -3658,7 +3658,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  2627 0066 2846     		mov	r0, r5
  2628 0068 FFF7FEFF 		bl	ST7789_DrawLine
  2629              	.LVL263:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 62
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 62
 
 
  637:library/Src/st7789.c **** 
@@ -3718,7 +3718,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  2673 0096 049B     		ldr	r3, [sp, #16]
  2674 0098 0233     		adds	r3, r3, #2
  2675 009a 1AB2     		sxth	r2, r3
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 63
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 63
 
 
  2676 009c 0492     		str	r2, [sp, #16]
@@ -3778,7 +3778,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  2723 00fe 89B2     		uxth	r1, r1
  2724 0100 CDF800B0 		str	fp, [sp]
  2725 0104 0B46     		mov	r3, r1
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 64
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 64
 
 
  2726 0106 3246     		mov	r2, r6
@@ -3838,7 +3838,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  663:library/Src/st7789.c **** void ST7789_TearEffect(uint8_t tear)
  664:library/Src/st7789.c **** {
  2769              		.loc 1 664 1 is_stmt 1 view -0
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 65
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 65
 
 
  2770              		.cfi_startproc
@@ -3898,7 +3898,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  2817 000b 00       		.align	2
  2818              	.LC4:
  2819 000c 466F6E74 		.ascii	"Font test.\000"
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 66
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 66
 
 
  2819      20746573 
@@ -3958,7 +3958,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  677:library/Src/st7789.c **** {
  2850              		.loc 1 677 1 is_stmt 1 view -0
  2851              		.cfi_startproc
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 67
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 67
 
 
  2852              		@ args = 0, pretend = 0, frame = 0
@@ -4018,7 +4018,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  2900 0048 FFF7FEFF 		bl	HAL_Delay
  2901              	.LVL287:
  684:library/Src/st7789.c **** 	ST7789_Fill_Color(RED);
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 68
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 68
 
 
  2902              		.loc 1 684 2 view .LVU610
@@ -4078,7 +4078,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  695:library/Src/st7789.c ****     HAL_Delay(500);
  2946              		.loc 1 695 5 view .LVU621
  2947 00a0 4FF4FA70 		mov	r0, #500
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 69
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 69
 
 
  2948 00a4 FFF7FEFF 		bl	HAL_Delay
@@ -4138,7 +4138,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  2990              		.loc 1 707 2 view .LVU632
  2991 00f6 DFF8F481 		ldr	r8, .L148+40
  2992 00fa 0295     		str	r5, [sp, #8]
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 70
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 70
 
 
  2993 00fc 40F2FF73 		movw	r3, #2047
@@ -4198,7 +4198,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  3043              	.LVL314:
  712:library/Src/st7789.c **** 
  713:library/Src/st7789.c **** 	ST7789_Fill_Color(RED);
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 71
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 71
 
 
  3044              		.loc 1 713 2 view .LVU637
@@ -4258,7 +4258,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  3091 01c4 1E21     		movs	r1, #30
  3092 01c6 0846     		mov	r0, r1
  3093 01c8 FFF7FEFF 		bl	ST7789_DrawFilledRectangle
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 72
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 72
 
 
  3094              	.LVL321:
@@ -4318,7 +4318,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  3139              	.LVL328:
  730:library/Src/st7789.c **** 	ST7789_DrawFilledCircle(60, 60, 25, WHITE);
  3140              		.loc 1 730 2 view .LVU651
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 73
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 73
 
 
  3141 0220 2B46     		mov	r3, r5
@@ -4378,7 +4378,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  3186              		.loc 1 739 2 view .LVU658
  3187 027c CDF80880 		str	r8, [sp, #8]
  3188 0280 0197     		str	r7, [sp, #4]
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 74
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 74
 
 
  3189 0282 6368     		ldr	r3, [r4, #4]
@@ -4438,7 +4438,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  3235 02e0 4C000000 		.word	.LC9
  3236 02e4 58000000 		.word	.LC10
  3237 02e8 64000000 		.word	.LC11
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 75
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 75
 
 
  3238 02ec 00000000 		.word	Font_16x26
@@ -4482,75 +4482,75 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 1
  3276              		.file 12 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
  3277              		.file 13 "c:\\tools\\gcc-arm-none-eabi-10.3-2021.10-win32\\gcc-arm-none-eabi-10.3-2021.10\\arm-non
  3278              		.file 14 "<built-in>"
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 76
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 76
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 st7789.c
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:20     .text.ST7789_WriteCommand:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:25     .text.ST7789_WriteCommand:00000000 ST7789_WriteCommand
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:80     .text.ST7789_WriteCommand:0000002c $d
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:86     .text.ST7789_WriteSmallData:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:91     .text.ST7789_WriteSmallData:00000000 ST7789_WriteSmallData
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:145    .text.ST7789_WriteSmallData:0000002c $d
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:151    .text.ST7789_WriteData:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:156    .text.ST7789_WriteData:00000000 ST7789_WriteData
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:272    .text.ST7789_WriteData:00000058 $d
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:279    .text.ST7789_SetAddressWindow:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:284    .text.ST7789_SetAddressWindow:00000000 ST7789_SetAddressWindow
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:379    .text.ST7789_SetRotation:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:385    .text.ST7789_SetRotation:00000000 ST7789_SetRotation
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:410    .text.ST7789_SetRotation:00000012 $d
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:414    .text.ST7789_SetRotation:00000016 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:450    .text.ST7789_Fill_Color:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:456    .text.ST7789_Fill_Color:00000000 ST7789_Fill_Color
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:535    .text.ST7789_Fill_Color:0000003c $d
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:540    .rodata.ST7789_Init.str1.4:00000000 $d
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:547    .text.ST7789_Init:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:553    .text.ST7789_Init:00000000 ST7789_Init
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:764    .text.ST7789_Init:0000012c $d
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:773    .text.ST7789_DrawPixel:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:779    .text.ST7789_DrawPixel:00000000 ST7789_DrawPixel
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:860    .text.ST7789_Fill:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:866    .text.ST7789_Fill:00000000 ST7789_Fill
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:980    .text.ST7789_DrawPixel_4px:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:986    .text.ST7789_DrawPixel_4px:00000000 ST7789_DrawPixel_4px
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1062   .text.ST7789_DrawLine:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1068   .text.ST7789_DrawLine:00000000 ST7789_DrawLine
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1250   .text.ST7789_DrawRectangle:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1256   .text.ST7789_DrawRectangle:00000000 ST7789_DrawRectangle
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1337   .text.ST7789_DrawCircle:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1343   .text.ST7789_DrawCircle:00000000 ST7789_DrawCircle
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1580   .text.ST7789_DrawImage:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1586   .text.ST7789_DrawImage:00000000 ST7789_DrawImage
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1681   .text.ST7789_InvertColors:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1687   .text.ST7789_InvertColors:00000000 ST7789_InvertColors
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1735   .text.ST7789_WriteChar:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1741   .text.ST7789_WriteChar:00000000 ST7789_WriteChar
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1908   .text.ST7789_WriteString:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:1914   .text.ST7789_WriteString:00000000 ST7789_WriteString
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:2058   .text.ST7789_DrawFilledRectangle:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:2064   .text.ST7789_DrawFilledRectangle:00000000 ST7789_DrawFilledRectangle
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:2181   .text.ST7789_DrawTriangle:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:2187   .text.ST7789_DrawTriangle:00000000 ST7789_DrawTriangle
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:2261   .text.ST7789_DrawFilledTriangle:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:2267   .text.ST7789_DrawFilledTriangle:00000000 ST7789_DrawFilledTriangle
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:2525   .text.ST7789_DrawFilledCircle:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:2531   .text.ST7789_DrawFilledCircle:00000000 ST7789_DrawFilledCircle
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:2760   .text.ST7789_TearEffect:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:2766   .text.ST7789_TearEffect:00000000 ST7789_TearEffect
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:2814   .rodata.ST7789_Test.str1.4:00000000 $d
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:2842   .text.ST7789_Test:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:2848   .text.ST7789_Test:00000000 ST7789_Test
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s 			page 77
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:20     .text.ST7789_WriteCommand:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:25     .text.ST7789_WriteCommand:00000000 ST7789_WriteCommand
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:80     .text.ST7789_WriteCommand:0000002c $d
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:86     .text.ST7789_WriteSmallData:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:91     .text.ST7789_WriteSmallData:00000000 ST7789_WriteSmallData
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:145    .text.ST7789_WriteSmallData:0000002c $d
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:151    .text.ST7789_WriteData:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:156    .text.ST7789_WriteData:00000000 ST7789_WriteData
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:272    .text.ST7789_WriteData:00000058 $d
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:279    .text.ST7789_SetAddressWindow:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:284    .text.ST7789_SetAddressWindow:00000000 ST7789_SetAddressWindow
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:379    .text.ST7789_SetRotation:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:385    .text.ST7789_SetRotation:00000000 ST7789_SetRotation
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:410    .text.ST7789_SetRotation:00000012 $d
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:414    .text.ST7789_SetRotation:00000016 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:450    .text.ST7789_Fill_Color:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:456    .text.ST7789_Fill_Color:00000000 ST7789_Fill_Color
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:535    .text.ST7789_Fill_Color:0000003c $d
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:540    .rodata.ST7789_Init.str1.4:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:547    .text.ST7789_Init:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:553    .text.ST7789_Init:00000000 ST7789_Init
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:764    .text.ST7789_Init:0000012c $d
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:773    .text.ST7789_DrawPixel:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:779    .text.ST7789_DrawPixel:00000000 ST7789_DrawPixel
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:860    .text.ST7789_Fill:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:866    .text.ST7789_Fill:00000000 ST7789_Fill
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:980    .text.ST7789_DrawPixel_4px:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:986    .text.ST7789_DrawPixel_4px:00000000 ST7789_DrawPixel_4px
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1062   .text.ST7789_DrawLine:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1068   .text.ST7789_DrawLine:00000000 ST7789_DrawLine
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1250   .text.ST7789_DrawRectangle:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1256   .text.ST7789_DrawRectangle:00000000 ST7789_DrawRectangle
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1337   .text.ST7789_DrawCircle:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1343   .text.ST7789_DrawCircle:00000000 ST7789_DrawCircle
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1580   .text.ST7789_DrawImage:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1586   .text.ST7789_DrawImage:00000000 ST7789_DrawImage
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1681   .text.ST7789_InvertColors:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1687   .text.ST7789_InvertColors:00000000 ST7789_InvertColors
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1735   .text.ST7789_WriteChar:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1741   .text.ST7789_WriteChar:00000000 ST7789_WriteChar
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1908   .text.ST7789_WriteString:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:1914   .text.ST7789_WriteString:00000000 ST7789_WriteString
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:2058   .text.ST7789_DrawFilledRectangle:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:2064   .text.ST7789_DrawFilledRectangle:00000000 ST7789_DrawFilledRectangle
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:2181   .text.ST7789_DrawTriangle:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:2187   .text.ST7789_DrawTriangle:00000000 ST7789_DrawTriangle
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:2261   .text.ST7789_DrawFilledTriangle:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:2267   .text.ST7789_DrawFilledTriangle:00000000 ST7789_DrawFilledTriangle
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:2525   .text.ST7789_DrawFilledCircle:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:2531   .text.ST7789_DrawFilledCircle:00000000 ST7789_DrawFilledCircle
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:2760   .text.ST7789_TearEffect:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:2766   .text.ST7789_TearEffect:00000000 ST7789_TearEffect
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:2814   .rodata.ST7789_Test.str1.4:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:2842   .text.ST7789_Test:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:2848   .text.ST7789_Test:00000000 ST7789_Test
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s 			page 77
 
 
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:3228   .text.ST7789_Test:000002c4 $d
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:3255   .bss.disp_buf:00000000 disp_buf
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:3262   .data.DMA_MIN_SIZE:00000000 DMA_MIN_SIZE
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:3246   .rodata:00000000 $d
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:3251   .bss.disp_buf:00000000 $d
-C:\Users\imkar\AppData\Local\Temp\cceRTHQH.s:3258   .data.DMA_MIN_SIZE:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:3228   .text.ST7789_Test:000002c4 $d
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:3255   .bss.disp_buf:00000000 disp_buf
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:3262   .data.DMA_MIN_SIZE:00000000 DMA_MIN_SIZE
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:3246   .rodata:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:3251   .bss.disp_buf:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\cc4CfSVN.s:3258   .data.DMA_MIN_SIZE:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_GPIO_WritePin

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
   28:Core/Src/spi.c **** SPI_HandleTypeDef hspi2;
   29:Core/Src/spi.c **** SPI_HandleTypeDef hspi3;
   30:Core/Src/spi.c **** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 2
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 2
 
 
   31:Core/Src/spi.c **** /* SPI1 init function */
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
   65 0022 8261     		str	r2, [r0, #24]
   49:Core/Src/spi.c ****   hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
   66              		.loc 1 49 3 is_stmt 1 view .LVU15
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 3
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 3
 
 
   67              		.loc 1 49 32 is_stmt 0 view .LVU16
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  105              		.align	2
  106              	.L5:
  107 0044 00000000 		.word	.LANCHOR0
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 4
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 4
 
 
  108 0048 00300140 		.word	1073819648
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  148              		.loc 1 80 26 is_stmt 0 view .LVU45
  149 001a 0223     		movs	r3, #2
  150 001c 0361     		str	r3, [r0, #16]
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 5
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 5
 
 
   81:Core/Src/spi.c ****   hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
   97:Core/Src/spi.c **** 
   98:Core/Src/spi.c **** }
  189              		.loc 1 98 1 view .LVU67
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 6
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 6
 
 
  190 0040 08BD     		pop	{r3, pc}
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  112:Core/Src/spi.c ****   hspi3.Init.Direction = SPI_DIRECTION_2LINES;
  232              		.loc 1 112 3 is_stmt 1 view .LVU75
  233              		.loc 1 112 24 is_stmt 0 view .LVU76
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 7
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 7
 
 
  234 000e 0023     		movs	r3, #0
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  276              	.LVL4:
  277              		.loc 1 124 6 view .LVU101
  278 0038 00B9     		cbnz	r0, .L16
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 8
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 8
 
 
  279              	.L13:
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  321 0006 0793     		str	r3, [sp, #28]
  322 0008 0893     		str	r3, [sp, #32]
  323 000a 0993     		str	r3, [sp, #36]
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 9
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 9
 
 
  324 000c 0A93     		str	r3, [sp, #40]
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  178:Core/Src/spi.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
  179:Core/Src/spi.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
  180:Core/Src/spi.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 10
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 10
 
 
  181:Core/Src/spi.c ****     GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  353              	.L24:
  354              	.LCFI6:
  355              		.cfi_restore_state
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 11
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 11
 
 
  144:Core/Src/spi.c **** 
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  394 0056 0893     		str	r3, [sp, #32]
  154:Core/Src/spi.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
  395              		.loc 1 154 5 is_stmt 1 view .LVU133
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 12
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 12
 
 
  155:Core/Src/spi.c ****     GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  435 0082 42F00802 		orr	r2, r2, #8
  436 0086 DA64     		str	r2, [r3, #76]
  171:Core/Src/spi.c ****     /**SPI2 GPIO Configuration
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 13
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 13
 
 
  437              		.loc 1 171 5 view .LVU149
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  476 00b4 2420     		movs	r0, #36
  477 00b6 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
  478              	.LVL15:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 14
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 14
 
 
  479 00ba B3E7     		b	.L19
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  206:Core/Src/spi.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
  518              		.loc 1 206 26 is_stmt 0 view .LVU180
  519 00e8 0223     		movs	r3, #2
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 15
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 15
 
 
  520 00ea 0893     		str	r3, [sp, #32]
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  566              		.thumb_func
  568              	HAL_SPI_MspDeInit:
  569              	.LVL21:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 16
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 16
 
 
  570              	.LFB136:
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  251:Core/Src/spi.c ****     /**SPI2 GPIO Configuration
  252:Core/Src/spi.c ****     PD1     ------> SPI2_SCK
  253:Core/Src/spi.c ****     PD3     ------> SPI2_MISO
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 17
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 17
 
 
  254:Core/Src/spi.c ****     PD4     ------> SPI2_MOSI
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  237:Core/Src/spi.c **** 
  613              		.loc 1 237 5 is_stmt 0 view .LVU203
  614 002a FFF7FEFF 		bl	HAL_GPIO_DeInit
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 18
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 18
 
 
  615              	.LVL25:
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  661 0074 003C0040 		.word	1073757184
  662 0078 000C0048 		.word	1207962624
  663 007c 00080048 		.word	1207961600
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 19
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 19
 
 
  664              		.cfi_endproc
@@ -1125,32 +1125,32 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 1
  700              		.file 9 "Core/Inc/spi.h"
  701              		.file 10 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h"
  702              		.file 11 "Core/Inc/main.h"
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s 			page 20
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s 			page 20
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 spi.c
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:20     .text.MX_SPI1_Init:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:26     .text.MX_SPI1_Init:00000000 MX_SPI1_Init
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:107    .text.MX_SPI1_Init:00000044 $d
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:113    .text.MX_SPI2_Init:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:119    .text.MX_SPI2_Init:00000000 MX_SPI2_Init
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:200    .text.MX_SPI2_Init:00000048 $d
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:206    .text.MX_SPI3_Init:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:212    .text.MX_SPI3_Init:00000000 MX_SPI3_Init
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:291    .text.MX_SPI3_Init:00000044 $d
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:297    .text.HAL_SPI_MspInit:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:303    .text.HAL_SPI_MspInit:00000000 HAL_SPI_MspInit
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:552    .text.HAL_SPI_MspInit:00000110 $d
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:562    .text.HAL_SPI_MspDeInit:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:568    .text.HAL_SPI_MspDeInit:00000000 HAL_SPI_MspDeInit
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:659    .text.HAL_SPI_MspDeInit:0000006c $d
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:689    .bss.hspi3:00000000 hspi3
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:682    .bss.hspi2:00000000 hspi2
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:675    .bss.hspi1:00000000 hspi1
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:671    .bss.hspi1:00000000 $d
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:678    .bss.hspi2:00000000 $d
-C:\Users\imkar\AppData\Local\Temp\ccDMFgUh.s:685    .bss.hspi3:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:20     .text.MX_SPI1_Init:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:26     .text.MX_SPI1_Init:00000000 MX_SPI1_Init
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:107    .text.MX_SPI1_Init:00000044 $d
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:113    .text.MX_SPI2_Init:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:119    .text.MX_SPI2_Init:00000000 MX_SPI2_Init
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:200    .text.MX_SPI2_Init:00000048 $d
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:206    .text.MX_SPI3_Init:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:212    .text.MX_SPI3_Init:00000000 MX_SPI3_Init
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:291    .text.MX_SPI3_Init:00000044 $d
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:297    .text.HAL_SPI_MspInit:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:303    .text.HAL_SPI_MspInit:00000000 HAL_SPI_MspInit
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:552    .text.HAL_SPI_MspInit:00000110 $d
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:562    .text.HAL_SPI_MspDeInit:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:568    .text.HAL_SPI_MspDeInit:00000000 HAL_SPI_MspDeInit
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:659    .text.HAL_SPI_MspDeInit:0000006c $d
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:689    .bss.hspi3:00000000 hspi3
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:682    .bss.hspi2:00000000 hspi2
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:675    .bss.hspi1:00000000 hspi1
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:671    .bss.hspi1:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:678    .bss.hspi2:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\ccqcBplP.s:685    .bss.hspi3:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_SPI_Init

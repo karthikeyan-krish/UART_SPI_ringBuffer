@@ -21,15 +21,15 @@ typedef struct
   volatile unsigned int tail;
 } ring_buffer;
 
-ring_buffer rx_buffer1 = { { 0 }, 0, 0};
-ring_buffer tx_buffer1 = { { 0 }, 0, 0};
-ring_buffer rx_buffer2 = { { 0 }, 0, 0};
-ring_buffer tx_buffer2 = { { 0 }, 0, 0};
+extern ring_buffer rx_buffer1;
+extern ring_buffer tx_buffer1;
+extern ring_buffer rx_buffer2;
+extern ring_buffer tx_buffer2;
 
-ring_buffer *_rx_buffer1;
-ring_buffer *_tx_buffer1;
-ring_buffer *_rx_buffer2;
-ring_buffer *_tx_buffer2;
+extern ring_buffer *_rx_buffer1;
+extern ring_buffer *_tx_buffer1;
+extern ring_buffer *_rx_buffer2;
+extern ring_buffer *_tx_buffer2;
 
 /* reads the data in the rx_buffer and increment the tail count in rx_buffer of the given UART */
 int Uart_read(UART_HandleTypeDef *uart);

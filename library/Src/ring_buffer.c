@@ -30,19 +30,21 @@ extern void Uart_isr (UART_HandleTypeDef *huart);
 
 /**************** =====================================>>>>>>>>>>>> NO chnages after this **********************/
 
+ring_buffer rx_buffer1 = { { 0 }, 0, 0};
+ring_buffer tx_buffer1 = { { 0 }, 0, 0};
+ring_buffer rx_buffer2 = { { 0 }, 0, 0};
+ring_buffer tx_buffer2 = { { 0 }, 0, 0};
 
-
+ring_buffer *_rx_buffer1 = &rx_buffer1;
+ring_buffer *_tx_buffer1 = &tx_buffer1;
+ring_buffer *_rx_buffer2 = &rx_buffer2;
+ring_buffer *_tx_buffer2 = &tx_buffer2;
 
 void store_char (unsigned char c, ring_buffer *buffer);
 
 
 void Ringbuf_init(void)
 {
-  _rx_buffer1 = &rx_buffer1;
-  _tx_buffer1 = &tx_buffer1;
-  _rx_buffer2 = &rx_buffer2;
-  _tx_buffer2 = &tx_buffer2;
-
   /* Enable the UART & SPI Error Interrupt: (Frame error, noise error, overrun error) */
   __HAL_UART_ENABLE_IT(device_uart, UART_IT_ERR);
   __HAL_UART_ENABLE_IT(pc_uart, UART_IT_ERR);

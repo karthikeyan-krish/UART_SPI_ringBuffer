@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 1
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 1
   28:Core/Src/i2c.c **** 
   29:Core/Src/i2c.c **** /* I2C2 init function */
   30:Core/Src/i2c.c **** void MX_I2C2_Init(void)
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 2
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s 			page 2
 
 
   31:Core/Src/i2c.c **** {
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 1
   66 001c C361     		str	r3, [r0, #28]
   48:Core/Src/i2c.c ****   hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
   67              		.loc 1 48 3 is_stmt 1 view .LVU17
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 3
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s 			page 3
 
 
   68              		.loc 1 48 28 is_stmt 0 view .LVU18
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 1
   98              		.loc 1 51 5 is_stmt 1 view .LVU29
   99 003c FFF7FEFF 		bl	Error_Handler
  100              	.LVL3:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 4
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s 			page 4
 
 
  101 0040 F1E7     		b	.L2
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 1
  150 000c 2791     		str	r1, [sp, #156]
  151 000e 2891     		str	r1, [sp, #160]
  152 0010 2991     		str	r1, [sp, #164]
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 5
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s 			page 5
 
 
   77:Core/Src/i2c.c ****   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 1
  172              	.LCFI3:
  173              		.cfi_remember_state
  174              		.cfi_def_cfa_offset 8
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 6
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s 			page 6
 
 
  175              		@ sp needed
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 1
  214 0046 4FF44063 		mov	r3, #3072
  215 004a 2593     		str	r3, [sp, #148]
   99:Core/Src/i2c.c ****     GPIO_InitStruct.Pull = GPIO_PULLUP;
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 7
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s 			page 7
 
 
  216              		.loc 1 99 5 is_stmt 1 view .LVU59
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 1
   90:Core/Src/i2c.c ****     }
  256              		.loc 1 90 7 is_stmt 1 view .LVU75
  257 0078 FFF7FEFF 		bl	Error_Handler
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 8
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s 			page 8
 
 
  258              	.LVL15:
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 1
  302 0014 9365     		str	r3, [r2, #88]
  123:Core/Src/i2c.c **** 
  124:Core/Src/i2c.c ****     /**I2C2 GPIO Configuration
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 9
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s 			page 9
 
 
  125:Core/Src/i2c.c ****     PB10     ------> I2C2_SCL
@@ -538,27 +538,27 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 1
  344              		.file 9 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
  345              		.file 10 "Core/Inc/main.h"
  346              		.file 11 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h"
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 10
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s 			page 10
 
 
  347              		.file 12 "Core/Inc/i2c.h"
  348              		.file 13 "<built-in>"
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cce7APbj.s 			page 11
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s 			page 11
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 i2c.c
-C:\Users\imkar\AppData\Local\Temp\cce7APbj.s:20     .text.MX_I2C2_Init:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cce7APbj.s:26     .text.MX_I2C2_Init:00000000 MX_I2C2_Init
-C:\Users\imkar\AppData\Local\Temp\cce7APbj.s:116    .text.MX_I2C2_Init:00000050 $d
-C:\Users\imkar\AppData\Local\Temp\cce7APbj.s:122    .text.HAL_I2C_MspInit:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cce7APbj.s:128    .text.HAL_I2C_MspInit:00000000 HAL_I2C_MspInit
-C:\Users\imkar\AppData\Local\Temp\cce7APbj.s:263    .text.HAL_I2C_MspInit:00000080 $d
-C:\Users\imkar\AppData\Local\Temp\cce7APbj.s:270    .text.HAL_I2C_MspDeInit:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cce7APbj.s:276    .text.HAL_I2C_MspDeInit:00000000 HAL_I2C_MspDeInit
-C:\Users\imkar\AppData\Local\Temp\cce7APbj.s:321    .text.HAL_I2C_MspDeInit:00000030 $d
-C:\Users\imkar\AppData\Local\Temp\cce7APbj.s:333    .bss.hi2c2:00000000 hi2c2
-C:\Users\imkar\AppData\Local\Temp\cce7APbj.s:329    .bss.hi2c2:00000000 $d
+C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s:20     .text.MX_I2C2_Init:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s:26     .text.MX_I2C2_Init:00000000 MX_I2C2_Init
+C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s:116    .text.MX_I2C2_Init:00000050 $d
+C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s:122    .text.HAL_I2C_MspInit:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s:128    .text.HAL_I2C_MspInit:00000000 HAL_I2C_MspInit
+C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s:263    .text.HAL_I2C_MspInit:00000080 $d
+C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s:270    .text.HAL_I2C_MspDeInit:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s:276    .text.HAL_I2C_MspDeInit:00000000 HAL_I2C_MspDeInit
+C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s:321    .text.HAL_I2C_MspDeInit:00000030 $d
+C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s:333    .bss.hi2c2:00000000 hi2c2
+C:\Users\imkar\AppData\Local\Temp\ccbRNjsY.s:329    .bss.hi2c2:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_I2C_Init

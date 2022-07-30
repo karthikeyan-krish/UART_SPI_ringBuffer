@@ -28,6 +28,7 @@
 #include "gpio.h"
 #include "ring_buffer.h"
 
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -230,16 +231,19 @@ void USART1_IRQHandler(void)
   /* USER CODE BEGIN USART1_IRQn 0 */
  my_Uart_isr (pc_uart);
  my_spi_isr (wifi_spi);
- char newLine[2] = "\r";
+ char newLine = "\r";
+ char *pnewLine = &newLine;
  if(IsUartDataAvailable(pc_uart))
   {
     int data = Uart_read(pc_uart);
-
-    if(Look_for(newLine, _rx_buffer2) == 1)
+    spi_write(data, wifi_spi);
+    /*
+    if((Look_for(pnewLine, _rx_buffer2)) == 1)
     {
-      spi_write(data, wifi_spi);
+      //spi_write(data, wifi_spi);
+      Uart_write(data, pc_uart);
     }
-    
+    */
     //Uart_write(data, pc_uart);
   }
   /* USER CODE END USART1_IRQn 0 */

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
   28:Core/Src/stm32l4xx_it.c **** /* USER CODE BEGIN TD */
   29:Core/Src/stm32l4xx_it.c **** 
   30:Core/Src/stm32l4xx_it.c **** /* USER CODE END TD */
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 2
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 2
 
 
   31:Core/Src/stm32l4xx_it.c **** 
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
   78:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN NonMaskableInt_IRQn 0 */
   79:Core/Src/stm32l4xx_it.c **** 
   80:Core/Src/stm32l4xx_it.c ****   /* USER CODE END NonMaskableInt_IRQn 0 */
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 3
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 3
 
 
   81:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN NonMaskableInt_IRQn 1 */
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
   71              		.thumb_func
   73              	MemManage_Handler:
   74              	.LFB134:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 4
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 4
 
 
  101:Core/Src/stm32l4xx_it.c **** }
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
  126:Core/Src/stm32l4xx_it.c ****   while (1)
  105              		.loc 1 126 3 discriminator 1 view .LVU13
  127:Core/Src/stm32l4xx_it.c ****   {
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 5
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 5
 
 
  128:Core/Src/stm32l4xx_it.c ****     /* USER CODE BEGIN W1_BusFault_IRQn 0 */
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
  146:Core/Src/stm32l4xx_it.c **** }
  147:Core/Src/stm32l4xx_it.c **** 
  148:Core/Src/stm32l4xx_it.c **** /**
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 6
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 6
 
 
  149:Core/Src/stm32l4xx_it.c ****   * @brief This function handles System service call via SWI instruction.
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
  177              		.thumb
  178              		.thumb_func
  180              	PendSV_Handler:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 7
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 7
 
 
  181              	.LFB139:
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
  197:Core/Src/stm32l4xx_it.c **** 
  198:Core/Src/stm32l4xx_it.c ****   /* USER CODE END SysTick_IRQn 1 */
  199:Core/Src/stm32l4xx_it.c **** }
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 8
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 8
 
 
  213              		.loc 1 199 1 is_stmt 0 view .LVU28
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
  249              		.section	.text.DMA1_Channel3_IRQHandler,"ax",%progbits
  250              		.align	1
  251              		.global	DMA1_Channel3_IRQHandler
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 9
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 9
 
 
  252              		.syntax unified
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
  289              		.loc 1 240 1 is_stmt 1 view -0
  290              		.cfi_startproc
  291              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 10
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 10
 
 
  292              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
  330 0002 0248     		ldr	r0, .L30
  331 0004 FFF7FEFF 		bl	HAL_DMA_IRQHandler
  332              	.LVL4:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 11
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 11
 
 
  259:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN DMA1_Channel5_IRQn 1 */
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
  372              		.loc 1 275 3 view .LVU45
  373 0014 4FF48070 		mov	r0, #256
  374 0018 FFF7FEFF 		bl	HAL_GPIO_EXTI_IRQHandler
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 12
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 12
 
 
  375              	.LVL8:
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
  414              		.global	USART3_IRQHandler
  415              		.syntax unified
  416              		.thumb
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 13
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 13
 
 
  417              		.thumb_func
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
  445              		.global	EXTI15_10_IRQHandler
  446              		.syntax unified
  447              		.thumb
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 14
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 14
 
 
  448              		.thumb_func
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
  486              		.section	.text.SPI3_IRQHandler,"ax",%progbits
  487              		.align	1
  488              		.global	SPI3_IRQHandler
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 15
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 15
 
 
  489              		.syntax unified
@@ -892,54 +892,54 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 1
  525              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
  526              		.file 9 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
  527              		.file 10 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 16
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 16
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32l4xx_it.c
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:20     .text.NMI_Handler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:26     .text.NMI_Handler:00000000 NMI_Handler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:44     .text.HardFault_Handler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:50     .text.HardFault_Handler:00000000 HardFault_Handler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:67     .text.MemManage_Handler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:73     .text.MemManage_Handler:00000000 MemManage_Handler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:90     .text.BusFault_Handler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:96     .text.BusFault_Handler:00000000 BusFault_Handler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:113    .text.UsageFault_Handler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:119    .text.UsageFault_Handler:00000000 UsageFault_Handler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:136    .text.SVC_Handler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:142    .text.SVC_Handler:00000000 SVC_Handler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:155    .text.DebugMon_Handler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:161    .text.DebugMon_Handler:00000000 DebugMon_Handler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:174    .text.PendSV_Handler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:180    .text.PendSV_Handler:00000000 PendSV_Handler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:193    .text.SysTick_Handler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:199    .text.SysTick_Handler:00000000 SysTick_Handler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:219    .text.DMA1_Channel2_IRQHandler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:225    .text.DMA1_Channel2_IRQHandler:00000000 DMA1_Channel2_IRQHandler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:245    .text.DMA1_Channel2_IRQHandler:0000000c $d
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:250    .text.DMA1_Channel3_IRQHandler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:256    .text.DMA1_Channel3_IRQHandler:00000000 DMA1_Channel3_IRQHandler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:276    .text.DMA1_Channel3_IRQHandler:0000000c $d
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:281    .text.DMA1_Channel4_IRQHandler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:287    .text.DMA1_Channel4_IRQHandler:00000000 DMA1_Channel4_IRQHandler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:307    .text.DMA1_Channel4_IRQHandler:0000000c $d
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:312    .text.DMA1_Channel5_IRQHandler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:318    .text.DMA1_Channel5_IRQHandler:00000000 DMA1_Channel5_IRQHandler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:338    .text.DMA1_Channel5_IRQHandler:0000000c $d
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:343    .text.EXTI9_5_IRQHandler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:349    .text.EXTI9_5_IRQHandler:00000000 EXTI9_5_IRQHandler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:382    .text.SPI2_IRQHandler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:388    .text.SPI2_IRQHandler:00000000 SPI2_IRQHandler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:408    .text.SPI2_IRQHandler:0000000c $d
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:413    .text.USART3_IRQHandler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:419    .text.USART3_IRQHandler:00000000 USART3_IRQHandler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:439    .text.USART3_IRQHandler:0000000c $d
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:444    .text.EXTI15_10_IRQHandler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:450    .text.EXTI15_10_IRQHandler:00000000 EXTI15_10_IRQHandler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:487    .text.SPI3_IRQHandler:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:493    .text.SPI3_IRQHandler:00000000 SPI3_IRQHandler
-C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s:513    .text.SPI3_IRQHandler:0000000c $d
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:20     .text.NMI_Handler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:26     .text.NMI_Handler:00000000 NMI_Handler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:44     .text.HardFault_Handler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:50     .text.HardFault_Handler:00000000 HardFault_Handler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:67     .text.MemManage_Handler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:73     .text.MemManage_Handler:00000000 MemManage_Handler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:90     .text.BusFault_Handler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:96     .text.BusFault_Handler:00000000 BusFault_Handler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:113    .text.UsageFault_Handler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:119    .text.UsageFault_Handler:00000000 UsageFault_Handler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:136    .text.SVC_Handler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:142    .text.SVC_Handler:00000000 SVC_Handler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:155    .text.DebugMon_Handler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:161    .text.DebugMon_Handler:00000000 DebugMon_Handler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:174    .text.PendSV_Handler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:180    .text.PendSV_Handler:00000000 PendSV_Handler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:193    .text.SysTick_Handler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:199    .text.SysTick_Handler:00000000 SysTick_Handler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:219    .text.DMA1_Channel2_IRQHandler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:225    .text.DMA1_Channel2_IRQHandler:00000000 DMA1_Channel2_IRQHandler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:245    .text.DMA1_Channel2_IRQHandler:0000000c $d
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:250    .text.DMA1_Channel3_IRQHandler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:256    .text.DMA1_Channel3_IRQHandler:00000000 DMA1_Channel3_IRQHandler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:276    .text.DMA1_Channel3_IRQHandler:0000000c $d
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:281    .text.DMA1_Channel4_IRQHandler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:287    .text.DMA1_Channel4_IRQHandler:00000000 DMA1_Channel4_IRQHandler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:307    .text.DMA1_Channel4_IRQHandler:0000000c $d
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:312    .text.DMA1_Channel5_IRQHandler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:318    .text.DMA1_Channel5_IRQHandler:00000000 DMA1_Channel5_IRQHandler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:338    .text.DMA1_Channel5_IRQHandler:0000000c $d
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:343    .text.EXTI9_5_IRQHandler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:349    .text.EXTI9_5_IRQHandler:00000000 EXTI9_5_IRQHandler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:382    .text.SPI2_IRQHandler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:388    .text.SPI2_IRQHandler:00000000 SPI2_IRQHandler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:408    .text.SPI2_IRQHandler:0000000c $d
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:413    .text.USART3_IRQHandler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:419    .text.USART3_IRQHandler:00000000 USART3_IRQHandler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:439    .text.USART3_IRQHandler:0000000c $d
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:444    .text.EXTI15_10_IRQHandler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:450    .text.EXTI15_10_IRQHandler:00000000 EXTI15_10_IRQHandler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:487    .text.SPI3_IRQHandler:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:493    .text.SPI3_IRQHandler:00000000 SPI3_IRQHandler
+C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s:513    .text.SPI3_IRQHandler:0000000c $d
 
 UNDEFINED SYMBOLS
 HAL_IncTick
@@ -952,7 +952,7 @@ HAL_GPIO_EXTI_IRQHandler
 HAL_SPI_IRQHandler
 hspi2
 HAL_UART_IRQHandler
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccda9cpx.s 			page 17
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccFZa5tf.s 			page 17
 
 
 huart3

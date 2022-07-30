@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
   28:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****            (++) Lock and Unlock the FLASH interface using HAL_FLASH_Unlock() and
   29:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****                 HAL_FLASH_Lock() functions
   30:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****            (++) Erase function: Erase page, erase all sectors
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 2
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 2
 
 
   31:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****            (++) There are two modes of erase :
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
   85:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** static HAL_StatusTypeDef FLASH_OB_UserConfig(uint32_t UserType, uint32_t UserConfig);
   86:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** static HAL_StatusTypeDef FLASH_OB_PCROPConfig(uint32_t PCROPConfig, uint32_t PCROPStartAddr, uint32
   87:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** static void              FLASH_OB_GetWRP(uint32_t WRPArea, uint32_t * WRPStartOffset, uint32_t * WR
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 3
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 3
 
 
   88:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** static uint32_t          FLASH_OB_GetRDP(void);
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  142:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
  143:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     /* Deactivate the cache if they are activated to avoid data misbehavior */
  144:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     if(READ_BIT(FLASH->ACR, FLASH_ACR_ICEN) != 0U)
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 4
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 4
 
 
  145:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     {
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  199:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****         /* If the erase operation is completed, disable the PER Bit */
  200:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****         CLEAR_BIT(FLASH->CR, (FLASH_CR_PER | FLASH_CR_PNB));
  201:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 5
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 5
 
 
  202:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****         if (status != HAL_OK)
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  256:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     /* Disable data cache  */
  257:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     __HAL_FLASH_DATA_CACHE_DISABLE();
  258:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     pFlash.CacheToReactivate = FLASH_CACHE_DCACHE_ENABLED;
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 6
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 6
 
 
  259:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   }
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  313:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     if(FLASH_OB_WRPConfig(pOBInit->WRPArea, pOBInit->WRPStartOffset, pOBInit->WRPEndOffset) != HAL_
  314:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     {
  315:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       status = HAL_ERROR;
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 7
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 7
 
 
  316:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     }
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  370:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   pOBInit->OptionType = (OPTIONBYTE_RDP | OPTIONBYTE_USER);
  371:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
  372:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** #if defined (STM32L471xx) || defined (STM32L475xx) || defined (STM32L476xx) || defined (STM32L485xx
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 8
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 8
 
 
  373:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     defined (STM32L496xx) || defined (STM32L4A6xx) || \
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  427:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
  428:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** /**
  429:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   * @brief  Configuration of the LVE pin of the Flash (managed by power controller
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 9
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 9
 
 
  430:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   *         or forced to low in order to use an external SMPS)
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  484:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** #endif /* FLASH_CFGR_LVEN */
  485:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
  486:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** /**
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 10
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 10
 
 
  487:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   * @}
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
   45              		.loc 1 524 5 view .LVU5
   46              		.loc 1 524 7 is_stmt 0 view .LVU6
   47 0010 10F0020F 		tst	r0, #2
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 11
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 11
 
 
   48 0014 04D0     		beq	.L3
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  551:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** void FLASH_PageErase(uint32_t Page, uint32_t Banks)
  552:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** {
  553:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   /* Check the parameters */
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 12
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 12
 
 
  554:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   assert_param(IS_FLASH_PAGE(Page));
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  608:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   }
  609:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
  610:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   /* Flush data cache */
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 13
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 13
 
 
  611:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   if((cache == FLASH_CACHE_DCACHE_ENABLED) ||
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  665:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     /* Configure the write protected area */
  666:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     if(WRPArea == OB_WRPAREA_BANK1_AREAA)
  667:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     {
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 14
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 14
 
 
  668:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       MODIFY_REG(FLASH->WRP1AR, (FLASH_WRP1AR_WRP1A_STRT | FLASH_WRP1AR_WRP1A_END),
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  722:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   *            @arg OB_RDP_LEVEL_1: Read protection of the memory
  723:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   *            @arg OB_RDP_LEVEL_2: Full chip protection
  724:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   *
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 15
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 15
 
 
  725:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   * @retval HAL status
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  779:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
  780:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   /* Wait for last operation to be completed */
  781:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   status = FLASH_WaitForLastOperation((uint32_t)FLASH_TIMEOUT_VALUE);
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 16
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 16
 
 
  782:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  836:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     {
  837:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       /* IWDG_STOP option byte should be modified */
  838:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       assert_param(IS_OB_USER_IWDG_STOP(UserConfig & FLASH_OPTR_IWDG_STOP));
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 17
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 17
 
 
  839:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  893:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       optr_reg_val |= (UserConfig & FLASH_OPTR_DUALBANK);
  894:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       optr_reg_mask |= FLASH_OPTR_DUALBANK;
  895:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** #endif
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 18
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 18
 
 
  896:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     }
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  950:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       optr_reg_val |= (UserConfig & FLASH_OPTR_nBOOT0);
  951:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       optr_reg_mask |= FLASH_OPTR_nBOOT0;
  952:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     }
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 19
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 19
 
 
  953:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** #endif
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
 1007:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   assert_param(IS_FLASH_MAIN_MEM_ADDRESS(PCROPEndAddr));
 1008:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
 1009:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   /* Wait for last operation to be completed */
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 20
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 20
 
 
 1010:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   status = FLASH_WaitForLastOperation((uint32_t)FLASH_TIMEOUT_VALUE);
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
 1064:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****         reg_value = ((PCROPStartAddr - bank1_addr) >> 3);
 1065:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****         MODIFY_REG(FLASH->PCROP1SR, FLASH_PCROP1SR_PCROP1_STRT, reg_value);
 1066:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 21
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 21
 
 
 1067:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****         reg_value = ((PCROPEndAddr - bank1_addr) >> 3);
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
 1121:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   */
 1122:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** static void FLASH_OB_GetWRP(uint32_t WRPArea, uint32_t * WRPStartOffset, uint32_t * WRDPEndOffset)
 1123:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** {
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 22
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 22
 
 
   78              		.loc 1 1123 1 is_stmt 1 view -0
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
 1143:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   }
 1144:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   else if(WRPArea == OB_WRPAREA_BANK2_AREAB)
  113              		.loc 1 1144 8 is_stmt 1 view .LVU25
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 23
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 23
 
 
  114              		.loc 1 1144 10 is_stmt 0 view .LVU26
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  147 0036 C36C     		ldr	r3, [r0, #76]
  148 0038 DBB2     		uxtb	r3, r3
 1141:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     *WRDPEndOffset = (READ_BIT(FLASH->WRP2AR, FLASH_WRP2AR_WRP2A_END) >> 16);
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 24
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 24
 
 
  149              		.loc 1 1141 21 view .LVU39
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  191              		.thumb_func
  193              	FLASH_OB_GetRDP:
  194              	.LFB144:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 25
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 25
 
 
 1155:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  224 0014 186A     		ldr	r0, [r3, #32]
  225 0016 C0B2     		uxtb	r0, r0
  226 0018 7047     		bx	lr
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 26
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 26
 
 
  227              	.L21:
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  263              		.cfi_endproc
  264              	.LFE145:
  266              		.section	.text.FLASH_OB_GetPCROP,"ax",%progbits
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 27
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 27
 
 
  267              		.align	1
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
 1229:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   if (READ_BIT(SYSCFG->MEMRMP, SYSCFG_MEMRMP_FB_MODE) == 0U)
  290              		.loc 1 1229 3 view .LVU78
  291              		.loc 1 1229 7 is_stmt 0 view .LVU79
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 28
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 28
 
 
  292 0002 2C4B     		ldr	r3, .L35
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
 1258:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
 1259:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       reg_value     = (READ_REG(FLASH->PCROP2ER) & FLASH_PCROP2ER_PCROP2_END);
 1260:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       *PCROPEndAddr = (reg_value << 4) + FLASH_BASE + 0xFU;;
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 29
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 29
 
 
 1261:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     }
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  334 0038 214B     		ldr	r3, .L35+12
  335 003a 9A6A     		ldr	r2, [r3, #40]
  336              	.LVL19:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 30
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 30
 
 
  337              		.loc 1 1297 46 view .LVU97
@@ -1798,7 +1798,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
 1237:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   }
  382              		.loc 1 1237 16 view .LVU108
  383 0072 4FF00065 		mov	r5, #134217728
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 31
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 31
 
 
 1236:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     bank2_addr = FLASH_BASE;
@@ -1858,7 +1858,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  422 0098 746C     		ldr	r4, [r6, #68]
  423              	.LVL28:
 1285:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 32
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 32
 
 
  424              		.loc 1 1285 7 is_stmt 1 view .LVU125
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  469              		.loc 1 652 1 is_stmt 1 view -0
  470              		.cfi_startproc
  471              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 33
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 33
 
 
  472              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1978,7 +1978,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  511 0024 174C     		ldr	r4, .L46
  512              	.LVL35:
  697:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 34
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 34
 
 
  513              		.loc 1 697 5 is_stmt 0 view .LVU152
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  554              		.loc 1 673 7 view .LVU165
  555 005e 0948     		ldr	r0, .L46
  556 0060 036B     		ldr	r3, [r0, #48]
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 35
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 35
 
 
  557 0062 03F0FF23 		and	r3, r3, #-16711936
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  735:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
  606              		.loc 1 735 12 view .LVU173
  607 0008 FFF7FEFF 		bl	FLASH_WaitForLastOperation
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 36
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 36
 
 
  608              	.LVL41:
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  772:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   uint32_t optr_reg_val = 0;
  655              		.loc 1 772 1 view -0
  656              		.cfi_startproc
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 37
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 37
 
 
  657              		@ args = 0, pretend = 0, frame = 0
@@ -2218,7 +2218,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  792:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     }
  695              		.loc 1 792 21 is_stmt 0 view .LVU200
  696 001c 4FF4E062 		mov	r2, #1792
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 38
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 38
 
 
  697 0020 00E0     		b	.L56
@@ -2278,7 +2278,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  734              	.LVL55:
  735              	.L58:
  815:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     {
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 39
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 39
 
 
  736              		.loc 1 815 5 is_stmt 1 view .LVU218
@@ -2338,7 +2338,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  772              		.loc 1 838 7 is_stmt 1 view .LVU236
  841:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       optr_reg_mask |= FLASH_OPTR_IWDG_STOP;
  773              		.loc 1 841 7 view .LVU237
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 40
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 40
 
 
  841:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       optr_reg_mask |= FLASH_OPTR_IWDG_STOP;
@@ -2398,7 +2398,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  810              	.LVL64:
  862:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     }
  811              		.loc 1 862 7 is_stmt 1 view .LVU256
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 41
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 41
 
 
  862:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     }
@@ -2458,7 +2458,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  848              		.loc 1 899 5 is_stmt 1 view .LVU274
  899:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     {
  849              		.loc 1 899 7 is_stmt 0 view .LVU275
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 42
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 42
 
 
  850 00b4 14F4007F 		tst	r4, #512
@@ -2518,7 +2518,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  925:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       optr_reg_mask |= FLASH_OPTR_SRAM2_RST;
  886              		.loc 1 925 35 is_stmt 0 view .LVU294
  887 00da 05F00075 		and	r5, r5, #33554432
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 43
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 43
 
 
  888              	.LVL74:
@@ -2578,7 +2578,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  929              	.L71:
  930 010c 00200240 		.word	1073881088
  931              		.cfi_endproc
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 44
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 44
 
 
  932              	.LFE141:
@@ -2638,7 +2638,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
 1012:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   {
  974              		.loc 1 1012 5 is_stmt 0 view .LVU322
  975 0010 68BB     		cbnz	r0, .L74
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 45
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 45
 
 
 1019:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     {
@@ -2698,7 +2698,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
 1086:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     }
  1015              		.loc 1 1086 7 is_stmt 1 view .LVU338
 1089:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 46
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 46
 
 
  1016              		.loc 1 1089 5 view .LVU339
@@ -2758,7 +2758,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1058 0086 02F10062 		add	r2, r2, #134217728
 1027:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     }
  1059              		.loc 1 1027 18 discriminator 1 view .LVU352
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 47
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 47
 
 
  1060 008a 4FF00063 		mov	r3, #134217728
@@ -2818,7 +2818,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1102              	.LVL99:
 1068:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       }
  1103              		.loc 1 1068 9 view .LVU365
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 48
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 48
 
 
  1104 00bc 8262     		str	r2, [r0, #40]
@@ -2878,7 +2878,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1152              	HAL_FLASHEx_OBProgram:
  1153              	.LVL105:
  1154              	.LFB134:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 49
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 49
 
 
  298:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   HAL_StatusTypeDef status = HAL_OK;
@@ -2938,7 +2938,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1195              	.L88:
  321:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   {
  1196              		.loc 1 321 3 is_stmt 1 view .LVU388
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 50
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 50
 
 
  321:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   {
@@ -2998,7 +2998,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1235              	.LVL111:
  1236              	.L87:
  357:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 51
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 51
 
 
  1237              		.loc 1 357 1 is_stmt 0 view .LVU405
@@ -3058,7 +3058,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1279 0070 FFF7FEFF 		bl	FLASH_OB_UserConfig
  1280              	.LVL119:
  334:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     {
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 52
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 52
 
 
  1281              		.loc 1 334 7 view .LVU418
@@ -3118,7 +3118,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1328              		@ args = 0, pretend = 0, frame = 0
  1329              		@ frame_needed = 0, uses_anonymous_args = 0
  369:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   pOBInit->OptionType = (OPTIONBYTE_RDP | OPTIONBYTE_USER);
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 53
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 53
 
 
  1330              		.loc 1 369 1 is_stmt 0 view .LVU428
@@ -3178,7 +3178,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1370 0028 FFF7FEFF 		bl	FLASH_OB_GetUser
  1371              	.LVL129:
  391:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 54
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 54
 
 
  1372              		.loc 1 391 23 view .LVU443
@@ -3238,7 +3238,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  554:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
  1418              		.loc 1 554 3 view .LVU454
  568:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 55
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 55
 
 
  1419              		.loc 1 568 5 view .LVU455
@@ -3298,7 +3298,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1465              		.section	.text.HAL_FLASHEx_Erase_IT,"ax",%progbits
  1466              		.align	1
  1467              		.global	HAL_FLASHEx_Erase_IT
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 56
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 56
 
 
  1468              		.syntax unified
@@ -3358,7 +3358,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  243:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     {
  1510              		.loc 1 243 5 is_stmt 1 view .LVU478
  243:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     {
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 57
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 57
 
 
  1511              		.loc 1 243 8 is_stmt 0 view .LVU479
@@ -3418,7 +3418,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1549              		.loc 1 279 5 is_stmt 1 view .LVU495
  279:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     pFlash.NbPagesToErase = pEraseInit->NbPages;
  1550              		.loc 1 279 29 is_stmt 0 view .LVU496
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 58
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 58
 
 
  1551 0050 154A     		ldr	r2, .L129
@@ -3478,7 +3478,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1590              		.loc 1 257 5 is_stmt 1 view .LVU511
  1591 007a 0C49     		ldr	r1, .L129+4
  1592 007c 0A68     		ldr	r2, [r1]
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 59
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 59
 
 
  1593 007e 22F48062 		bic	r2, r2, #1024
@@ -3538,7 +3538,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1636              	.L129:
  1637 00a8 00000000 		.word	pFlash
  1638 00ac 00200240 		.word	1073881088
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 60
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 60
 
 
  1639              		.cfi_endproc
@@ -3598,7 +3598,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1684              		.loc 1 605 5 view .LVU533
  607:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****   }
  1685              		.loc 1 607 5 view .LVU534
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 61
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 61
 
 
  1686 0028 1168     		ldr	r1, [r2]
@@ -3658,7 +3658,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1728 005c 00000000 		.word	pFlash
  1729 0060 00200240 		.word	1073881088
  1730              		.cfi_endproc
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 62
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 62
 
 
  1731              	.LFE138:
@@ -3718,7 +3718,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1776              	.LVL147:
  137:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
  1777              		.loc 1 137 12 discriminator 2 view .LVU558
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 63
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 63
 
 
  1778 0018 FFF7FEFF 		bl	FLASH_WaitForLastOperation
@@ -3778,7 +3778,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1817 004c 2368     		ldr	r3, [r4]
  168:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****     {
  1818              		.loc 1 168 8 view .LVU574
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 64
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 64
 
 
  1819 004e 012B     		cmp	r3, #1
@@ -3838,7 +3838,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1858 0082 0746     		mov	r7, r0
  1859 0084 38BB     		cbnz	r0, .L153
  192:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c ****       {
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 65
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 65
 
 
  1860              		.loc 1 192 97 is_stmt 1 discriminator 2 view .LVU590
@@ -3898,7 +3898,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1901              		.loc 1 171 7 is_stmt 1 view .LVU603
  1902 00b6 6068     		ldr	r0, [r4, #4]
  1903              	.LVL154:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 66
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 66
 
 
  171:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
@@ -3958,7 +3958,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1945              	.LVL162:
  1946              	.L150:
  131:Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c **** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 67
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 67
 
 
  1947              		.loc 1 131 3 view .LVU617
@@ -3978,55 +3978,55 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 1
  1962              		.file 4 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l475xx.h"
  1963              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
  1964              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h"
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s 			page 68
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s 			page 68
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32l4xx_hal_flash_ex.c
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:20     .text.FLASH_MassErase:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:25     .text.FLASH_MassErase:00000000 FLASH_MassErase
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:65     .text.FLASH_MassErase:0000002c $d
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:70     .text.FLASH_OB_GetWRP:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:75     .text.FLASH_OB_GetWRP:00000000 FLASH_OB_GetWRP
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:183    .text.FLASH_OB_GetWRP:00000058 $d
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:188    .text.FLASH_OB_GetRDP:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:193    .text.FLASH_OB_GetRDP:00000000 FLASH_OB_GetRDP
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:230    .text.FLASH_OB_GetRDP:0000001c $d
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:235    .text.FLASH_OB_GetUser:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:240    .text.FLASH_OB_GetUser:00000000 FLASH_OB_GetUser
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:262    .text.FLASH_OB_GetUser:0000000c $d
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:267    .text.FLASH_OB_GetPCROP:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:272    .text.FLASH_OB_GetPCROP:00000000 FLASH_OB_GetPCROP
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:451    .text.FLASH_OB_GetPCROP:000000b4 $d
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:461    .text.FLASH_OB_WRPConfig:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:466    .text.FLASH_OB_WRPConfig:00000000 FLASH_OB_WRPConfig
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:574    .text.FLASH_OB_WRPConfig:00000084 $d
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:579    .text.FLASH_OB_RDPConfig:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:584    .text.FLASH_OB_RDPConfig:00000000 FLASH_OB_RDPConfig
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:642    .text.FLASH_OB_RDPConfig:00000038 $d
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:647    .text.FLASH_OB_UserConfig:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:652    .text.FLASH_OB_UserConfig:00000000 FLASH_OB_UserConfig
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:930    .text.FLASH_OB_UserConfig:0000010c $d
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:935    .text.FLASH_OB_PCROPConfig:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:940    .text.FLASH_OB_PCROPConfig:00000000 FLASH_OB_PCROPConfig
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1137   .text.FLASH_OB_PCROPConfig:000000e0 $d
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1146   .text.HAL_FLASHEx_OBProgram:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1152   .text.HAL_FLASHEx_OBProgram:00000000 HAL_FLASHEx_OBProgram
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1312   .text.HAL_FLASHEx_OBProgram:00000090 $d
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1317   .text.HAL_FLASHEx_OBGetConfig:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1323   .text.HAL_FLASHEx_OBGetConfig:00000000 HAL_FLASHEx_OBGetConfig
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1404   .text.FLASH_PageErase:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1410   .text.FLASH_PageErase:00000000 FLASH_PageErase
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1461   .text.FLASH_PageErase:00000040 $d
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1466   .text.HAL_FLASHEx_Erase_IT:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1472   .text.HAL_FLASHEx_Erase_IT:00000000 HAL_FLASHEx_Erase_IT
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1637   .text.HAL_FLASHEx_Erase_IT:000000a8 $d
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1643   .text.FLASH_FlushCaches:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1649   .text.FLASH_FlushCaches:00000000 FLASH_FlushCaches
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1728   .text.FLASH_FlushCaches:0000005c $d
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1734   .text.HAL_FLASHEx_Erase:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1740   .text.HAL_FLASHEx_Erase:00000000 HAL_FLASHEx_Erase
-C:\Users\imkar\AppData\Local\Temp\cclmEEOc.s:1953   .text.HAL_FLASHEx_Erase:000000ec $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:20     .text.FLASH_MassErase:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:25     .text.FLASH_MassErase:00000000 FLASH_MassErase
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:65     .text.FLASH_MassErase:0000002c $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:70     .text.FLASH_OB_GetWRP:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:75     .text.FLASH_OB_GetWRP:00000000 FLASH_OB_GetWRP
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:183    .text.FLASH_OB_GetWRP:00000058 $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:188    .text.FLASH_OB_GetRDP:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:193    .text.FLASH_OB_GetRDP:00000000 FLASH_OB_GetRDP
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:230    .text.FLASH_OB_GetRDP:0000001c $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:235    .text.FLASH_OB_GetUser:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:240    .text.FLASH_OB_GetUser:00000000 FLASH_OB_GetUser
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:262    .text.FLASH_OB_GetUser:0000000c $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:267    .text.FLASH_OB_GetPCROP:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:272    .text.FLASH_OB_GetPCROP:00000000 FLASH_OB_GetPCROP
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:451    .text.FLASH_OB_GetPCROP:000000b4 $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:461    .text.FLASH_OB_WRPConfig:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:466    .text.FLASH_OB_WRPConfig:00000000 FLASH_OB_WRPConfig
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:574    .text.FLASH_OB_WRPConfig:00000084 $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:579    .text.FLASH_OB_RDPConfig:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:584    .text.FLASH_OB_RDPConfig:00000000 FLASH_OB_RDPConfig
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:642    .text.FLASH_OB_RDPConfig:00000038 $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:647    .text.FLASH_OB_UserConfig:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:652    .text.FLASH_OB_UserConfig:00000000 FLASH_OB_UserConfig
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:930    .text.FLASH_OB_UserConfig:0000010c $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:935    .text.FLASH_OB_PCROPConfig:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:940    .text.FLASH_OB_PCROPConfig:00000000 FLASH_OB_PCROPConfig
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1137   .text.FLASH_OB_PCROPConfig:000000e0 $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1146   .text.HAL_FLASHEx_OBProgram:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1152   .text.HAL_FLASHEx_OBProgram:00000000 HAL_FLASHEx_OBProgram
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1312   .text.HAL_FLASHEx_OBProgram:00000090 $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1317   .text.HAL_FLASHEx_OBGetConfig:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1323   .text.HAL_FLASHEx_OBGetConfig:00000000 HAL_FLASHEx_OBGetConfig
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1404   .text.FLASH_PageErase:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1410   .text.FLASH_PageErase:00000000 FLASH_PageErase
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1461   .text.FLASH_PageErase:00000040 $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1466   .text.HAL_FLASHEx_Erase_IT:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1472   .text.HAL_FLASHEx_Erase_IT:00000000 HAL_FLASHEx_Erase_IT
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1637   .text.HAL_FLASHEx_Erase_IT:000000a8 $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1643   .text.FLASH_FlushCaches:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1649   .text.FLASH_FlushCaches:00000000 FLASH_FlushCaches
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1728   .text.FLASH_FlushCaches:0000005c $d
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1734   .text.HAL_FLASHEx_Erase:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1740   .text.HAL_FLASHEx_Erase:00000000 HAL_FLASHEx_Erase
+C:\Users\imkar\AppData\Local\Temp\cciFdJlv.s:1953   .text.HAL_FLASHEx_Erase:000000ec $d
 
 UNDEFINED SYMBOLS
 FLASH_WaitForLastOperation

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
   28:Core/Src/gpio.c **** /*----------------------------------------------------------------------------*/
   29:Core/Src/gpio.c **** /* Configure GPIO                                                             */
   30:Core/Src/gpio.c **** /*----------------------------------------------------------------------------*/
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 2
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 2
 
 
   31:Core/Src/gpio.c **** /* USER CODE BEGIN 1 */
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
   58:Core/Src/gpio.c **** 
   59:Core/Src/gpio.c ****   /* GPIO Ports Clock Enable */
   60:Core/Src/gpio.c ****   __HAL_RCC_GPIOE_CLK_ENABLE();
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 3
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 3
 
 
   56              		.loc 1 60 3 is_stmt 1 view .LVU3
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
  107 004c 42F00202 		orr	r2, r2, #2
  108 0050 DA64     		str	r2, [r3, #76]
  109              		.loc 1 63 3 view .LVU24
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 4
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 4
 
 
  110 0052 DA6C     		ldr	r2, [r3, #76]
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
   76:Core/Src/gpio.c **** 
   77:Core/Src/gpio.c ****   /*Configure GPIO pin Output Level */
   78:Core/Src/gpio.c ****   HAL_GPIO_WritePin(GPIOD, USB_OTG_FS_PWR_EN_Pin|PMOD_RESET_Pin|GPIO_PIN_5|STSAFE_A100_RESET_Pin, G
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 5
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 5
 
 
  152              		.loc 1 78 3 view .LVU36
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
  190 00dc 4FF00108 		mov	r8, #1
  191 00e0 CDF81880 		str	r8, [sp, #24]
   95:Core/Src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 6
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 6
 
 
  192              		.loc 1 95 3 is_stmt 1 view .LVU45
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
  232 0116 3846     		mov	r0, r7
  233 0118 FFF7FEFF 		bl	HAL_GPIO_Init
  234              	.LVL10:
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 7
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 7
 
 
  110:Core/Src/gpio.c **** 
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
  125:Core/Src/gpio.c ****   /*Configure GPIO pins : PAPin PAPin */
  126:Core/Src/gpio.c ****   GPIO_InitStruct.Pin = ARD_D1_Pin|ARD_D0_Pin;
  274              		.loc 1 126 3 view .LVU82
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 8
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 8
 
 
  275              		.loc 1 126 23 is_stmt 0 view .LVU83
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
  143:Core/Src/gpio.c ****   GPIO_InitStruct.Pin = ARD_D3_Pin;
  313              		.loc 1 143 3 view .LVU102
  314              		.loc 1 143 23 is_stmt 0 view .LVU103
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 9
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 9
 
 
  315 017a CDF81480 		str	r8, [sp, #20]
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
  352              		.loc 1 160 3 is_stmt 1 view .LVU122
  353              		.loc 1 160 25 is_stmt 0 view .LVU123
  354 01aa 0894     		str	r4, [sp, #32]
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 10
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 10
 
 
  161:Core/Src/gpio.c ****   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
  391 01da FFF7FEFF 		bl	HAL_GPIO_Init
  392              	.LVL19:
  179:Core/Src/gpio.c **** 
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 11
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 11
 
 
  180:Core/Src/gpio.c ****   /*Configure GPIO pins : PCPin PCPin */
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
  431              		.loc 1 195 24 is_stmt 0 view .LVU160
  432 020c CDF818A0 		str	r10, [sp, #24]
  196:Core/Src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 12
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 12
 
 
  433              		.loc 1 196 3 is_stmt 1 view .LVU161
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
  473 023c 2146     		mov	r1, r4
  474 023e 1720     		movs	r0, #23
  475 0240 FFF7FEFF 		bl	HAL_NVIC_SetPriority
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 13
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 13
 
 
  476              	.LVL24:
@@ -765,14 +765,14 @@ ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 1
  512              		.file 4 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l475xx.h"
  513              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
  514              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h"
-ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s 			page 14
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s 			page 14
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 gpio.c
-C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s:20     .text.MX_GPIO_Init:00000000 $t
-C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s:26     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
-C:\Users\imkar\AppData\Local\Temp\ccGG8OJP.s:500    .text.MX_GPIO_Init:00000260 $d
+C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s:20     .text.MX_GPIO_Init:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s:26     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
+C:\Users\imkar\AppData\Local\Temp\ccGNi1Tz.s:500    .text.MX_GPIO_Init:00000260 $d
 
 UNDEFINED SYMBOLS
 HAL_GPIO_WritePin
